@@ -81,7 +81,7 @@ public class IntBoardTests {
 	
 	@Test
 	public void testTarget0_1(){
-		BoardCell cell = board.getCell(0,0);
+		BoardCell cell = board.getCell(0,1);
 		board.getCell(0,0);
 		board.calcTargets(cell, 2);
 		Set<BoardCell> targets = board.getTargets();
@@ -92,7 +92,7 @@ public class IntBoardTests {
 	}
 	@Test
 	public void testTarget0_2(){
-		BoardCell cell = board.getCell(0,0);
+		BoardCell cell = board.getCell(0,2);
 		board.getCell(0,0);
 		board.calcTargets(cell, 1);
 		Set<BoardCell> targets = board.getTargets();
@@ -104,7 +104,7 @@ public class IntBoardTests {
 	}
 	@Test
 	public void testTarget0_3(){
-		BoardCell cell = board.getCell(0,0);
+		BoardCell cell = board.getCell(0,3);
 		board.getCell(0,0);
 		board.calcTargets(cell, 1);
 		Set<BoardCell> targets = board.getTargets();
@@ -113,7 +113,7 @@ public class IntBoardTests {
 	}
 	@Test
 	public void testTarget1_0(){
-		BoardCell cell = board.getCell(0,0);
+		BoardCell cell = board.getCell(1,0);
 		board.getCell(0,0);
 		board.calcTargets(cell, 2);
 		Set<BoardCell> targets = board.getTargets();
@@ -124,7 +124,7 @@ public class IntBoardTests {
 	}
 	@Test
 	public void testTarget1_1(){
-		BoardCell cell = board.getCell(0,0);
+		BoardCell cell = board.getCell(1,1);
 		board.getCell(0,0);
 		board.calcTargets(cell, 2);
 		Set<BoardCell> targets = board.getTargets();
@@ -138,7 +138,7 @@ public class IntBoardTests {
 	}
 	@Test
 	public void testTarget1_2(){
-		BoardCell cell = board.getCell(0,0);
+		BoardCell cell = board.getCell(1,2);
 		board.getCell(0,0);
 		board.calcTargets(cell, 1);
 		Set<BoardCell> targets = board.getTargets();
@@ -149,7 +149,7 @@ public class IntBoardTests {
 	}
 	@Test
 	public void testTarget1_3(){
-		BoardCell cell = board.getCell(0,0);
+		BoardCell cell = board.getCell(1,3);
 		board.getCell(0,0);
 		board.calcTargets(cell, 2);
 		Set<BoardCell> targets = board.getTargets();
