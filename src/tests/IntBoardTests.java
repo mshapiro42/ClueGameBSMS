@@ -3,6 +3,9 @@ package tests;
 import org.junit.Before;
 import org.junit.Test;
 
+import experiment.BoardCell;
+import experiment.IntBoard;
+
 public class IntBoardTests {
 	@Before
 
@@ -49,11 +52,51 @@ public class IntBoardTests {
 	public void testAdjacency(){}
 	
 	@Test
-	public void testTarget(){
-		
+	public void testTarget0_1(){
+		BoardCell cell = new BoardCell();
+		IntBoard board = new IntBoard();
+		board.getCell(0,0);
+		board.calcTargets(board, 2);
+		Set<BoardCell> t = board.getTargets();
+		assertEquals(t.contains(board.getCell()))
+	}
+	@Test
+	public void testTarget0_2(){
+		BoardCell board = new BoardCell();
+		board.getCell(0,0);
+		board.calcTargets(board, 2);
+	}
+	@Test
+	public void testTarget0_3(){
+		BoardCell board = new BoardCell();
+		board.getCell(0,0);
+		board.calcTargets(board, 2);
+	}
+	@Test
+	public void testTarget1_0(){
+		BoardCell board = new BoardCell();
+		board.getCell(0,0);
+		board.calcTargets(board, 2);
+	}
+	@Test
+	public void testTarget1_1(){
+		BoardCell board = new BoardCell();
+		board.getCell(0,0);
+		board.calcTargets(board, 2);
+	}
+	@Test
+	public void testTarget1_2(){
+		BoardCell board = new BoardCell();
+		board.getCell(0,0);
+		board.calcTargets(board, 2);
+	}
+	@Test
+	public void testTarget1_3(){
+		BoardCell board = new BoardCell();
+		board.getCell(0,0);
+		board.calcTargets(board, 2);
 	}
 	
-	
->>>>>>> e8f2b99d3b202f26052d42fb551edc998122b17b
+
 }
 
