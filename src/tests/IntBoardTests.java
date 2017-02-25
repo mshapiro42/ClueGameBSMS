@@ -1,7 +1,11 @@
 package tests;
 
-import org.junit.Before;
-import org.junit.Test;
+import java.util.*;
+
+import org.junit.*;
+
+
+import experiment.BoardCell;
 
 public class IntBoardTests {
 	@Before
