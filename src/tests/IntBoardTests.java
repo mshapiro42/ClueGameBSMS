@@ -1,13 +1,23 @@
 package tests;
 
+import static org.junit.Assert.*;
+
 import java.util.*;
 import org.junit.*;
 
 import experiment.BoardCell;
 import experiment.IntBoard;
 
+
+
 public class IntBoardTests {
-	@Before
+	private BoardCell[][] grid = new BoardCell[4][4];
+	private IntBoard board;
+	@Before 
+	public void initialize(){
+		board = new IntBoard(grid);
+	}
+	
 
 	@Test
 	public void testAdjacency0_0()
@@ -18,6 +28,8 @@ public class IntBoardTests {
 		assertTrue(testList.contains(board.getCell(0, 1)));
 		assertEquals(2, testList.size());
 	}
+
+
 	@Test
 	public void testAdjacency3_3(){
 		BoardCell cell = board.getCell(3,3);
