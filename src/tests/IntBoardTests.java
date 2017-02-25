@@ -4,14 +4,18 @@ public class IntBoardTests {
 	@Before
 	
 	@Test
-	public void testAdjacency0_0()
-	{
+	public void testAdjacency0_0(){}
+	
 		
-		
-		
-		
+	
+	@Test
+	public void testAdjacency(){}
+	
+	@Test
+	public void testTarget(){
 		
 	}
-	@Test
-	public void testAdjacency
+	
+	
 }
+
