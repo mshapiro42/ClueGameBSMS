@@ -42,4 +42,18 @@ public class IntBoardTests {
 	public void testAdjacency2_2(){
 
 	}
+	
+		
+	
+	@Test
+	public void testAdjacency(){}
+	
+	@Test
+	public void testTarget(){
+		
+	}
+	
+	
+>>>>>>> e8f2b99d3b202f26052d42fb551edc998122b17b
 }
+
