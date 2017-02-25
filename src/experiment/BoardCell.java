@@ -1,5 +1,6 @@
 package experiment;
-
+//Blake Sanders
+//Jonny Morsicato 
 public class BoardCell {
 	private int row;
 	private int col;
