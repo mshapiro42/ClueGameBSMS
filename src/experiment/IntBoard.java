@@ -84,12 +84,13 @@ public class IntBoard {
 
 
 
-
+/*
 	public void calcTargets(BoardCell startCell, int pathLength){
 		targets.clear(); // clears old targets 
 		int rows = grid.length;
 		int cols = grid[0].length;
 		int startRows = startCell.getRow();
+		//Set<BoardCell> visited = new HashSet<BoardCell>();
 
 		int startCols = startCell.getCol();
 		System.out.println(pathLength);
@@ -138,12 +139,37 @@ public class IntBoard {
 					}
 				}
 			}
-			
+			*/
+	public void calcTargets(BoardCell startCell, int pathLength){
+		targets.clear(); // clears old targets 
+		int rows = grid.length;
+		int cols = grid[0].length;
+		int startRows = startCell.getRow();
+		Set<BoardCell> visited = new HashSet<BoardCell>();
+		Set<BoardCell> adjacent = adjMtx.get(startCell);
+		int startCols = startCell.getCol();
+		System.out.println(pathLength);
+
 		
+		for(BoardCell cell : adjacent){
+			adjMtx.get(cell);
+			if (visited.contains(cell)){
+				continue;
+			}
+			visited.add(cell);
+			if(pathLength == 1){
+				targets.add(cell);
+			}
+			else{
+				calcTargets(cell, pathLength - 1);
+			}
+			visited.remove(cell);
+		}
+
+
+	}
 	
-
-
-
+	//public void findAllTargets(BoardCell startCell, int pathLength){
 
 
 		public Set<BoardCell> getTargets(){
