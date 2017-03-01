@@ -13,7 +13,7 @@ public class IntBoard {
 
 
 	private Map<BoardCell, HashSet<BoardCell>> adjMtx = new HashMap<BoardCell, HashSet<BoardCell>>();
-	private Set<BoardCell> visited; // this is just the interface remember to initialize a new set when using
+	private Set<BoardCell> visited = new HashSet<BoardCell>(); // this is just the interface remember to initialize a new set when using
 	private HashSet<BoardCell> targets = new HashSet<BoardCell>();
 	private HashSet<BoardCell> adjSet = new HashSet<BoardCell>();
 	private BoardCell[][] grid;
@@ -145,12 +145,19 @@ public class IntBoard {
 		int rows = grid.length;
 		int cols = grid[0].length;
 		int startRows = startCell.getRow();
-		Set<BoardCell> visited = new HashSet<BoardCell>();
-		Set<BoardCell> adjacent = adjMtx.get(startCell);
+		visited.add(startCell);
 		int startCols = startCell.getCol();
 		System.out.println(pathLength);
+		findAllTargets(startCell, pathLength);
 
 		
+
+
+
+	}
+	
+	public void findAllTargets(BoardCell startCell, int pathLength){
+		Set<BoardCell> adjacent = adjMtx.get(startCell);
 		for(BoardCell cell : adjacent){
 			adjMtx.get(cell);
 			if (visited.contains(cell)){
@@ -165,12 +172,9 @@ public class IntBoard {
 			}
 			visited.remove(cell);
 		}
-
-
+		
+		
 	}
-	
-	//public void findAllTargets(BoardCell startCell, int pathLength){
-
 
 		public Set<BoardCell> getTargets(){
 			return targets;
