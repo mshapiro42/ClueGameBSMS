@@ -1,5 +1,4 @@
 package clueGame;
-<<<<<<< HEAD
 //Blake Sanders
 //Jonny Morsicato 
 public class BoardCell {
@@ -26,8 +25,6 @@ public class BoardCell {
 	public int getCol() {
 		return col;
 	}
-	
-=======
 
 	public boolean isDoorway() {
 		// TODO Auto-generated method stub
@@ -39,5 +36,4 @@ public class BoardCell {
 		return null;
 	}
 
->>>>>>> 30eb1be0d9ba88d4282047cbbd4bab1c7f390219
 }
