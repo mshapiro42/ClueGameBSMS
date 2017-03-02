@@ -2,7 +2,6 @@ package tests;
 
 import static org.junit.Assert.*;
 
-
 import java.util.Map;
 
 import org.junit.Assert;
@@ -11,15 +10,13 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
-
 import clueGame.DoorDirection;
-
 
 public class ClueGameTests {
 	private static Board board;
 	private int LEGEND_SIZE = 11;;
 	public static final int NUM_ROWS = 22;
-	public static final int NUM_COLUMNS = 22;
+	public static final int NUM_COLUMNS = 21;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -56,13 +53,13 @@ public class ClueGameTests {
 	}
 	@Test
 	public void FourDoorDirections() {
-		BoardCell room = board.getCellAt(4, 3);
+		BoardCell room = board.getCellAt(4, 5);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
-		room = board.getCellAt(4, 8);
+		room = board.getCellAt(5, 3);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.DOWN, room.getDoorDirection());
-		room = board.getCellAt(15, 18);
+		room = board.getCellAt(15, 9);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
 		room = board.getCellAt(14, 11);
@@ -76,35 +73,29 @@ public class ClueGameTests {
 		assertFalse(cell.isDoorway());	
 	}
 	@Test
-
-	public void testNumberOfDoorways(){ // me
-		{
-			int nDoors = 0;
-			for (int i=0; i<board.getNumRows(); i++)
-				for (int j=0; j<board.getNumColumns(); j++) {
-					BoardCell cell = board.getCellAt(i, j);
-					if (cell.isDoorway())
-						nDoors++;
-				}
-			Assert.assertEquals(16, nDoors);
-		}
-	
+	public void testNumberOfDoorways(){
+		int numDoors = 0;
+		for (int row=0; row<board.getNumRows(); row++)
+			for (int col=0; col<board.getNumColumns(); col++) {
+				BoardCell cell = board.getCellAt(row, col);
+				if (cell.isDoorway())
+					numDoors++;
+			}
+		Assert.assertEquals(16, numDoors);
 	}
-	
 	@Test
 	public void testRoomInitials() {
 		// Test first cell in room
-		assertEquals('C', board.getCellAt(0, 0).getInitial());
-		assertEquals('R', board.getCellAt(4, 8).getInitial());
+		assertEquals('A', board.getCellAt(0, 0).getInitial());
+		assertEquals('S', board.getCellAt(3, 8).getInitial());
 		assertEquals('B', board.getCellAt(9, 0).getInitial());
 		// Test last cell in room
-		assertEquals('O', board.getCellAt(21, 22).getInitial());
-		assertEquals('K', board.getCellAt(21, 0).getInitial());
+		assertEquals('M', board.getCellAt(11, 19).getInitial());
+		assertEquals('T', board.getCellAt(21, 0).getInitial());
 		// Test a walkway
-		assertEquals('W', board.getCellAt(0, 5).getInitial());
+		assertEquals('R', board.getCellAt(0, 9).getInitial());
 		// Test the closet
-		assertEquals('X', board.getCellAt(9,13).getInitial());
-
+		assertEquals('P', board.getCellAt(21,20).getInitial());
 	}
 
 }

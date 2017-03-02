@@ -16,21 +16,19 @@ public class Board {
 
 	public void initialize() {
 		// TODO Auto-generated method stub
-		
 	}
-
-	public Object getNumRows() {
+	public int getNumRows() {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 	
 	public Map<Character,String> getLegend(){
 		return null;
 	}
 
-	public Object getNumColumns() {
+	public int getNumColumns(){
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	public BoardCell getCellAt(int i, int j) {
