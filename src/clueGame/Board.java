@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.util.Map;
+
 public class Board {
 
 	public static Board getInstance() {
@@ -19,6 +21,10 @@ public class Board {
 
 	public Object getNumRows() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public Map<Character,String> getLegend(){
 		return null;
 	}
 
