@@ -35,5 +35,9 @@ public class BoardCell {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public String getInitial() {
+		String initial = "";
+		return initial;
+	}
 
 }
