@@ -2,10 +2,12 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.Board;
+import clueGame.BoardCell;
 
 public class ClueGameTests {
 	private static Board board;
@@ -30,10 +32,21 @@ public class ClueGameTests {
 	public void FourDoorDirections() {
 	}
 	@Test
-	public void testNumberOfDoorways(){
+	public void testNumberOfDoorways(){ // me
+		{
+			int nDoors = 0;
+			for (int i=0; i<board.getNumRows(); i++)
+				for (int j=0; j<board.getNumColumns(); j++) {
+					BoardCell cell = board.getCellAt(i, j);
+					if (cell.isDoorway())
+						nDoors++;
+				}
+			Assert.assertEquals(16, nDoors);
+		}
+	
 	}
 	@Test
-	public void testRoomInitials() {
+	public void testRoomInitials() { // me 
 	}
 	
 }
