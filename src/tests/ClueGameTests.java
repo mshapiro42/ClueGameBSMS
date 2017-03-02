@@ -14,22 +14,22 @@ import clueGame.DoorDirection;
 
 public class ClueGameTests {
 	private static Board board;
-	private int LEGEND_SIZE = 11;;
+	public static final int LEGEND_SIZE = 11;;
 	public static final int NUM_ROWS = 22;
 	public static final int NUM_COLUMNS = 21;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		board = Board.getInstance();
-		board.setConfigFiles("ourData/clueLayout.xlsx", "ourData/Legend.txt");		
+		board.setConfigFiles("ourData/ClueLayout.xlsx", "ourData/Legend.txt");		
 		board.initialize();
 
 	}
 
-	//	@Test
-	//	public void test() {
-	//		fail("Not yet implemented");
-	//	}
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
 
 	@Test
 	public void testRooms() {
