@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
@@ -19,9 +20,9 @@ public class ClueGameTests {
 	public static final int NUM_COLUMNS = 21;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() throws BadConfigFormatException {
 		board = Board.getInstance();
-		board.setConfigFiles("ourData/ClueLayout.xlsx", "ourData/Legend.txt");		
+		board.setConfigFiles("ourData/ClueLayout.xlsx", "ourData/Legend.txt");
 		board.initialize();
 
 	}
@@ -81,7 +82,7 @@ public class ClueGameTests {
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		Assert.assertEquals(16, numDoors);
+		Assert.assertEquals(20, numDoors);
 	}
 	@Test
 	public void testRoomInitials() {
@@ -93,9 +94,9 @@ public class ClueGameTests {
 		assertEquals('M', board.getCellAt(11, 19).getInitial());
 		assertEquals('T', board.getCellAt(21, 0).getInitial());
 		// Test a walkway
-		assertEquals('R', board.getCellAt(0, 9).getInitial());
+		assertEquals('W', board.getCellAt(8, 0).getInitial());
 		// Test the closet
-		assertEquals('P', board.getCellAt(21,20).getInitial());
+		assertEquals('X', board.getCellAt(10,10).getInitial());
 	}
 
 }
