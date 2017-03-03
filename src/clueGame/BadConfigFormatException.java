@@ -19,6 +19,4 @@ public class BadConfigFormatException extends Exception {
 	}
 
 
-
->>>>>>> 9e56ee1ced95f18ade1d9bc21a12e6973059cbeb
 }

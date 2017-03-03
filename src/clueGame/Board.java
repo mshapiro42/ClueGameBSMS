@@ -63,7 +63,7 @@ public class Board{
 		FileReader reader = null;
 		
 		try {
-			reader = new FileReader("Legend.txt");
+			reader = new FileReader("ourData/Legend.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} 
@@ -76,7 +76,8 @@ public class Board{
 			} catch (NumberFormatException e1) {
 				System.err.println("\nIncorrect format for " + mapKey + "Not a char");
 			}
-			roomName = in.nextLine();
+			roomName = temp.substring(3);
+			System.out.println("roomName is: " + roomName);
 			legendMap.put(mapKey, roomName);
 			System.out.println(legendMap);
 		}
