@@ -84,11 +84,7 @@ public class IntBoard {
 	}
 
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 9e56ee1ced95f18ade1d9bc21a12e6973059cbeb
 	public void calcTargets(BoardCell startCell, int pathLength){
 		targets.clear(); // clears old targets 
 		visited.clear();
