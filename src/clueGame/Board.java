@@ -19,15 +19,21 @@ public class Board{
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> adjSet = new HashSet<BoardCell>();
 	private Map<Character, String> legendMap = new HashMap<Character, String>();
-	private BoardCell[][] grid;
+	private BoardCell[][] grid = new BoardCell[100][100];
 
-	public Board(BoardCell[][] grid) {
+	private String[][] cellStrings = new String[100][100];
+	
+	public String[][] getCellStrings(){
+		return cellStrings;
+	}
+	
+	public Board() {
 		super();
-		this.grid = grid;
 	}
 
 	public static Board getInstance() {
-		Board board = new Board(new BoardCell[100][100]);
+		Board board = new Board();
+		board.loadCellStrings();
 		return board;
 	}
 
@@ -39,7 +45,29 @@ public class Board{
 	}
 
 	public void initialize() {
-
+		int i = 0; int j = 0;
+		BufferedReader br = null;
+		String line;
+		try {
+			br = new BufferedReader(new FileReader("ourData/ClueLayout.csv"));
+			while((line = br.readLine()) != null && i < 100){
+				String [] thisLine = line.split(",");
+				for(String s: thisLine){
+					this.grid[i][j].setCol(i);
+					this.grid[i][j].setRow(j);
+					this.grid[i][j].setString(s);
+					j++;
+				}
+				j = 0;
+				i++;
+				//System.out.println("i is: " + i);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 	}
 
 	public int getNumRows() {
@@ -77,11 +105,6 @@ public class Board{
 					colCounter++;
 				}
 			}
-//			int i = 0;
-//			while(i < numColumns.length){
-//				System.out.println("numColumns[" + i + "] = " + numColumns[i].toString());
-//				i++;
-//			}
 			System.out.println("col counter = " + colCounter);
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -89,8 +112,6 @@ public class Board{
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-
-
 
 		return colCounter;
 	}
@@ -138,10 +159,35 @@ public class Board{
 
 
 	}
-
-	public void loadBoardConfig() {
-
-
+	
+	public void loadBoardConfig(){
+		
 	}
+
+	public void loadCellStrings() {
+		int i = 0; int j = 0;
+		BufferedReader br = null;
+		String line;
+		try {
+			br = new BufferedReader(new FileReader("ourData/ClueLayout.csv"));
+			while((line = br.readLine()) != null && i < 100){
+				String [] thisLine = line.split(",");
+				for(String s: thisLine){
+					cellStrings[i][j] = s;
+					//System.out.println("cellStrings is: " + cellStrings[i][j]);
+					j++;
+				}
+				j = 0;
+				i++;
+				//System.out.println("i is: " + i);
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
 
 }
