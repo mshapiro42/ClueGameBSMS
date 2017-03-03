@@ -25,5 +25,9 @@ public class BoardCell {
 	public int getCol() {
 		return col;
 	}
+	public Object getInitial() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
