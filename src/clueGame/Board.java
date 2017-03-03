@@ -3,9 +3,11 @@ package clueGame;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
-import experiment.BoardCell;
 
 
 public class Board{
@@ -14,6 +16,7 @@ public class Board{
 	private Set<BoardCell> visited = new HashSet<BoardCell>(); // this is just the interface remember to initialize a new set when using
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> adjSet = new HashSet<BoardCell>();
+	private Map<Character, String> legendMap = new HashMap<Character, String>();
 	private BoardCell[][] grid;
 	
 	public Board(BoardCell[][] grid) {
@@ -29,31 +32,70 @@ public class Board{
 
 
 	public void setConfigFiles(String string, String string2) {
-		// TODO Auto-generated method stub
+	
 		
 	}
 
 	public void initialize() {
-		// TODO Auto-generated method stub
+	
 	}
 	
 	public int getNumRows() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 	
 	public int getNumColumns(){
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 	
 	public Map<Character,String> getLegend(){
-		return null;
+		makeLegend();
+		return legendMap;
+	}
+	
+	public void makeLegend() {
+		legendMap.clear();
+		Character mapKey = null;
+		String roomName = "";
+		String temp = "";
+		FileReader reader = null;
+		
+		try {
+			reader = new FileReader("Legend.txt");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		
+		Scanner in = new Scanner(reader);
+		while(in.hasNextLine()){
+			temp = in.nextLine();
+			try{
+				mapKey = temp.charAt(0);
+			} catch (NumberFormatException e1) {
+				System.err.println("\nIncorrect format for " + mapKey + "Not a char");
+			}
+			roomName = in.nextLine();
+			legendMap.put(mapKey, roomName);
+			System.out.println(legendMap);
+		}
+		in.close();
 	}
 
-	public BoardCell getCellAt(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
+	public clueGame.BoardCell getCellAt(int i, int j) {
+		
+		return grid[i][j];
+	}
+
+	public void loadRoomConfig() {
+	
+		
+	}
+
+	public void loadBoardConfig() {
+	
+		
 	}
 
 }

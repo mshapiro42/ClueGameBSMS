@@ -2,7 +2,8 @@ package experiment;
 import java.util.*;
 
 import experiment.BoardCell;
-
+//Blake Sanders
+//Jonny Morsicato 
 
 public class IntBoard {
 
@@ -83,63 +84,6 @@ public class IntBoard {
 	}
 
 
-
-/*
-	public void calcTargets(BoardCell startCell, int pathLength){
-		targets.clear(); // clears old targets 
-		int rows = grid.length;
-		int cols = grid[0].length;
-		int startRows = startCell.getRow();
-		//Set<BoardCell> visited = new HashSet<BoardCell>();
-
-		int startCols = startCell.getCol();
-		System.out.println(pathLength);
-
-
-
-
-		for(int k = 0; k<=pathLength; ++k){
-			for(int i=startRows;i<rows;++i){
-				for(int j=startCols;j<cols;j++){
-
-					
-
-						if((startRows==0)&&(startCols==0)){ 
-							targets.add(grid[startRows+pathLength-k][startCols+k]);
-
-						}
-						else if((startRows==rows-1)&&(startCols==0)){ // bottom left 3_0
-							targets.add(grid[startRows+pathLength-k][startCols+k]);
-
-						}
-						else if((startRows==rows-1)&&(startCols==cols-1)){ // bottom right 
-							targets.add(grid[startRows+pathLength-k][startCols+k]);
-
-						}
-						else if((startRows==0)&&(startCols!=0)&&(startCols!=cols-1)){
-							targets.add(grid[startRows+pathLength-k][startCols+k]);
-						}
-						else if((startRows!=0)&&(startRows!=rows-1)&&(startCols==0)){
-							targets.add(grid[startRows+pathLength-k][startCols+k]);
-						}
-						else if((startRows==rows-1)&&(startCols!=0)&&(startCols!=cols-1)){
-							targets.add(grid[startRows+pathLength-k][startCols+k]);
-
-						}
-						else if((startRows!=0)&&(startRows!=rows-1)&&(startCols==cols -1)){
-							targets.add(grid[startRows+pathLength-k][startCols+k]);
-						}
-						else{
-							targets.add(grid[startRows+pathLength-k][startCols+k]);
-							targets.add(grid[startRows-pathLength-k][startCols-k]);
-						}
-
-
-						}
-					}
-				}
-			}
-			*/
 	public void calcTargets(BoardCell startCell, int pathLength){
 		targets.clear(); // clears old targets 
 		visited.clear();
