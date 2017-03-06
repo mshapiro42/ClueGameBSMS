@@ -4,12 +4,11 @@ package clueGame;
 public class BoardCell {
 	private int row;
 	private int col;
-	private String s;
-	public BoardCell(int row, int col, String s) {
+	private String doorString;
+	public BoardCell(int row, int col) {
 		super();
 		this.row = row;
 		this.col = col;
-		this.s = s;
 	}
 	public void setRow(int row) {
 		this.row = row;
@@ -17,8 +16,8 @@ public class BoardCell {
 	public void setCol(int col) {
 		this.col = col;
 	}
-	public void setString(String s){
-		this.s = s;
+	public void setDoorString(String doorString){
+		this.doorString = doorString;
 	}
 	@Override
 	public String toString() {
@@ -32,21 +31,26 @@ public class BoardCell {
 	}
 
 	public boolean isDoorway() {
-		if (s.length() != 1){
+		if(doorString.length() != 1){
 			return true;
 		}
 		else{
 			return false;
 		}
-
 	}
 
-	public Object[] getDoorDirection() {
-		// TODO Auto-generated method stub
+	public DoorDirection getDoorDirection() {
+		char c = doorString.charAt(1);
+		switch (c){
+		case 'R' : return DoorDirection.RIGHT;
+		case 'L' : return DoorDirection.LEFT;
+		case 'U' : return DoorDirection.UP;
+		case 'D' : return DoorDirection.DOWN;
+		}
 		return null;
 	}
-	public String getInitial() {
-		String initial = "";
+	public char getInitial() {
+		Character initial = doorString.charAt(0);
 		return initial;
 	}
 

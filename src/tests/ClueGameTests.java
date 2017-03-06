@@ -27,10 +27,10 @@ public class ClueGameTests {
 		board.initialize();
 	}
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void test() {
+//		fail("Not yet implemented");
+//	}
 
 	@Test
 	public void testRooms() {
@@ -54,23 +54,23 @@ public class ClueGameTests {
 	}
 	@Test
 	public void FourDoorDirections() {
-		BoardCell room = board.getCellAt(4, 5);
+		BoardCell room = board.getCellAt(5, 4);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.RIGHT, room.getDoorDirection());
-		room = board.getCellAt(5, 3);
+		room = board.getCellAt(6, 2);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.DOWN, room.getDoorDirection());
-		room = board.getCellAt(15, 9);
+		room = board.getCellAt(16, 8);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.LEFT, room.getDoorDirection());
-		room = board.getCellAt(14, 11);
+		room = board.getCellAt(10, 15);
 		assertTrue(room.isDoorway());
 		assertEquals(DoorDirection.UP, room.getDoorDirection());
 		// Test that room pieces that aren't doors know it
 		room = board.getCellAt(14, 14);
 		assertFalse(room.isDoorway());	
 		// Test that walkways are not doors
-		BoardCell cell = board.getCellAt(0, 6);
+		BoardCell cell = board.getCellAt(8, 7);
 		assertFalse(cell.isDoorway());	
 	}
 	@Test
@@ -90,7 +90,7 @@ public class ClueGameTests {
 		// Test first cell in room
 		assertEquals('A', board.getCellAt(0, 0).getInitial());
 		assertEquals('S', board.getCellAt(3, 8).getInitial());
-		assertEquals('B', board.getCellAt(9, 0).getInitial());
+		assertEquals('E', board.getCellAt(9, 0).getInitial());
 		// Test last cell in room
 		assertEquals('M', board.getCellAt(11, 19).getInitial());
 		assertEquals('T', board.getCellAt(21, 0).getInitial());

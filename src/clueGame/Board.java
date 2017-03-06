@@ -22,11 +22,11 @@ public class Board{
 	private BoardCell[][] grid = new BoardCell[100][100];
 
 	private String[][] cellStrings = new String[100][100];
-	
+
 	public String[][] getCellStrings(){
 		return cellStrings;
 	}
-	
+
 	public Board() {
 		super();
 	}
@@ -37,13 +37,15 @@ public class Board{
 		return board;
 	}
 
+	public String getCellString(int row, int col){
+		return cellStrings[row][col];
+	}
 
 
 	public void setConfigFiles(String string, String string2) {
 
 
 	}
-
 	public void initialize() {
 		int i = 0; int j = 0;
 		BufferedReader br = null;
@@ -52,10 +54,12 @@ public class Board{
 			br = new BufferedReader(new FileReader("ourData/ClueLayout.csv"));
 			while((line = br.readLine()) != null && i < 100){
 				String [] thisLine = line.split(",");
+				//System.out.println("thisLine string: " + thisLine.toString());
 				for(String s: thisLine){
-					this.grid[i][j].setCol(i);
-					this.grid[i][j].setRow(j);
-					this.grid[i][j].setString(s);
+					grid[i][j] = new BoardCell(i,j);
+					grid[i][j].setCol(i);
+					grid[i][j].setRow(j);
+					grid[i][j].setDoorString(s);
 					j++;
 				}
 				j = 0;
@@ -159,9 +163,9 @@ public class Board{
 
 
 	}
-	
+
 	public void loadBoardConfig(){
-		
+
 	}
 
 	public void loadCellStrings() {
@@ -188,6 +192,6 @@ public class Board{
 			e.printStackTrace();
 		} 
 	}
-	
+
 
 }
