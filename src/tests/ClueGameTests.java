@@ -23,7 +23,7 @@ public class ClueGameTests {
 	@BeforeClass
 	public static void setUpBeforeClass() throws BadConfigFormatException {
 		board = Board.getInstance();
-		board.setConfigFiles("ourData/ClueLayout.csv", "ourData/Legend.txt");
+		board.setConfigFiles("ClueLayout.csv", "Legend.txt");
 		board.initialize();
 	}
 

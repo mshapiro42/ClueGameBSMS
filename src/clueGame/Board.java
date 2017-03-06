@@ -22,7 +22,9 @@ public class Board{
 	private BoardCell[][] grid = new BoardCell[100][100];
 
 	private String[][] cellStrings = new String[100][100];
-
+	private String legendString;
+	private String layoutString;
+	
 	public String[][] getCellStrings(){
 		return cellStrings;
 	}
@@ -33,25 +35,25 @@ public class Board{
 
 	public static Board getInstance() {
 		Board board = new Board();
-		board.loadCellStrings();
+		//board.loadCellStrings();
 		return board;
 	}
 
-	public String getCellString(int row, int col){
-		return cellStrings[row][col];
-	}
+//	public String getCellString(int row, int col){
+//		return cellStrings[row][col];
+//	}
 
 
-	public void setConfigFiles(String string, String string2) {
-
-
+	public void setConfigFiles(String layout, String legend) {
+		layoutString = layout;
+		legendString = legend;
 	}
 	public void initialize() {
 		int i = 0; int j = 0;
 		BufferedReader br = null;
 		String line;
 		try {
-			br = new BufferedReader(new FileReader("ourData/ClueLayout.csv"));
+			br = new BufferedReader(new FileReader(layoutString));
 			while((line = br.readLine()) != null && i < 100){
 				String [] thisLine = line.split(",");
 				//System.out.println("thisLine string: " + thisLine.toString());
@@ -80,7 +82,7 @@ public class Board{
 		BufferedReader br = null;
 		String line = null;
 		try {
-			br = new BufferedReader(new FileReader("ourData/ClueLayout.csv"));
+			br = new BufferedReader(new FileReader(layoutString));
 			while((line = br.readLine()) != null){
 				if(testLegend.containsKey(line.charAt(0))){ 
 					rowCounter++;
@@ -92,7 +94,7 @@ public class Board{
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-		System.out.println("row counter = " + rowCounter);
+		//System.out.println("row counter = " + rowCounter);
 		return rowCounter;
 	}
 
@@ -101,7 +103,7 @@ public class Board{
 		int colCounter = 0;
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader("ourData/ClueLayout.csv"));
+			br = new BufferedReader(new FileReader(layoutString));
 			String line = br.readLine();
 			String [] numColumns = line.split(",");
 			for(String s : numColumns){
@@ -109,7 +111,7 @@ public class Board{
 					colCounter++;
 				}
 			}
-			System.out.println("col counter = " + colCounter);
+			//System.out.println("col counter = " + colCounter);
 			br.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -133,7 +135,7 @@ public class Board{
 		FileReader reader = null;
 
 		try {
-			reader = new FileReader("ourData/Legend.txt");
+			reader = new FileReader(legendString);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} 
@@ -146,7 +148,8 @@ public class Board{
 			} catch (NumberFormatException e1) {
 				System.err.println("\nIncorrect format for " + mapKey + "Not a char");
 			}
-			roomName = temp.substring(3);
+			int endi = temp.lastIndexOf(',');
+			roomName = temp.substring(3, endi);
 			//System.out.println("roomName is: " + roomName);
 			legendMap.put(mapKey, roomName);
 			//System.out.println(legendMap);
@@ -168,30 +171,30 @@ public class Board{
 
 	}
 
-	public void loadCellStrings() {
-		int i = 0; int j = 0;
-		BufferedReader br = null;
-		String line;
-		try {
-			br = new BufferedReader(new FileReader("ourData/ClueLayout.csv"));
-			while((line = br.readLine()) != null && i < 100){
-				String [] thisLine = line.split(",");
-				for(String s: thisLine){
-					cellStrings[i][j] = s;
-					//System.out.println("cellStrings is: " + cellStrings[i][j]);
-					j++;
-				}
-				j = 0;
-				i++;
-				//System.out.println("i is: " + i);
-			}
-			br.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-	}
+//	public void loadCellStrings() {
+//		int i = 0; int j = 0;
+//		BufferedReader br = null;
+//		String line;
+//		try {
+//			br = new BufferedReader(new FileReader(layoutString));
+//			while((line = br.readLine()) != null && i < 100){
+//				String [] thisLine = line.split(",");
+//				for(String s: thisLine){
+//					cellStrings[i][j] = s;
+//					//System.out.println("cellStrings is: " + cellStrings[i][j]);
+//					j++;
+//				}
+//				j = 0;
+//				i++;
+//				//System.out.println("i is: " + i);
+//			}
+//			br.close();
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} 
+//	}
 
 
 }

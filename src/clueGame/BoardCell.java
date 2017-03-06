@@ -31,7 +31,10 @@ public class BoardCell {
 	}
 
 	public boolean isDoorway() {
-		if(doorString.length() != 1){
+		if(doorString.length() != 2){
+			return false;
+		}
+		if(doorString.charAt(1) == 'R' ||doorString.charAt(1) == 'L' || doorString.charAt(1) == 'U' || doorString.charAt(1) == 'D'){
 			return true;
 		}
 		else{
