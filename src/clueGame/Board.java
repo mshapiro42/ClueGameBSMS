@@ -24,7 +24,7 @@ public class Board{
 	private String[][] cellStrings = new String[100][100];
 	private String legendString;
 	private String layoutString;
-	
+
 	public String[][] getCellStrings(){
 		return cellStrings;
 	}
@@ -39,9 +39,9 @@ public class Board{
 		return board;
 	}
 
-//	public String getCellString(int row, int col){
-//		return cellStrings[row][col];
-//	}
+	//	public String getCellString(int row, int col){
+	//		return cellStrings[row][col];
+	//	}
 
 
 	public void setConfigFiles(String layout, String legend) {
@@ -163,25 +163,20 @@ public class Board{
 	}
 
 	public void loadRoomConfig() throws BadConfigFormatException, IOException, FileNotFoundException {
-		int i = 0; int j = 0;
-		BufferedReader br = null;
+		String[] configStrings = new String[1000];
+		int i = 0;
 		String line;
-			br = new BufferedReader(new FileReader(layoutString));
-			while((line = br.readLine()) != null && i < 100){
-				String [] thisLine = line.split(",");
-				//System.out.println("thisLine string: " + thisLine.toString());
-				for(String s: thisLine){
-					grid[i][j] = new BoardCell(i,j);
-					grid[i][j].setCol(i);
-					grid[i][j].setRow(j);
-					grid[i][j].setDoorString(s);
-					j++;
+		BufferedReader in = new BufferedReader(new FileReader(layoutString));
+		while((line = in.readLine()) != null){
+			String [] thisLine = line.split(",");
+			for(String s:thisLine){
+				configStrings[i] = s;
+				if(!legendMap.containsKey(s.charAt(0))){
+					throw new BadConfigFormatException(layoutString);
 				}
-				j = 0;
-				i++;
-				//System.out.println("i is: " + i);
-				br.close();
 			}
+		}
+		in.close();
 
 	}
 
@@ -189,49 +184,49 @@ public class Board{
 		int i = 0; int j = 0;
 		BufferedReader br = null;
 		String line;
-			br = new BufferedReader(new FileReader(layoutString));
-			while((line = br.readLine()) != null && i < 100){
-				String [] thisLine = line.split(",");
-				//System.out.println("thisLine string: " + thisLine.toString());
-				for(String s: thisLine){
-					grid[i][j] = new BoardCell(i,j);
-					grid[i][j].setCol(i);
-					grid[i][j].setRow(j);
-					grid[i][j].setDoorString(s);
-					j++;
-				}
-				j = 0;
-				i++;
-				//System.out.println("i is: " + i);
-				br.close();
+		br = new BufferedReader(new FileReader(layoutString));
+		while((line = br.readLine()) != null && i < 100){
+			String [] thisLine = line.split(",");
+			//System.out.println("thisLine string: " + thisLine.toString());
+			for(String s: thisLine){
+				grid[i][j] = new BoardCell(i,j);
+				grid[i][j].setCol(i);
+				grid[i][j].setRow(j);
+				grid[i][j].setDoorString(s);
+				j++;
 			}
+			j = 0;
+			i++;
+			//System.out.println("i is: " + i);
+			br.close();
+		}
 
 	}
 
-//	public void loadCellStrings() {
-//		int i = 0; int j = 0;
-//		BufferedReader br = null;
-//		String line;
-//		try {
-//			br = new BufferedReader(new FileReader(layoutString));
-//			while((line = br.readLine()) != null && i < 100){
-//				String [] thisLine = line.split(",");
-//				for(String s: thisLine){
-//					cellStrings[i][j] = s;
-//					//System.out.println("cellStrings is: " + cellStrings[i][j]);
-//					j++;
-//				}
-//				j = 0;
-//				i++;
-//				//System.out.println("i is: " + i);
-//			}
-//			br.close();
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} 
-//	}
+	//	public void loadCellStrings() {
+	//		int i = 0; int j = 0;
+	//		BufferedReader br = null;
+	//		String line;
+	//		try {
+	//			br = new BufferedReader(new FileReader(layoutString));
+	//			while((line = br.readLine()) != null && i < 100){
+	//				String [] thisLine = line.split(",");
+	//				for(String s: thisLine){
+	//					cellStrings[i][j] = s;
+	//					//System.out.println("cellStrings is: " + cellStrings[i][j]);
+	//					j++;
+	//				}
+	//				j = 0;
+	//				i++;
+	//				//System.out.println("i is: " + i);
+	//			}
+	//			br.close();
+	//		} catch (FileNotFoundException e) {
+	//			e.printStackTrace();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		} 
+	//	}
 
 
 }

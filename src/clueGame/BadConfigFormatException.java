@@ -13,8 +13,9 @@ public class BadConfigFormatException extends RuntimeException {
 	}
 	public BadConfigFormatException(String format) throws FileNotFoundException {
 		super ("Configuration of " + format + "failed");
+		System.out.println("BadConfigFormatException was thrown, check logfile.txt for details.");
 		PrintWriter out = new PrintWriter("logfile.txt");
-		out.println("Configuration of " + format + "failed");
+		out.println("Configuration of '" + format + "' failed");
 		out.close();
 	}
 
