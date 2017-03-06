@@ -162,12 +162,49 @@ public class Board{
 		return grid[i][j];
 	}
 
-	public void loadRoomConfig() {
-
+	public void loadRoomConfig() throws BadConfigFormatException, IOException, FileNotFoundException {
+		int i = 0; int j = 0;
+		BufferedReader br = null;
+		String line;
+			br = new BufferedReader(new FileReader(layoutString));
+			while((line = br.readLine()) != null && i < 100){
+				String [] thisLine = line.split(",");
+				//System.out.println("thisLine string: " + thisLine.toString());
+				for(String s: thisLine){
+					grid[i][j] = new BoardCell(i,j);
+					grid[i][j].setCol(i);
+					grid[i][j].setRow(j);
+					grid[i][j].setDoorString(s);
+					j++;
+				}
+				j = 0;
+				i++;
+				//System.out.println("i is: " + i);
+				br.close();
+			}
 
 	}
 
-	public void loadBoardConfig(){
+	public void loadBoardConfig() throws IOException, BadConfigFormatException{
+		int i = 0; int j = 0;
+		BufferedReader br = null;
+		String line;
+			br = new BufferedReader(new FileReader(layoutString));
+			while((line = br.readLine()) != null && i < 100){
+				String [] thisLine = line.split(",");
+				//System.out.println("thisLine string: " + thisLine.toString());
+				for(String s: thisLine){
+					grid[i][j] = new BoardCell(i,j);
+					grid[i][j].setCol(i);
+					grid[i][j].setRow(j);
+					grid[i][j].setDoorString(s);
+					j++;
+				}
+				j = 0;
+				i++;
+				//System.out.println("i is: " + i);
+				br.close();
+			}
 
 	}
 
