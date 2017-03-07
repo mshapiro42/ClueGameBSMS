@@ -26,6 +26,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 //	}
 	@Test
 	public void testAdjacenciesOnlyWalkways(){
+		//This tests the first requirement, only walkways are adjacents
 		Set<BoardCell> testList = board.getAdjList(6, 12);
 		assertEquals(4, testList.size());
 		assertTrue(testList.contains(board.getCellAt(6, 13)));
@@ -35,6 +36,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	}
 	@Test
 	public void testAdjacenciesInsideRooms(){
+		//this tests the second requirement, for a cell within a room
 		Set<BoardCell> testList = board.getAdjList(1, 9);
 		assertEquals(4, testList.size());
 		assertTrue(testList.contains(board.getCellAt(1, 10)));
@@ -44,6 +46,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	}
 	@Test
 	public void testAdjacenciesAllCorners(){
+		//this tests the third requirement, each edge, i hope corners are also considered edges
 		Set<BoardCell> testList = board.getAdjList(0, 0);
 		assertEquals(3, testList.size());
 		assertTrue(testList.contains(board.getCellAt(0, 1)));
@@ -72,6 +75,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	//assertTrue(testList.contains(board.getCellAt(, )));
 	
 	@Test
+	//this tests the fourth requirement, being beside a room that is not a doorway
 	public void testAdjacenciesForNotDoorways(){
 		Set<BoardCell> testList = board.getAdjList(14, 2);
 		assertEquals(3, testList.size());
@@ -87,7 +91,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	}
 	@Test
 	public void testAdjacenciesNeededDirection(){
-		//these are not actually the correct adjacency cells, slight mess up on the definition for this test
+		//this tests the fifth requirement, being next to a doorway with the needed direction
 		Set<BoardCell> testList = board.getAdjList(10, 5);
 		assertEquals(1, testList.size());
 		assertTrue(testList.contains(board.getCellAt(10, 6)));
@@ -106,6 +110,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	}
 	@Test
 	public void testAdjacenciesAreDoors(){
+		//this tests the sixth requirement, being a doorway
 		Set<BoardCell> testList = board.getAdjList(6, 2);
 		assertEquals(1, testList.size());
 		assertTrue(testList.contains(board.getCellAt(7, 2)));
@@ -116,6 +121,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	}
 	@Test
 	public void testTargetsAlongWalkways(){
+		//this tests the seventh requirement, targets along walkways
 		board.calcTargets(21, 7, 1);
 		Set<BoardCell> targets= board.getTargets();
 		assertEquals(2, targets.size());
@@ -131,6 +137,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	}
 	@Test
 	public void testTargetsAllowEnter(){
+		//this tests the eighth requirement, allowing the user to enter a room
 		board.calcTargets(21, 7, 2);
 		Set<BoardCell> targets= board.getTargets();
 		assertEquals(2, targets.size());
@@ -146,6 +153,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	}
 	@Test
 	public void testTargetsWhenLeavingRoom(){
+		//this tests the 9th requirement, calculating targets when leaving a room
 		board.calcTargets(21, 7, 4);
 		Set<BoardCell> targets= board.getTargets();
 		assertEquals(4, targets.size());
@@ -154,7 +162,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 		assertTrue(targets.contains(board.getCellAt(18, 6)));
 		assertTrue(targets.contains(board.getCellAt(20, 6)));
 		
-		board.calcTargets(14, 0, 4);
+		board.calcTargets(14, 0, 2);
 		targets= board.getTargets();
 		assertEquals(4, targets.size());
 		assertTrue(targets.contains(board.getCellAt(14, 4)));
