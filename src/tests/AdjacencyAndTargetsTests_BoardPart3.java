@@ -123,44 +123,45 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 		
 		board.calcTargets(14, 0, 1);
 		targets= board.getTargets();
-		assertEquals(3, targets.size());
-		assertTrue(targets.contains(board.getCellAt(14, 1)));
+		System.out.println(targets);
+		assertEquals(2, targets.size());
 		assertTrue(targets.contains(board.getCellAt(13, 0)));	
-		assertTrue(targets.contains(board.getCellAt(15, 0)));	
+		assertTrue(targets.contains(board.getCellAt(14, 1)));	
 	}
 	@Test
 	public void testTargetsAllowEnter(){
 		//this tests the eighth requirement, allowing the user to enter a room
-		board.calcTargets(21, 7, 2);
+		board.calcTargets(14, 16, 1);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(2, targets.size());
-		assertTrue(targets.contains(board.getCellAt(19, 7)));
-		assertTrue(targets.contains(board.getCellAt(20, 6)));
+		assertEquals(4, targets.size());
+		assertTrue(targets.contains(board.getCellAt(14, 17)));
+		assertTrue(targets.contains(board.getCellAt(14, 15)));
+		assertTrue(targets.contains(board.getCellAt(13, 16)));
+		assertTrue(targets.contains(board.getCellAt(15, 16)));
 		
-		board.calcTargets(14, 0, 2);
+		board.calcTargets(17, 7, 1);
 		targets= board.getTargets();
-		assertEquals(3, targets.size());
-		assertTrue(targets.contains(board.getCellAt(12, 0)));
-		assertTrue(targets.contains(board.getCellAt(14, 2)));	
-		assertTrue(targets.contains(board.getCellAt(15, 1)));
+		assertEquals(4, targets.size());
+		assertTrue(targets.contains(board.getCellAt(17, 8)));
+		assertTrue(targets.contains(board.getCellAt(18, 7)));	
+		assertTrue(targets.contains(board.getCellAt(16, 7)));
+		assertTrue(targets.contains(board.getCellAt(17, 6)));
 	}
 	@Test
 	public void testTargetsWhenLeavingRoom(){
 		//this tests the 9th requirement, calculating targets when leaving a room
-		board.calcTargets(21, 7, 4);
+		board.calcTargets(6, 2, 1);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(4, targets.size());
-		assertTrue(targets.contains(board.getCellAt(17, 7)));
-		assertTrue(targets.contains(board.getCellAt(19, 7)));
-		assertTrue(targets.contains(board.getCellAt(18, 6)));
-		assertTrue(targets.contains(board.getCellAt(20, 6)));
+		assertEquals(1, targets.size());
+		assertTrue(targets.contains(board.getCellAt(7, 2)));
+
 		
-		board.calcTargets(14, 0, 2);
+		board.calcTargets(11, 5, 3);
 		targets= board.getTargets();
-		assertEquals(4, targets.size());
-		assertTrue(targets.contains(board.getCellAt(14, 4)));
-		assertTrue(targets.contains(board.getCellAt(15, 3)));	
-		assertTrue(targets.contains(board.getCellAt(14, 2)));	
-		assertTrue(targets.contains(board.getCellAt(15, 1)));
+		assertEquals(3, targets.size());
+		assertTrue(targets.contains(board.getCellAt(13, 6)));
+		assertTrue(targets.contains(board.getCellAt(9, 6)));	
+		assertTrue(targets.contains(board.getCellAt(10, 5)));
+
 	}
 }
