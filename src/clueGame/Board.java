@@ -52,11 +52,11 @@ public class Board{
 			br = new BufferedReader(new FileReader(layoutString));
 			while((line = br.readLine()) != null && i < 100){
 				String [] thisLine = line.split(",");
-				//System.out.println("thisLine string: " + thisLine.toString());
+
 				for(String s: thisLine){
 					grid[i][j] = new BoardCell(i,j);
-					grid[i][j].setCol(i);
-					grid[i][j].setRow(j);
+					grid[i][j].setCol(j);
+					grid[i][j].setRow(i);
 					grid[i][j].setDoorString(s);
 					j++;
 				}
@@ -74,73 +74,154 @@ public class Board{
 	}
 
 	private void calcAdjacency() {
-		int rows = grid.length;
-		int cols = grid[0].length;
-		System.out.println("Rows: " + rows + "Cols: " + cols);
+		int rows = getNumRows();
+		int cols = getNumColumns();
 
 		for(int i=0;i<rows;i++){
 			for(int j=0;j<cols;j++){	
-				// goes through and checks all the boundaries 
 				if((i==0)&&(j==0)){
-					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
-					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
+					if(checkCell(grid[i][j]))
+					{
+						if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]);}
+						if(checkCell(grid[i+1][j])) {adjSet.add(grid[i+1][j]);}
+					}
 
 				}
 				else if((i==0)&&(j==cols-1)){
-					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
-					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
-					
+					if(checkCell(grid[i][j])){
+						if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+						if(checkCell(grid[i+1][j])) {adjSet.add(grid[i+1][j]);}
+					}
+
 
 				}
 				else if((i==rows-1)&&(j==0)){
-					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
-					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
+					if(checkCell(grid[i][j])){
+						if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]);}
+						if(checkCell(grid[i-1][j])) {adjSet.add(grid[i-1][j]);}
+					}
 
 				}
 				else if((i==rows-1)&&(j==cols-1)){
-					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
-					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
+					if(checkCell(grid[i][j])){
+						if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+						if(checkCell(grid[i-1][j])) {adjSet.add(grid[i-1][j]);}
+					}
 
 				}
 				else if((i==0)&&(j!=0)&&(j!=cols-1)){
-					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
-					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
-					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
-					
+					if(checkCell(grid[i][j])) 
+					{
+						if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+						if(checkCell(grid[i+1][j])) {adjSet.add(grid[i+1][j]);}
+						if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]); } 
+					}
+
 				}
 				else if((i!=0)&&(i!=rows-1)&&(j==0)){
-					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
-					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
-					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
+					if(checkCell(grid[i][j])){
+						if(checkCell(grid[i-1][j])) {adjSet.add(grid[i-1][j]);}
+						if(checkCell(grid[i+1][j])) {adjSet.add(grid[i+1][j]);}
+						if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]);}
+					}
 				}
 				else if((i==rows-1)&&(j!=0)&&(j!=cols-1)){
-					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
-					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
-					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
+					if(checkCell(grid[i][j]))
+					{
+						if(checkCell(grid[i-1][j])) {adjSet.add(grid[i-1][j]);}
+						if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+						if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]);}
+					}
 
 				}
 				else if((i!=0)&&(i!=rows-1)&&(j==cols -1)){
-					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
-					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
-					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
-					
+					if(checkCell(grid[i][j])){
+						if(checkCell(grid[i-1][j-1])) {adjSet.add(grid[i-1][j]);}
+						if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+						if(checkCell(grid[i+1][j-1])) {adjSet.add(grid[i+1][j]);}
+					}
+				}
+				else if(grid[i][j].isDoorway()){
+
+					if(grid[i][j].getDoorDirection()==DoorDirection.RIGHT){
+						adjSet.add(grid[i][j+1]);
+
+
+					}
+					else if(grid[i][j].getDoorDirection()==DoorDirection.LEFT){
+
+						adjSet.add(grid[i][j-1]);
+
+
+
+					}
+					else if(grid[i][j].getDoorDirection()==DoorDirection.UP){
+
+						adjSet.add(grid[i-1][j]);
+
+					}
+					else if(grid[i][j].getDoorDirection()==DoorDirection.DOWN){
+
+						adjSet.add(grid[i+1][j]);
+
+					}
+				}
+				else if(grid[i][j+1].isDoorway()&&grid[i][j+1].getDoorDirection()==DoorDirection.LEFT)
+				{
+
+					adjSet.add(grid[i][j+1]);
+					if(checkCell(grid[i-1][j])) {adjSet.add(grid[i-1][j]);}					
+					if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i+1][j])) {adjSet.add(grid[i+1][j]);}
+
+				}
+				else if(grid[i][j-1].isDoorway()&&grid[i][j-1].getDoorDirection()==DoorDirection.RIGHT)
+				{
+					adjSet.add(grid[i][j-1]);
+					if(checkCell(grid[i-1][j])) {adjSet.add(grid[i-1][j]);}					
+					if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]);}
+					if(checkCell(grid[i+1][j])) {adjSet.add(grid[i+1][j]);}
+
+				}
+				else if(grid[i+1][j].isDoorway()&&grid[i+1][j].getDoorDirection()==DoorDirection.UP)
+				{
+
+					adjSet.add(grid[i+1][j]);
+					if(checkCell(grid[i-1][j])) {adjSet.add(grid[i-1][j]);}					
+					if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]);}
+
+				}
+				else if(grid[i-1][j].isDoorway()&&grid[i-1][j].getDoorDirection()==DoorDirection.DOWN)
+				{
+
+					adjSet.add(grid[i-1][j]);					
+					if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]);}
+					if(checkCell(grid[i+1][j])) {adjSet.add(grid[i+1][j]);}
+
 				}
 				else{
-					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
-					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
-					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
-					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
+
+					if(checkCell(grid[i][j])){
+						if(checkCell(grid[i-1][j])) {adjSet.add(grid[i-1][j]);}					
+						if(checkCell(grid[i][j-1])) {adjSet.add(grid[i][j-1]);}
+						if(checkCell(grid[i][j+1])) {adjSet.add(grid[i][j+1]);}
+						if(checkCell(grid[i+1][j])) {adjSet.add(grid[i+1][j]);}
 
 
+					}
 				}
 				adjMtx.put(grid[i][j], new HashSet<>(adjSet));
 				adjSet.clear();
 			}
 
-		}
 
-		
+		}
 	}
+
+
+
 
 	public int getNumRows() {
 		Map<Character,String> testLegend = getLegend();
@@ -270,18 +351,17 @@ public class Board{
 	}
 
 	public Set<BoardCell> getAdjList(int i, int j) {
-	
-		return adjSet;
+
+		return adjMtx.get(grid[i][j]);
 	}
 
 	public void calcTargets(int i, int j, int k) {
 		targets.clear(); // clears old targets 
-	    visited.clear(); 
-		visited.add(new BoardCell(i,j));
-		BoardCell startCell = new BoardCell(i,j); 
-		System.out.println(k);
+		visited.clear(); 
+		visited.add(grid[i][j]);
+		BoardCell startCell = grid[i][j]; 
 		findAllTargets(startCell, k);
-		
+
 	}
 
 	private void findAllTargets(BoardCell startCell, int k) {
@@ -290,63 +370,36 @@ public class Board{
 			if (visited.contains(cell)){
 				continue;
 			}
-			visited.add(cell);
+			visited.add(cell); 
 			if(k == 1){
-				if(checkCell(cell)){targets.add(cell);}
+				targets.add(cell);
 			}
 			else{
 				findAllTargets(cell, k - 1);
 			}
 			visited.remove(cell);
 		}
-		
-		
+
+
 	}
 
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
-	
+
 	public boolean checkCell(BoardCell current){
 		boolean checkValue = false;
-		System.out.println("Curretn col: " + current.getCol());
-//		if(grid[current.getRow()][current.getCol()].getInitial()=='w'){
-//			checkValue = true;
-//		}
-//		if(grid[current.getRow()][current.getCol()].isDoorway()){
-//			checkValue = true;
-//		}
-//		if(grid[current.getRow()][current.getCol()].isDoorway()&&visited.contains(current)){
-//			checkValue = false;
-//		}
-		
+
+		if(grid[current.getRow()][current.getCol()].getInitial()=='W'){
+			checkValue = true;
+		}
+
+
+
 		return checkValue;
 	}
 
-	//	public void loadCellStrings() {
-	//		int i = 0; int j = 0;
-	//		BufferedReader br = null;
-	//		String line;
-	//		try {
-	//			br = new BufferedReader(new FileReader(layoutString));
-	//			while((line = br.readLine()) != null && i < 100){
-	//				String [] thisLine = line.split(",");
-	//				for(String s: thisLine){
-	//					cellStrings[i][j] = s;
-	//					//System.out.println("cellStrings is: " + cellStrings[i][j]);
-	//					j++;
-	//				}
-	//				j = 0;
-	//				i++;
-	//				//System.out.println("i is: " + i);
-	//			}
-	//			br.close();
-	//		} catch (FileNotFoundException e) {
-	//			e.printStackTrace();
-	//		} catch (IOException e) {
-	//			e.printStackTrace();
-	//		} 
-	//	}
+
 
 
 }

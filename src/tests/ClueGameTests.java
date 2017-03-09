@@ -76,7 +76,7 @@ public class ClueGameTests {
 	@Test
 	public void testNumberOfDoorways(){
 		int numDoors = 0;
-		System.out.println("entered testNumberofDoorways");
+
 		for (int row=0; row<board.getNumRows(); row++)
 			for (int col=0; col<board.getNumColumns(); col++) {
 				BoardCell cell = board.getCellAt(row, col);
