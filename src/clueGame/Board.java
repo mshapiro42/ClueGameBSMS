@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -39,11 +40,6 @@ public class Board{
 		return board;
 	}
 
-	//	public String getCellString(int row, int col){
-	//		return cellStrings[row][col];
-	//	}
-
-
 	public void setConfigFiles(String layout, String legend) {
 		layoutString = layout;
 		legendString = legend;
@@ -73,7 +69,77 @@ public class Board{
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
+		calcAdjacency();
+	}
+
+	private void calcAdjacency() {
+		int rows = grid.length;
+		int cols = grid[0].length;
+		System.out.println("Rows: " + rows + "Cols: " + cols);
+
+		for(int i=0;i<rows;i++){
+			for(int j=0;j<cols;j++){	
+				// goes through and checks all the boundaries 
+				if((i==0)&&(j==0)){
+					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
+					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
+
+				}
+				else if((i==0)&&(j==cols-1)){
+					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
+					
+
+				}
+				else if((i==rows-1)&&(j==0)){
+					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
+					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
+
+				}
+				else if((i==rows-1)&&(j==cols-1)){
+					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
+
+				}
+				else if((i==0)&&(j!=0)&&(j!=cols-1)){
+					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
+					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
+					
+				}
+				else if((i!=0)&&(i!=rows-1)&&(j==0)){
+					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
+					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
+					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
+				}
+				else if((i==rows-1)&&(j!=0)&&(j!=cols-1)){
+					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
+					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
+
+				}
+				else if((i!=0)&&(i!=rows-1)&&(j==cols -1)){
+					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
+					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
+					
+				}
+				else{
+					if(checkCell(grid[i-1][j])){adjSet.add(grid[i-1][j]);}
+					if(checkCell(grid[i][j-1])){adjSet.add(grid[i][j-1]);}
+					if(checkCell(grid[i][j+1])){adjSet.add(grid[i][j+1]);}
+					if(checkCell(grid[i+1][j])){adjSet.add(grid[i+1][j]);}
+
+
+				}
+				adjMtx.put(grid[i][j], new HashSet<>(adjSet));
+				adjSet.clear();
+			}
+
+		}
+
+		
 	}
 
 	public int getNumRows() {
@@ -204,18 +270,57 @@ public class Board{
 	}
 
 	public Set<BoardCell> getAdjList(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
+	
+		return adjSet;
 	}
 
 	public void calcTargets(int i, int j, int k) {
-		// TODO Auto-generated method stub
+		targets.clear(); // clears old targets 
+	    visited.clear(); 
+		visited.add(new BoardCell(i,j));
+		BoardCell startCell = new BoardCell(i,j); 
+		System.out.println(k);
+		findAllTargets(startCell, k);
+		
+	}
+
+	private void findAllTargets(BoardCell startCell, int k) {
+		Set<BoardCell> adjacent = adjMtx.get(startCell);
+		for(BoardCell cell : adjacent){
+			if (visited.contains(cell)){
+				continue;
+			}
+			visited.add(cell);
+			if(k == 1){
+				if(checkCell(cell)){targets.add(cell);}
+			}
+			else{
+				findAllTargets(cell, k - 1);
+			}
+			visited.remove(cell);
+		}
+		
 		
 	}
 
 	public Set<BoardCell> getTargets() {
-		// TODO Auto-generated method stub
-		return null;
+		return targets;
+	}
+	
+	public boolean checkCell(BoardCell current){
+		boolean checkValue = false;
+		System.out.println("Curretn col: " + current.getCol());
+//		if(grid[current.getRow()][current.getCol()].getInitial()=='w'){
+//			checkValue = true;
+//		}
+//		if(grid[current.getRow()][current.getCol()].isDoorway()){
+//			checkValue = true;
+//		}
+//		if(grid[current.getRow()][current.getCol()].isDoorway()&&visited.contains(current)){
+//			checkValue = false;
+//		}
+		
+		return checkValue;
 	}
 
 	//	public void loadCellStrings() {
