@@ -8,5 +8,5 @@ D, Dining room, Card
 O, Lounge, Card
 H, Hall, Card
 X, Closet, Other
-
 W, Walkway, Other
+

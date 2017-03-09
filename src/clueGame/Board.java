@@ -289,10 +289,10 @@ public class Board{
 		} 
 
 		Scanner in = new Scanner(reader);
-		while(in.hasNextLine()){
-			temp = in.nextLine();
+		while((temp = in.nextLine()) != null){
 			try{
 				mapKey = temp.charAt(0);
+				System.out.println(mapKey);
 			} catch (NumberFormatException e1) {
 				System.err.println("\nIncorrect format for " + mapKey + "Not a char");
 			}
@@ -372,7 +372,7 @@ public class Board{
 				continue;
 			}
 			visited.add(cell); 
-			if(k == 1){
+			if(k == 1 || (cell.isDoorway())){
 				targets.add(cell);
 			}
 			else{
