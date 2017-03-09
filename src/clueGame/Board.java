@@ -289,7 +289,8 @@ public class Board{
 		} 
 
 		Scanner in = new Scanner(reader);
-		while(!(temp = in.nextLine()).equals("")){
+		while((temp = in.nextLine()) != null ){
+			if(temp == "") break;
 			try{
 				mapKey = temp.charAt(0);
 				System.out.println(mapKey);
@@ -301,6 +302,9 @@ public class Board{
 			//System.out.println("roomName is: " + roomName);
 			legendMap.put(mapKey, roomName);
 			//System.out.println(legendMap);
+			if(!in.hasNextLine()){
+				break;
+			}
 		}
 		in.close();
 	}
