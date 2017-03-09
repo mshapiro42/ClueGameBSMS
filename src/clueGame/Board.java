@@ -289,7 +289,7 @@ public class Board{
 		} 
 
 		Scanner in = new Scanner(reader);
-		while((temp = in.nextLine()) != null){
+		while(!(temp = in.nextLine()).equals("")){
 			try{
 				mapKey = temp.charAt(0);
 				System.out.println(mapKey);
