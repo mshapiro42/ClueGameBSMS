@@ -43,24 +43,19 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 		//this tests the third requirement, each edge, i hope corners are also considered edges
 		Set<BoardCell> testList = board.getAdjList(0, 0);
 		assertEquals(0, testList.size());
-//		assertTrue(testList.contains(board.getCellAt(0, 1)));
-//		assertTrue(testList.contains(board.getCellAt(1, 0)));
+
 	
+		testList = board.getAdjList(0, 20);
+		assertEquals(0, testList.size());
+
 		
-//		testList = board.getAdjList(0, 20);
-//		assertEquals(2, testList.size());
-//		assertTrue(testList.contains(board.getCellAt(0, 19)));
-//		assertTrue(testList.contains(board.getCellAt(1, 20)));
-//		
-//		testList = board.getAdjList(21, 20);
-//		assertEquals(2, testList.size());
-//		assertTrue(testList.contains(board.getCellAt(20, 20)));
-//		assertTrue(testList.contains(board.getCellAt(21, 19)));
-//		
-//		testList = board.getAdjList(21, 0);
-//		assertEquals(2, testList.size());
-//		assertTrue(testList.contains(board.getCellAt(20, 0)));
-//		assertTrue(testList.contains(board.getCellAt(21, 1)));
+		testList = board.getAdjList(21, 20);
+		assertEquals(0, testList.size());
+
+		
+		testList = board.getAdjList(21, 0);
+		assertEquals(0, testList.size());
+
 	}
 	
 
@@ -83,23 +78,34 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	@Test
 	public void testAdjacenciesNeededDirection(){
 		//this tests the fifth requirement, being next to a doorway with the needed direction
-		Set<BoardCell> testList = board.getAdjList(10, 5);
-		assertEquals(1, testList.size());
-		assertTrue(testList.contains(board.getCellAt(10, 6)));
+		Set<BoardCell> testList = board.getAdjList(10, 6);
+		assertEquals(3, testList.size());
+		assertTrue(testList.contains(board.getCellAt(9, 6)));
+		assertTrue(testList.contains(board.getCellAt(11, 6)));
+		assertTrue(testList.contains(board.getCellAt(10, 5)));
 		
-		testList = board.getAdjList(4, 9);
-		assertEquals(1, testList.size());
-		assertTrue(testList.contains(board.getCellAt(5, 9)));
+		testList = board.getAdjList(5, 9);
+		assertEquals(4, testList.size());
+		assertTrue(testList.contains(board.getCellAt(4, 9)));
+		assertTrue(testList.contains(board.getCellAt(6, 9)));
+		assertTrue(testList.contains(board.getCellAt(5, 8)));
+		assertTrue(testList.contains(board.getCellAt(6, 9)));
 		
-		testList = board.getAdjList(10, 15);
+		testList = board.getAdjList(9, 15);
 		System.out.println(testList);
-		assertEquals(1, testList.size());
-		assertTrue(testList.contains(board.getCellAt(9, 15)));
+		assertEquals(4, testList.size());
+		assertTrue(testList.contains(board.getCellAt(8, 15)));
+		assertTrue(testList.contains(board.getCellAt(10, 15)));
+		assertTrue(testList.contains(board.getCellAt(9, 14)));
+		assertTrue(testList.contains(board.getCellAt(9, 16)));
 		
-		testList = board.getAdjList(13, 17);
+		testList = board.getAdjList(14, 17);
 		System.out.println(testList);
-		assertEquals(1, testList.size());
-		assertTrue(testList.contains(board.getCellAt(14, 17)));
+		assertEquals(4, testList.size());
+		assertTrue(testList.contains(board.getCellAt(13, 17)));
+		assertTrue(testList.contains(board.getCellAt(15, 17)));
+		assertTrue(testList.contains(board.getCellAt(14, 18)));
+		assertTrue(testList.contains(board.getCellAt(14, 16)));
 	}
 	@Test
 	public void testAdjacenciesAreDoors(){
@@ -115,18 +121,44 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 	@Test
 	public void testTargetsAlongWalkways(){
 		//this tests the seventh requirement, targets along walkways
-		board.calcTargets(21, 7, 1);
+		board.calcTargets(5, 6, 1);
 		Set<BoardCell> targets= board.getTargets();
-		assertEquals(2, targets.size());
-		assertTrue(targets.contains(board.getCellAt(20, 7)));
-		assertTrue(targets.contains(board.getCellAt(21, 6)));	
+		assertEquals(4, targets.size());
+		assertTrue(targets.contains(board.getCellAt(4, 6)));
+		assertTrue(targets.contains(board.getCellAt(6, 6)));	
+		assertTrue(targets.contains(board.getCellAt(5, 5)));
+		assertTrue(targets.contains(board.getCellAt(5, 7)));
 		
-		board.calcTargets(14, 0, 1);
+		board.calcTargets(19, 17, 2);
 		targets= board.getTargets();
 		System.out.println(targets);
 		assertEquals(2, targets.size());
-		assertTrue(targets.contains(board.getCellAt(13, 0)));	
-		assertTrue(targets.contains(board.getCellAt(14, 1)));	
+		assertTrue(targets.contains(board.getCellAt(18, 16)));	
+		assertTrue(targets.contains(board.getCellAt(19, 15)));	
+		
+		board.calcTargets(14, 11, 3);
+		targets= board.getTargets();
+		System.out.println(targets);
+		assertEquals(8, targets.size());
+		assertTrue(targets.contains(board.getCellAt(15, 13)));	
+		assertTrue(targets.contains(board.getCellAt(13, 13)));
+		assertTrue(targets.contains(board.getCellAt(14, 12)));
+		assertTrue(targets.contains(board.getCellAt(14, 10)));
+		assertTrue(targets.contains(board.getCellAt(13, 9)));
+		assertTrue(targets.contains(board.getCellAt(13, 11)));
+		assertTrue(targets.contains(board.getCellAt(14, 14)));
+		assertTrue(targets.contains(board.getCellAt(14, 8)));
+		
+		board.calcTargets(13, 0, 5);
+		targets= board.getTargets();
+		System.out.println(targets);
+		assertEquals(6, targets.size());
+		assertTrue(targets.contains(board.getCellAt(13, 1)));	
+		assertTrue(targets.contains(board.getCellAt(14, 0)));
+		assertTrue(targets.contains(board.getCellAt(14, 2)));
+		assertTrue(targets.contains(board.getCellAt(13, 3)));
+		assertTrue(targets.contains(board.getCellAt(15, 3)));
+		assertTrue(targets.contains(board.getCellAt(14, 4)));
 	}
 	@Test
 	public void testTargetsAllowEnter(){
