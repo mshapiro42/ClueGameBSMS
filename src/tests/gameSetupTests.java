@@ -16,6 +16,7 @@ import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.Card;
+import clueGame.Card.cardType;
 import clueGame.DoorDirection;
 import clueGame.Player;
 
@@ -61,6 +62,33 @@ public class gameSetupTests {
 		assertTrue(weaponNames.contains("Arrow"));
 		assertTrue(weaponNames.contains("Bowling Ball"));
 		assertTrue(weaponNames.contains("Keyboard"));
+	}
+	
+	@Test
+	public void testCards() {
+		Set<Card> cards = board.getCards();
+		assertEquals(26,cards.size());
+		Set<String> people = new HashSet<String>();
+		Set<String> weapons = new HashSet<String>();
+		Set<String> rooms = new HashSet<String>();
+		for(Card c: cards){
+			String temp = c.getName();
+			cardType temp2 = c.getType();
+			switch(temp2){
+			case PERSON:
+				people.add(temp);
+				break;
+			case WEAPON:
+				weapons.add(temp);
+				break;
+			case ROOM:
+				rooms.add(temp);
+			}
+		}
+		assertEquals(9, weapons.size());
+		assertEquals(6, people.size());
+		assertEquals(11, rooms.size());
+		
 	}
 
 }

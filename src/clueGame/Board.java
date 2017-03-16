@@ -85,8 +85,12 @@ public class Board{
 			}
 			br.close();
 			calcAdjacency();
-			loadPlayersConfig();
-			loadWeaponsConfig();
+			if (playersString != null){
+				loadPlayersConfig();
+			}
+			if (weaponsString != null){
+				loadWeaponsConfig();
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -319,6 +323,18 @@ public class Board{
 			}
 			int endi = temp.lastIndexOf(',');
 			roomName = temp.substring(3, endi);
+			Card c = new Card();
+			c.setType(cardType.ROOM);
+			c.setName(roomName);
+			Boolean contains = false;
+			for (Card t : cards){
+				if (t.getName().equals(roomName)){
+					contains = true;
+				}
+			}
+			if (!contains){
+				cards.add(c);
+			}
 			//System.out.println("roomName is: " + roomName);
 			legendMap.put(mapKey, roomName);
 			//System.out.println(legendMap);
@@ -327,6 +343,10 @@ public class Board{
 			}
 		}
 		in.close();
+	}
+
+	public Set<Card> getCards() {
+		return cards;
 	}
 
 	public clueGame.BoardCell getCellAt(int i, int j) {

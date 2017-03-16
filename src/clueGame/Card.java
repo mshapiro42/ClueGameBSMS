@@ -2,7 +2,7 @@ package clueGame;
 
 public class Card {
 	private String name;
-	enum cardType{PERSON,WEAPON,ROOM};
+	public enum cardType{PERSON,WEAPON,ROOM};
 	private cardType type;
 	
 	public Card() {
