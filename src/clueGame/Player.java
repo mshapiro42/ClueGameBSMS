@@ -55,8 +55,28 @@ public class Player {
 		return color;
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
+	public void setColor(String c) {
+		switch (c){
+		case "RED":
+			this.color = Color.RED;
+			break;
+		case "YELLOW":
+			this.color = Color.YELLOW;
+			break;
+		case "GREEN":
+			this.color = Color.GREEN;
+			break;
+		case "BLUE":
+			this.color = Color.BLUE;
+			break;
+		case "PINK":
+			this.color = Color.PINK;
+			break;
+		case "MAGENTA":
+			this.color = Color.MAGENTA;
+			break;
+			
+		}
 	}
 
 	public Player() {

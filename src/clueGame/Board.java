@@ -81,12 +81,16 @@ public class Board{
 				//System.out.println("i is: " + i);
 			}
 			br.close();
+			calcAdjacency();
+			loadPlayersConfig();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (BadConfigFormatException e){
+			e.printStackTrace();
 		}
-		calcAdjacency();
+		
 	}
 
 	private void calcAdjacency() {
@@ -375,11 +379,12 @@ public class Board{
 			String line = in.nextLine();
 			String[] arr = line.split(",");
 			Player temp = new Player();
-			temp.setColor(Color.getColor(arr[0]));
+			temp.setColor(arr[0]);
 			temp.setName(arr[1].trim());
 			if (arr.length > 2) {
 				throw new BadConfigFormatException("Players File has incorrect formatting");
 			}
+			people.add(temp);
 		}
 		in.close();
 	}
