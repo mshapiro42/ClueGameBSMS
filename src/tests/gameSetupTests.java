@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import org.junit.Test;
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.Card;
 import clueGame.DoorDirection;
 import clueGame.Player;
 
@@ -47,5 +49,18 @@ public class gameSetupTests {
 		}	
 	}
 	
+	@Test
+	public void testWeapons() {
+		Set<Card> weapons = board.getWeapons();
+		Set<String> weaponNames = new HashSet<String>();
+		assertEquals(9, weapons.size());
+		for(Card c: weapons){
+			weaponNames.add(c.getName());
+		}
+		assertTrue(weaponNames.contains("Harpoon"));
+		assertTrue(weaponNames.contains("Arrow"));
+		assertTrue(weaponNames.contains("Bowling Ball"));
+		assertTrue(weaponNames.contains("Keyboard"));
+	}
 
 }

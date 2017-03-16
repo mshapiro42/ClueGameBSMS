@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import clueGame.Card.cardType;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -83,6 +86,7 @@ public class Board{
 			br.close();
 			calcAdjacency();
 			loadPlayersConfig();
+			loadWeaponsConfig();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -385,12 +389,25 @@ public class Board{
 				throw new BadConfigFormatException("Players File has incorrect formatting");
 			}
 			people.add(temp);
+			Card c = new Card();
+			c.setType(cardType.PERSON);
+			c.setName(arr[1].trim());
+			cards.add(c);
 		}
 		in.close();
 	}
 	
-	public void loadWeaponsConfig() throws IOException, BadConfigFormatException{
-
+	public void loadWeaponsConfig() throws FileNotFoundException{
+		FileReader reader = new FileReader(weaponsString);
+		Scanner in = new Scanner(reader);
+		while (in.hasNextLine()){
+			String line = in.nextLine();
+			Card temp = new Card();
+			temp.setType(cardType.WEAPON);
+			temp.setName(line);
+			cards.add(temp);
+		}
+		in.close();
 	}
 	
 	public Set<BoardCell> getAdjList(int i, int j) {
@@ -452,5 +469,15 @@ public class Board{
 	
 	public boolean checkAccusation(Solution accusation){
 		return false;
+	}
+
+	public Set<Card> getWeapons() {
+		Set<Card> weapons = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.WEAPON){
+				weapons.add(c);
+			}
+		}
+		return new HashSet<Card>();
 	}
 }
