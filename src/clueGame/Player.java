@@ -1,22 +1,25 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Player {
-	private Card[] myCards;
+	private Set<Card> myCards = new HashSet<Card>();
 	private String name;
 	private BoardCell location;
 	private int row;
 	private int column;
 	private Color color;
 	
-	
-	public Card[] getMyCards() {
+
+
+	public Set<Card> getMyCards() {
 		return myCards;
 	}
 
-	public void setMyCards(Card[] list) {
-		this.myCards = list;
+	public void setMyCards(Set<Card> myCards) {
+		this.myCards = myCards;
 	}
 
 	public String getName() {

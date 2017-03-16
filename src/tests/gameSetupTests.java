@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -88,7 +89,36 @@ public class gameSetupTests {
 		assertEquals(9, weapons.size());
 		assertEquals(6, people.size());
 		assertEquals(11, rooms.size());
+		assertTrue(people.contains("Signora Rosso"));
+		assertTrue(weapons.contains("Axe"));
+		assertTrue(rooms.contains("Entry Way"));
 		
 	}
 
+	@Test
+	public void testDeal(){
+		Set<Player> people = board.getPeople();
+		Set<Card> cards = board.getCards();
+		Map<Player, Set<Card>> playersCards = new HashMap<Player, Set<Card>>();
+		Set<Integer> numCards = new HashSet<Integer>();
+		int numDealt = 0;
+		Integer sum = 0;
+		for (Integer i : numCards){
+			sum += i;
+		}
+		Double average = (double) (sum/people.size());
+		
+		for (Player p : people){
+			Set<Card> temp = p.getMyCards();
+			playersCards.put(p, temp);
+			numDealt += temp.size();
+			numCards.add(temp.size());
+			assertEquals(average, temp.size(),2);
+			System.out.println(average - temp.size());
+		}
+		assertEquals(cards.size(), numDealt);
+		
+		
+	}
+	
 }

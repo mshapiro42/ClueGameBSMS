@@ -87,9 +87,8 @@ public class Board{
 			calcAdjacency();
 			if (playersString != null){
 				loadPlayersConfig();
-			}
-			if (weaponsString != null){
 				loadWeaponsConfig();
+				dealCards();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -499,5 +498,9 @@ public class Board{
 			}
 		}
 		return weapons;
+	}
+
+	public void dealCards(){
+		
 	}
 }
