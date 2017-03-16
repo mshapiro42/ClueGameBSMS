@@ -25,13 +25,14 @@ public class Board{
 	private String[][] cellStrings = new String[100][100];
 	private String legendString;
 	private String layoutString;
+	private String playersString;
+	private String weaponsString;
 
 	public String[][] getCellStrings(){
 		return cellStrings;
 	}
 
 	public Board() {
-		
 		super();
 	}
 
@@ -45,6 +46,14 @@ public class Board{
 		layoutString = layout;
 		legendString = legend;
 	}
+	
+	public void setConfigFiles(String layout, String legend, String players, String weapons) {
+		layoutString = layout;
+		legendString = legend;
+		playersString = players;
+		weaponsString = weapons;
+	}
+	
 	public void initialize() {
 		int i = 0; int j = 0;
 		BufferedReader br = null;
@@ -221,9 +230,6 @@ public class Board{
 		}
 	}
 
-
-
-
 	public int getNumRows() {
 		Map<Character,String> testLegend = getLegend();
 		int rowCounter = 0;
@@ -333,6 +339,7 @@ public class Board{
 	}
 
 	public void loadBoardConfig() throws IOException, BadConfigFormatException{
+
 		int i = 0; int j = 0;
 		BufferedReader br = null;
 		String line;
@@ -355,6 +362,14 @@ public class Board{
 
 	}
 
+	public void loadPlayersConfig() throws IOException, BadConfigFormatException{
+
+	}
+	
+	public void loadWeaponsConfig() throws IOException, BadConfigFormatException{
+
+	}
+	
 	public Set<BoardCell> getAdjList(int i, int j) {
 
 		return adjMtx.get(grid[i][j]);
@@ -404,7 +419,15 @@ public class Board{
 		return checkValue;
 	}
 
+	public void selectAnswer(){
+		
+	}
 
-
-
+	public Card handleSuggestion(){
+		return null;
+	}
+	
+	public boolean checkAccusation(Solution accusation){
+		return false;
+	}
 }
