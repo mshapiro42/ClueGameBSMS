@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,6 +21,12 @@ public class Board{
 	private Set<BoardCell> adjSet = new HashSet<BoardCell>();
 	private Map<Character, String> legendMap = new HashMap<Character, String>();
 	private BoardCell[][] grid = new BoardCell[100][100];
+	private Set<Player> people = new HashSet<Player>();
+	private Set<Card> cards = new HashSet<Card>();
+
+	public Set<Player> getPeople() {
+		return people;
+	}
 
 	private String[][] cellStrings = new String[100][100];
 	private String legendString;
@@ -362,8 +368,20 @@ public class Board{
 
 	}
 
-	public void loadPlayersConfig() throws IOException, BadConfigFormatException{
-
+	public void loadPlayersConfig() throws FileNotFoundException, BadConfigFormatException{
+		FileReader reader = new FileReader(playersString);
+		Scanner in = new Scanner(reader);
+		while (in.hasNextLine()){
+			String line = in.nextLine();
+			String[] arr = line.split(",");
+			Player temp = new Player();
+			temp.setColor(Color.getColor(arr[0]));
+			temp.setName(arr[1].trim());
+			if (arr.length > 2) {
+				throw new BadConfigFormatException("Players File has incorrect formatting");
+			}
+		}
+		in.close();
 	}
 	
 	public void loadWeaponsConfig() throws IOException, BadConfigFormatException{

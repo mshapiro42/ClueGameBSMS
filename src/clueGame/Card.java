@@ -1,14 +1,30 @@
 package clueGame;
 
 public class Card {
-	String name;
+	private String name;
 	enum cardType{PERSON,WEAPON,ROOM};
-	cardType type;
+	private cardType type;
 	
 	public Card() {
-		// TODO Auto-generated constructor stub
+
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public cardType getType() {
+		return type;
+	}
+
+	public void setType(cardType type) {
+		this.type = type;
+	}
+
 	public boolean equals(Card c){
 		if ((this.name == c.name)&&(this.type==c.type)){
 			return true;
