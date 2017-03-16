@@ -478,6 +478,6 @@ public class Board{
 				weapons.add(c);
 			}
 		}
-		return new HashSet<Card>();
+		return weapons;
 	}
 }
