@@ -5,6 +5,7 @@ public class BoardCell {
 	private int row;
 	private int col;
 	private String doorString;
+	
 	public BoardCell(int row, int col) {
 		super();
 		this.row = row;
@@ -54,7 +55,7 @@ public class BoardCell {
 		return null;
 	}
 	public char getInitial() {
-		Character initial = doorString.charAt(0);
+		char initial = doorString.charAt(0);
 		return initial;
 	}
 

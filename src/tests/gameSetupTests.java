@@ -54,6 +54,37 @@ public class gameSetupTests {
 		assertTrue(names.contains("Signora Rosso"));
 		assertTrue(names.contains("Seniorita Amarillo"));
 		assertTrue(names.contains("Murasaki Sensei"));
+		
+		//Loop through people
+		for (Player p: people) {
+			//Make sure location is on a walkway
+			BoardCell cell = p.getLocation();
+			char initial = cell.getInitial();
+			assertEquals(initial, 'W');
+			
+			//Make sure location is in bounds
+			assertTrue(cell.getRow() > 0);
+			assertTrue(cell.getCol() > 0);
+			assertTrue(cell.getRow() < NUM_ROWS);
+			assertTrue(cell.getCol() < NUM_COLUMNS);
+			
+			//Loop through every pair of people
+			for (Player p2: people) {
+				//except when it pairs with itself
+				if (p == p2){
+					continue;
+				}
+				
+				//get current location
+				BoardCell cell2 = p2.getLocation();
+				
+				//check to make sure those two people
+				//are not on the same location
+				assertTrue((cell.getRow() != cell2.getRow()) || (cell.getCol() != cell2.getCol()));
+			}
+		}
+		
+		
 	}
 	
 	@Test
