@@ -58,14 +58,14 @@ public class Board{
 		layoutString = layout;
 		legendString = legend;
 	}
-	
+
 	public void setConfigFiles(String layout, String legend, String players, String weapons) {
 		layoutString = layout;
 		legendString = legend;
 		playersString = players;
 		weaponsString = weapons;
 	}
-	
+
 	public void initialize() {
 		int i = 0; int j = 0;
 		BufferedReader br = null;
@@ -92,6 +92,7 @@ public class Board{
 				loadPlayersConfig();
 				loadWeaponsConfig();
 				dealCards();
+				setPlayerLocations();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -100,7 +101,7 @@ public class Board{
 		} catch (BadConfigFormatException e){
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private void calcAdjacency() {
@@ -382,6 +383,7 @@ public class Board{
 		br = new BufferedReader(new FileReader(layoutString));
 		while((line = br.readLine()) != null && i < 100){
 			String [] thisLine = line.split(",");
+
 			//System.out.println("thisLine string: " + thisLine.toString());
 			for(String s: thisLine){
 				grid[i][j] = new BoardCell(i,j);
@@ -418,7 +420,7 @@ public class Board{
 		}
 		in.close();
 	}
-	
+
 	public void loadWeaponsConfig() throws FileNotFoundException{
 		FileReader reader = new FileReader(weaponsString);
 		Scanner in = new Scanner(reader);
@@ -431,7 +433,7 @@ public class Board{
 		}
 		in.close();
 	}
-	
+
 	public Set<BoardCell> getAdjList(int i, int j) {
 
 		return adjMtx.get(grid[i][j]);
@@ -503,7 +505,7 @@ public class Board{
 	public Card handleSuggestion(){
 		return null;
 	}
-	
+
 	public boolean checkAccusation(Solution accusation){
 		return false;
 	}
@@ -517,7 +519,7 @@ public class Board{
 		}
 		return weapons;
 	}
-	
+
 	public Set<Card> getRooms() {
 		Set<Card> rooms = new HashSet<Card>();
 		for (Card c : cards){
@@ -527,7 +529,7 @@ public class Board{
 		}
 		return rooms;
 	}
-	
+
 
 	public Set<Card> getPlayers() {
 		Set<Card> people = new HashSet<Card>();
@@ -538,7 +540,7 @@ public class Board{
 		}
 		return people;
 	}
-	
+
 	public Card getRandomCard(Set<Card> cards){
 		int size = cards.size();
 		int item = new Random().nextInt(size);
@@ -571,4 +573,24 @@ public class Board{
 			}
 		}
 	}
+
+	public void setPlayerLocations() {
+		for (Player p : people) {
+			p.setLocation(getRandomLocation());
+		}
+		
+		//make sure walkway
+		//make sure no two players on same location
+	}
+
+	public BoardCell getRandomLocation() {
+		int cols = getNumColumns();
+		int rows = getNumRows();
+
+		int randomCol = new Random().nextInt(cols);
+		int randomRow = new Random().nextInt(rows);
+		
+		return grid[randomRow][randomCol];
+	}
 }
+
