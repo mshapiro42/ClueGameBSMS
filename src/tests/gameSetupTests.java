@@ -37,18 +37,23 @@ public class gameSetupTests {
 	@Test
 	public void testPeople() {
 		Set<Player> people = board.getPeople();
+		Set<String> names = new HashSet<String>();
 		assertEquals(6, people.size());
 		for (Player p: people) {
+			names.add(p.getName());
 			if (p.getName().equals("Signora Rosso")){
 				assertEquals(Color.red, p.getColor());
 			}
-			if (p.getName().equals("Seniotita Amarillo")){
+			if (p.getName().equals("Seniorita Amarillo")){
 				assertEquals(Color.yellow, p.getColor());
 			}
 			if (p.getName().equals("Murasaki Sensei")){
 				assertEquals(Color.magenta, p.getColor());
 			}
-		}	
+		}
+		assertTrue(names.contains("Signora Rosso"));
+		assertTrue(names.contains("Seniorita Amarillo"));
+		assertTrue(names.contains("Murasaki Sensei"));
 	}
 	
 	@Test
