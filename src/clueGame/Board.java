@@ -3,6 +3,7 @@ package clueGame;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -26,6 +27,8 @@ public class Board{
 	private BoardCell[][] grid = new BoardCell[100][100];
 	private Set<Player> people = new HashSet<Player>();
 	private Set<Card> cards = new HashSet<Card>();
+	private Set<Card> dealt = new HashSet<Card>();
+	private Solution solution = new Solution();
 
 	public Set<Player> getPeople() {
 		return people;
@@ -479,7 +482,22 @@ public class Board{
 	}
 
 	public void selectAnswer(){
-		
+		Set<Card> weapons = getWeapons();
+		Set<Card> people = getPlayers();
+		Set<Card> rooms = getRooms();
+		Card weapon = getRandomCard(weapons);
+		Card person = getRandomCard(people);
+		Card room = getRandomCard(rooms);
+		solution.setWeapon(weapon);
+		solution.setPerson(person);
+		solution.setRoom(room);
+		dealt.add(weapon);
+		dealt.add(person);
+		dealt.add(room);
+	}
+
+	public Solution getSolution() {
+		return solution;
 	}
 
 	public Card handleSuggestion(){
@@ -499,8 +517,54 @@ public class Board{
 		}
 		return weapons;
 	}
+	
+	public Set<Card> getRooms() {
+		Set<Card> rooms = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.ROOM){
+				rooms.add(c);
+			}
+		}
+		return rooms;
+	}
+	
+
+	public Set<Card> getPlayers() {
+		Set<Card> people = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.PERSON){
+				people.add(c);
+			}
+		}
+		return people;
+	}
+	
+	public Card getRandomCard(Set<Card> cards){
+		int size = cards.size();
+		int item = new Random().nextInt(size);
+		int i = 0;
+		for (Card c : cards){
+			if (i == item){
+				return c;
+			}
+			i++;
+		}
+		return null;
+	}
 
 	public void dealCards(){
-		
+		Integer numDealt = 0;
+		while (numDealt < cards.size()){
+			for(Player p : people){
+				Set<Card> myCards = p.getMyCards();
+				Card temp = getRandomCard(cards);
+				if (!dealt.contains(temp)){
+					dealt.add(temp);
+					myCards.add(temp);
+					numDealt++;
+				}
+				p.setMyCards(myCards);
+			}
+		}
 	}
 }

@@ -102,22 +102,37 @@ public class gameSetupTests {
 		Map<Player, Set<Card>> playersCards = new HashMap<Player, Set<Card>>();
 		Set<Integer> numCards = new HashSet<Integer>();
 		int numDealt = 0;
-		Integer sum = 0;
-		for (Integer i : numCards){
-			sum += i;
-		}
-		Double average = (double) (sum/people.size());
-		
 		for (Player p : people){
 			Set<Card> temp = p.getMyCards();
 			playersCards.put(p, temp);
 			numDealt += temp.size();
 			numCards.add(temp.size());
-			assertEquals(average, temp.size(),2);
-			System.out.println(average - temp.size());
+			System.out.println(temp.size());
+			//			System.out.println(average - temp.size());
+			//assertEquals(average, temp.size(),2);
 		}
+		Integer sum = 0;
+		for (Integer i : numCards){
+			sum += i;
+		}
+		Double average = (double) (sum/people.size());
+		System.out.println(average);
 		assertEquals(cards.size(), numDealt);
-		
+		for(Player p1 : people){
+			for (Player p2 : people){
+				if (p1 ==p2){
+					continue;
+				}
+				Set<Card> p1Cards = p1.getMyCards();
+				Set<Card> p2Cards = p2.getMyCards();
+				Set<Card> solCards = board.getSolution().getCards();
+				
+				for(Card c : p1Cards){
+					assertFalse(p2Cards.contains(c));
+					assertFalse(solCards.contains(c));
+				}
+			}
+		}
 		
 	}
 	
