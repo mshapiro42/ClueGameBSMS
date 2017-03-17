@@ -1,0 +1,457 @@
+commit 6cd12ff9d8fd1cb743e3918b631073d5626dcd89
+Author: = <snear@mines.edu>
+Date:   Thu Mar 16 23:03:48 2017 -0600
+
+    Made game setup tests pass. Clue players Part I finished.
+
+commit 6e54d88f53f7f6c8da6d4f8d11f64344ff665852
+Author: = <snear@mines.edu>
+Date:   Thu Mar 16 22:43:26 2017 -0600
+
+    Fixed bug in test, now test simply fails. Working on code to pass test
+
+commit ee6009904bdbb243cd16b41e66a4092df9859de7
+Author: = <snear@mines.edu>
+Date:   Thu Mar 16 22:04:59 2017 -0600
+
+    Wrote failing tests for checking player locations
+
+commit 6c72267c8876c0d1b0fa8172b4462779f9670897
+Author: Stacia Near <snear@mines.edu>
+Date:   Thu Mar 16 18:47:30 2017 -0600
+
+    Fixed number of cards dealt to each person, so it is about the same
+
+commit 47fc85a1433c4f0f709a74e07b73e9efb7121e40
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 18:30:08 2017 -0600
+
+    Updated Player tests
+
+commit e6246eb3ac7fa82b0d2f19ca23ce3518dd2b6ce4
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 18:25:09 2017 -0600
+
+    Dealing Tests Passed
+
+commit fd0f0b2040e9de24b02d00fb1565881515c549d0
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 17:53:55 2017 -0600
+
+    Dealing Tests failed
+
+commit 2627ea180613bff48c516ea85283758723a1679e
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 17:28:52 2017 -0600
+
+    Replaced Bad Format files
+
+commit 99937b7f07229d717f68fb66dfa8d83b43456551
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 17:25:42 2017 -0600
+
+    Test Load Cards Passed
+
+commit 92287247a42b3b694097634ceace3dd6b8287e8e
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 17:02:46 2017 -0600
+
+    Test Weapons Passed
+
+commit a6899d3873749269336a5759a6029b4fa3039526
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 17:02:24 2017 -0600
+
+    Test Weapons Failed
+
+commit e834b7906e28fa3dfddf3b09e7d5e91b4231a45f
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 16:39:17 2017 -0600
+
+    Test Players Passed
+
+commit 391a1121ec19bce33026aabced26b9f06d6be64e
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 16:16:22 2017 -0600
+
+    Test Players Failed
+
+commit a374e64b33b8a4567397dd4f06dab411868f3ad5
+Author: Megan Shapiro <mshapiro@mines.edu>
+Date:   Thu Mar 16 15:29:38 2017 -0600
+
+    Player people and weapon files
+
+commit 41584d221e2de7655dbe5fbc96028a3362826671
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Tue Mar 14 15:54:43 2017 -0600
+
+    fixed tests on door directions and walkway targets
+
+commit 5d7ed7009c33e88c308d8a9d5e23d79af2e11e5c
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Thu Mar 9 10:20:41 2017 -0700
+
+    i guess?
+
+commit 0b6068f027e2b0381612f68240d73499171a8976
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Thu Mar 9 10:03:48 2017 -0700
+
+    what the fuck
+
+commit d55904b971288f392a5307c68c04baa1f38c36d1
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Thu Mar 9 09:57:36 2017 -0700
+
+    shortcuts
+
+commit e508249ec8440cbcd6c22148733e449c06b3ea60
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Thu Mar 9 09:11:54 2017 -0700
+
+    passing tests
+
+commit 28c07f7f09668902fa3a09c0aa3d58b8269e81f5
+Merge: 977ab60 cf761ba
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Thu Mar 9 08:51:53 2017 -0700
+
+     merging
+
+commit 977ab60a8569cd9535ce3ffbf573aa0c414acd33
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Thu Mar 9 08:48:39 2017 -0700
+
+    Empty
+
+commit 76109157b8f2dc2dbe8de42d913f2254db999b3e
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Thu Mar 9 08:46:04 2017 -0700
+
+    commit
+
+commit cf761ba5feb01c3f3f6bba76f669069b773f3b8b
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Thu Mar 9 08:42:28 2017 -0700
+
+    Passing Adjacency Tests and some Target tests
+
+commit 37ea91285c3dc023e1c2cbc0af30f9ca9c0af9e0
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Wed Mar 8 20:05:24 2017 -0700
+
+    Started new branch to try ad get tests to pass
+
+commit d790111aaa12713b368179d5ec6396c0f525fdf9
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Mon Mar 6 20:51:28 2017 -0700
+
+    updated descriptions of tests per requirements.
+
+commit fbc27c773e1935e97201efe3c39795340d7e8a6b
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Mon Mar 6 20:47:52 2017 -0700
+
+    Board part 3 tests failing and ready for submit
+
+commit f4c3eef3ec30ab431c9d99fe047d8b5289d7fab4
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Mon Mar 6 20:14:49 2017 -0700
+
+    new part 3 excel sheet has the cells identified for board 3
+
+commit f1cfb5e0faedeb6d4040c8e2f4cc0cd5de57baf7
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Mon Mar 6 19:27:05 2017 -0700
+
+     committing to add the untracked files
+
+commit c6d4a929fd1efede703d2e9ef73a0326bec82fe3
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Mon Mar 6 13:36:36 2017 -0700
+
+    all tests for Board 2 passing, including exception tests.
+
+commit d702ba5732dccd3c7e66b6bd9f0334c5821b7e2e
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Mon Mar 6 12:57:17 2017 -0700
+
+    trying to get the exception handling tests to work
+
+commit dade3751dd80206c9676fa08fffd2c00874d9dc6
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Mon Mar 6 12:17:40 2017 -0700
+
+    the CR tests pass now. Had to put all the data files in the root project directory, and implement the setConfigFiles function to load any config files.
+
+commit ef05ff82019980ed3a261b5a3485b82aca333182
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Mon Mar 6 11:44:49 2017 -0700
+
+    all tests for Board 2 are passing. Many tests rely on the initialize function to give the cells the necessary information for door checks.
+
+commit 7ee71c3ab0ba3a863a7d901bd35a6c70f78d2520
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Mar 3 16:19:53 2017 -0700
+
+    trying to get the testNumberofDoorways to work, need to fix the null pointer error in the intialize() method first.
+
+commit ae3b8a8999006ac19c54499cb5c7c00c46b531f4
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Mar 3 14:58:11 2017 -0700
+
+    testRooms and testBoardDimensions working now
+
+commit a0d554f2ad278009d515b240690a00fd31aeda3f
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Mar 3 13:58:19 2017 -0700
+
+    testRooms passing
+
+commit c91099467e6247528e338c24220ebf8d0bb84c0f
+Merge: c05ef99 9e56ee1
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Mar 3 13:47:55 2017 -0700
+
+    merging
+
+commit c05ef99f7251f26ec54004ea7311d5bf9d3e37d0
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Mar 3 13:44:47 2017 -0700
+
+    merging
+
+commit 79e2d61a7671e00e8de7e0a59da660fee274b81e
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Mar 3 13:42:39 2017 -0700
+
+    committing for merge
+
+commit 9e56ee1ced95f18ade1d9bc21a12e6973059cbeb
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Fri Mar 3 05:06:48 2017 -0700
+
+    Upload Update
+
+commit 72f9358fcdf02d1b5f6cff0a961f269f6ca85b5b
+Merge: a758f00 e7c2c52
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Thu Mar 2 17:20:28 2017 -0700
+
+    Merge branch 'master' of https://github.com/blsander/ClueGameBSJM
+
+commit a758f00dd08ca4714d027b819390f8be735f7bea
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Thu Mar 2 17:19:23 2017 -0700
+
+    Updating project
+
+commit e7c2c52bc806b1f5159044a845b8aaa89233dbe0
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Thu Mar 2 15:59:16 2017 -0700
+
+    started work on Board.java for clueBoard part 2
+
+commit e5bd2127d52466a8cd6e74ca6a7ebb088101bad2
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 23:49:46 2017 -0700
+
+    final push for clue board part 1.
+
+commit 972fb19731274255e4647dbe69daca5d2668af88
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 23:25:24 2017 -0700
+
+    getting up to date.
+
+commit 187be850b82bc51c8bcd4622c8e368c0978d32e1
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 23:12:44 2017 -0700
+
+    finished test skeletons.
+
+commit c440d1301d67ff066dd0c993a172ca88d9459363
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Wed Mar 1 22:59:02 2017 -0700
+
+    added method
+
+commit 8056ab5db4b364064fc24cf7d7881b7f03fbe9bd
+Merge: d3803ac fa5d2c7
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Wed Mar 1 22:56:08 2017 -0700
+
+    Fixed merge conflict
+
+commit d3803ac8046b980d23cc747b5897143c93f2b092
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Wed Mar 1 22:50:52 2017 -0700
+
+    added test
+
+commit fa5d2c797fab2238537d5e753d7b3a7126afba4f
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 22:48:31 2017 -0700
+
+    finished skeletons of first 2 tests
+
+commit 1f0754868b9a9521280ecc99d4ebfa00721bbaa6
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 22:40:30 2017 -0700
+
+    ready to start work on tests
+
+commit 47ea36be78b95d41764a6d5a10e1ab8cd1db9c5b
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 22:32:12 2017 -0700
+
+    added data files under ourData folder
+
+commit 261b206d93b52319d021278c4026b5a48fc98d15
+Merge: bec3bf0 30eb1be
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 22:18:37 2017 -0700
+
+    fixing conflicts for first merge.
+
+commit bec3bf0d062c532e02275f4c87291077b9d3b8af
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 22:17:41 2017 -0700
+
+    trying to set up BoardCell in clueGame package
+
+commit 30eb1be0d9ba88d4282047cbbd4bab1c7f390219
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Wed Mar 1 22:14:48 2017 -0700
+
+    Initial Set up
+
+commit 0d7745f2947056ae5c0ce582fb43ec72090d2912
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 16:32:38 2017 -0700
+
+    all tests are working now.
+
+commit fcb14f5a32b090cb6de354d54917e233e7ecd98b
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 16:23:53 2017 -0700
+
+    commit to push to jonny
+
+commit adf0a798eca0c6e55ad4687d0de883c95f9b8e94
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 16:12:06 2017 -0700
+
+    additional work on recursive calcTargets
+
+commit 3388569beb9f7c363dd5713fc85d63fd4edb8288
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Wed Mar 1 16:01:41 2017 -0700
+
+    changed calcTargets to recursive call, testTarget tests are failing now without errors.
+
+commit dc5528b0b779e2e33626a513a604ce9d9ac5db01
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Wed Mar 1 12:00:44 2017 -0700
+
+    Targets Calc Not Working
+
+commit 9a8d264f7e01a1f5843af5e9bb7d4156fd3b3421
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Tue Feb 28 16:29:53 2017 -0700
+
+    Adjacency Tests all Pass
+
+commit a50aab645be97363c7663e35b939e367a13a0e3f
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Fri Feb 24 22:44:30 2017 -0700
+
+    Made extra test cases
+
+commit 823fc5bd2edf5d5ab371a9da0b15bf814d87b2d4
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Fri Feb 24 18:23:08 2017 -0700
+
+    Fixed getCell
+
+commit 9ba077beaa51c79e9e408fee5fcab72f147d5ca1
+Merge: 6af8171 5a1fe70
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Fri Feb 24 18:17:59 2017 -0700
+
+    Merge branch 'master' of https://github.com/blsander/ClueGameBSJM
+
+commit 6af817124f278e68c2f4760be2f92e11a9673552
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Fri Feb 24 18:17:26 2017 -0700
+
+    Finished test Targets
+
+commit 5a1fe70a038747908e3a603944cb3c5f9929d290
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Feb 24 18:15:42 2017 -0700
+
+    added @Before initializer and added import.assert.*
+
+commit 961010387e6652b6f408c4b008a6492b963a5eb7
+Merge: 5946a37 ad3818a
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Fri Feb 24 17:56:31 2017 -0700
+
+    Fixed merge issue on IntBoardTests
+
+commit 5946a377a8b3258a141c62494cc223c8fc9f9420
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Fri Feb 24 17:51:54 2017 -0700
+
+    Building Tests for Targets
+
+commit ad3818a8a12c32974d3b9211bbf2b3a7e3f9122e
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Feb 24 17:50:36 2017 -0700
+
+    commit for clarity
+
+commit 30c4982ea5f8762ab769b0435450e570ea2178a9
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Feb 24 17:41:55 2017 -0700
+
+    completed testAdjacency test methods.
+
+commit e230512614735bece8fdd1c1ef11234aa71fe6a0
+Merge: 6daf12c e8f2b99
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Feb 24 17:33:06 2017 -0700
+
+    Fixed merging conflicts
+
+commit e8f2b99d3b202f26052d42fb551edc998122b17b
+Author: Jonny Morsicato <jmorsicato@mymail.mines.edu>
+Date:   Fri Feb 24 17:29:34 2017 -0700
+
+    Test push
+
+commit 6daf12cad11931ea0f27dd78e67927007f5e5b9b
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Feb 24 17:29:29 2017 -0700
+
+    added stubs for all testAdjacency tests.
+
+commit de7b88622b4a7ca13896f50ffa9fd00806e302de
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Feb 24 17:21:03 2017 -0700
+
+    Jonny start
+
+commit 999ada3773031a05f5010af83cf24e3104f68834
+Author: Blake Sanders <blsander@mymail.mines.edu>
+Date:   Fri Feb 24 17:15:07 2017 -0700
+
+    Added function definitions and member variable declarations.
+
+commit 0d05bf2caa215eab1d1e2a67066bc90c0a81c389
+Author: blsander <blsander@mymail.mines.edu>
+Date:   Fri Feb 24 16:09:01 2017 -0700
+
+    Initial commit
