@@ -557,13 +557,17 @@ public class Board{
 		while (numDealt < cards.size()){
 			for(Player p : people){
 				Set<Card> myCards = p.getMyCards();
-				Card temp = getRandomCard(cards);
-				if (!dealt.contains(temp)){
-					dealt.add(temp);
-					myCards.add(temp);
-					numDealt++;
-				}
+				Card temp = new Card();
+				do{
+					temp = getRandomCard(cards);
+				} while (dealt.contains(temp));
+				dealt.add(temp);
+				myCards.add(temp);
+				numDealt++;
 				p.setMyCards(myCards);
+				if (numDealt==cards.size()){
+					break;
+				}
 			}
 		}
 	}

@@ -112,31 +112,26 @@ public class gameSetupTests {
 			playersCards.put(p, temp);
 			numDealt += temp.size();
 			numCards.add(temp.size());
-			System.out.println(temp.size());
-			//			System.out.println(average - temp.size());
-			//assertEquals(average, temp.size(),2);
+			System.out.println(p.getName() + " has " + temp.size() + " cards.");
 		}
-		Integer sum = 0;
-		for (Integer i : numCards){
-			sum += i;
-		}
-		Double average = (double) (sum/people.size());
-		System.out.println(average);
 		assertEquals(cards.size(), numDealt);
+		Double average = (double) (numDealt/people.size());
+		System.out.println("The average number of cards is " + average);
+		Set<Card> solCards = board.getSolution().getCards();
+		assertEquals(3,solCards.size());
 		for(Player p1 : people){
+			Set<Card> p1Cards = p1.getMyCards();
 			for (Player p2 : people){
 				if (p1 ==p2){
 					continue;
 				}
-				Set<Card> p1Cards = p1.getMyCards();
 				Set<Card> p2Cards = p2.getMyCards();
-				Set<Card> solCards = board.getSolution().getCards();
-				
 				for(Card c : p1Cards){
 					assertFalse(p2Cards.contains(c));
 					assertFalse(solCards.contains(c));
 				}
 			}
+			assertEquals(average, p1Cards.size(),1);
 		}
 		
 	}
