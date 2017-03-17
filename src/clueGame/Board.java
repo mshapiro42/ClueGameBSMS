@@ -7,6 +7,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import com.sun.xml.internal.bind.v2.runtime.Location;
+
 import clueGame.Card.cardType;
 
 import java.awt.Color;
@@ -575,12 +577,20 @@ public class Board{
 	}
 
 	public void setPlayerLocations() {
+		Set<BoardCell> usedLocations = new HashSet<BoardCell>();
+		BoardCell location;
+
 		for (Player p : people) {
-			p.setLocation(getRandomLocation());
+			do {
+				location = getRandomLocation();
+
+				//if not a walkway, or already a player there, get another random location
+			} while((location.getInitial() != 'W') || usedLocations.contains(location));
+			
+			//if everything checks out, update player location and add to used locations
+			p.setLocation(location);
+			usedLocations.add(location);
 		}
-		
-		//make sure walkway
-		//make sure no two players on same location
 	}
 
 	public BoardCell getRandomLocation() {
@@ -589,7 +599,7 @@ public class Board{
 
 		int randomCol = new Random().nextInt(cols);
 		int randomRow = new Random().nextInt(rows);
-		
+
 		return grid[randomRow][randomCol];
 	}
 }
