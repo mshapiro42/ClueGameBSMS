@@ -32,7 +32,14 @@ public class Board{
 	private Set<Card> cards = new HashSet<Card>();
 	private Set<Card> dealt = new HashSet<Card>();
 	private Solution solution = new Solution();
-
+	
+	private String[][] cellStrings = new String[100][100];
+	private String legendString;
+	private String layoutString;
+	private String playersString;
+	private String weaponsString;
+	
+	
 	public Map<Character, String> getLegendMap() {
 		return legendMap;
 	}
@@ -41,11 +48,10 @@ public class Board{
 		return people;
 	}
 
-	private String[][] cellStrings = new String[100][100];
-	private String legendString;
-	private String layoutString;
-	private String playersString;
-	private String weaponsString;
+	//Tests only
+	public void setPeople(Set<Player> people) {
+		this.people = people;
+	}
 
 	public String[][] getCellStrings(){
 		return cellStrings;
