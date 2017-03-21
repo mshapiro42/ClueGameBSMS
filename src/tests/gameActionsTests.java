@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -113,19 +115,19 @@ public class gameActionsTests {
 		Set<Card> weapons = board.getWeapons();
 		Set<Card> people = board.getPlayers();
 		Set<Card> rooms = board.getRooms();
-		
+
 		Card murderWeapon = new Card();
 		Card perpetrator = new Card();
 		Card crimeScene = new Card();
-		
+
 		Card wrongWeapon = new Card();
 		Card wrongPerson = new Card();
 		Card wrongRoom = new Card();
-		
-		
+
+
 		//The below loops are a bit complex, because the solution
 		//consists of an actual CARD object, so you can't just go by the name alone
-		
+
 		//grab the ones you want
 		//this is a preset solution
 		for (Card w : weapons) {
@@ -143,7 +145,7 @@ public class gameActionsTests {
 				crimeScene = c;
 			}
 		}
-		
+
 		//the below are going to be the wrong answers
 		for (Card w : weapons) {
 			if (w.getName().equals("Keyboard")) {
@@ -160,41 +162,41 @@ public class gameActionsTests {
 				wrongRoom = c;
 			}
 		}
-		
+
 		//Give the handpicked solution to the board
 		Solution solution = new Solution();
 		solution.setWeapon(murderWeapon);
 		solution.setPerson(perpetrator);
 		solution.setRoom(crimeScene);
 		board.setSolution(solution);
-		
+
 		//Set accusations
 		//Correct one
 		Solution correctAccusation = new Solution();
 		correctAccusation.setWeapon(murderWeapon);
 		correctAccusation.setPerson(perpetrator);
 		correctAccusation.setRoom(crimeScene);
-		
+
 		//Wrong weapon
 		Solution wrongAccusation_w = new Solution();
 		wrongAccusation_w.setWeapon(wrongWeapon);
 		wrongAccusation_w.setPerson(perpetrator);
 		wrongAccusation_w.setRoom(crimeScene);
-		
+
 		//Wrong person
 		Solution wrongAccusation_p = new Solution();
 		wrongAccusation_p.setWeapon(murderWeapon);
 		wrongAccusation_p.setPerson(wrongPerson);
 		wrongAccusation_p.setRoom(crimeScene);
-		
+
 		//Wrong room
 		Solution wrongAccusation_c = new Solution();
 		wrongAccusation_c.setWeapon(murderWeapon);
 		wrongAccusation_c.setPerson(perpetrator);
 		wrongAccusation_c.setRoom(wrongRoom);
-		
+
 		assertTrue(board.checkAccusation(correctAccusation));
-		
+
 		assertFalse(board.checkAccusation(wrongAccusation_w));
 		assertFalse(board.checkAccusation(wrongAccusation_p));
 		assertFalse(board.checkAccusation(wrongAccusation_c));
@@ -207,6 +209,10 @@ public class gameActionsTests {
 		ComputerPlayer player = new ComputerPlayer();
 		Solution sugg = player.makeSuggestion();
 		Set<Card> cards = sugg.getCards();
+		Card weapon = sugg.getWeapon();
+		Card person = sugg.getPerson();
+		Card room = sugg.getRoom();
+		assertEquals(cards.size(),3); //suggestion contains 3 cards
 		int w = 0;
 		int p = 0;
 		int r = 0;
@@ -221,12 +227,80 @@ public class gameActionsTests {
 				r++;
 			}
 		}
-		assertEquals(w,1);
-		assertEquals(p,1);
-		assertEquals(r,1);
+		assertEquals(w,1); //Suggestion contains only one weapon
+		assertEquals(p,1); //Suggestion contains only one person
+		assertEquals(r,1); //Suggestion contains only one room
+
 		Set<Card> seen = player.getSeenCards();
 		Set<Card> unseen = player.getUnseenCards();
-		
+		for (Card c1 : seen){
+			for (Card c2 : unseen){
+				assertNotEquals(c1,c2); //seen and unseen cards have no overlap
+			}
+			for (Card c3 : cards){
+				assertNotEquals(c1,c3); //all suggestion cards are not in seen
+				assertTrue(unseen.contains(c3)); //all suggestion cards are unseen
+			}
+		}
+
+		//Get the string of the players room location
+		BoardCell loc = player.getLocation();
+		char locInitial = loc.getInitial();
+		Map<Character, String> legendMap = board.getLegendMap();
+		String locRoom = legendMap.get(locInitial);
+		//Get the string of the suggested room's Name
+		String roomName = room.getName();
+		assertTrue(locRoom.equals(roomName)); //Players location is suggested location
+
+		Set<Card> unseenWeapons = new HashSet<Card>();
+		Set<Card> unseenPeople = new HashSet<Card>();
+		for (Card c : unseen){ //count number of seen weapons, people, rooms
+			if (c.getType() == cardType.WEAPON){
+				unseenWeapons.add(c);
+			}
+			if (c.getType() == cardType.PERSON){
+				unseenPeople.add(c);
+			}
+		}
+		if (unseenWeapons.size()==1){ //if only one weapon seen, suggest
+			assertEquals(weapon, unseenWeapons);
+		}
+		else{
+			boolean[] weapontrys = new boolean[unseenWeapons.size()]; //if more than one unseen, suggest random
+			for (int i = 0; i <100; i++){
+				Solution sugg2 = player.makeSuggestion();
+				int j = 0;
+				for (Card u : unseenWeapons){
+					if (sugg2.getWeapon() == u){
+						weapontrys[j] = true;
+					}
+					j++;
+				}
+			}
+			for(int i =0; i < weapontrys.length; i++){
+				assertTrue(weapontrys[i]);
+			}
+
+		}
+		if (unseenPeople.size()==1){ //if only one person seen, suggest
+			assertEquals(person, unseenPeople);
+		}
+		else {
+			boolean[] persontrys = new boolean[unseenPeople.size()];//if more than one unseen, suggest random
+			for (int i = 0; i <100; i++){
+				Solution sugg2 = player.makeSuggestion();
+				int j = 0;
+				for (Card u : unseenPeople){
+					if (sugg2.getPerson() == u){
+						persontrys[j] = true;
+					}
+					j++;
+				}
+			}
+			for(int i =0; i < persontrys.length; i++){
+				assertTrue(persontrys[i]);
+			}
+		}
 	}
 
 	//Test any player's ability to disprove a suggestion
@@ -242,7 +316,7 @@ public class gameActionsTests {
 	}
 
 
-	
+
 }
 
 
