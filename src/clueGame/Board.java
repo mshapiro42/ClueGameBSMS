@@ -422,7 +422,7 @@ public class Board{
 		while (in.hasNextLine()){
 			String line = in.nextLine();
 			String[] arr = line.split(",");
-			Player temp = new Player();
+			Player temp = new Player(this.getInstance());
 			temp.setColor(arr[0]);
 			temp.setName(arr[1].trim());
 			if (arr.length > 2) {

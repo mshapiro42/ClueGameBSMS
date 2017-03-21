@@ -308,7 +308,6 @@ public class gameActionsTests {
 	@Test
 	public void testSuggestionDisproving() {		
 		ComputerPlayer player = new ComputerPlayer(board);
-		Set<Card> matchingCards = new HashSet<Card>();
 
 		//Set computer player's cards for disproving suggestion
 		Set<Card> myCards = new HashSet<Card>();
@@ -347,18 +346,6 @@ public class gameActionsTests {
 		suggestion.setWeapon(murderWeapon);
 		suggestion.setPerson(perpetrator);
 		suggestion.setRoom(crimeScene);
-
-		/*
-		for (Card c : myCards) {
-			//If current card in player's hand matches part of the suggestion,
-			//add it to matching cards
-			if ((c == suggestion.getWeapon()) || 
-					(c == suggestion.getPerson()) ||
-					(c == suggestion.getRoom())) {
-				matchingCards.add(c);
-			}
-		}*/
-
 
 		/*    	
 	    (2) If player has only one matching card it should be returned

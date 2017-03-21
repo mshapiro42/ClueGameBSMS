@@ -12,13 +12,12 @@ public class ComputerPlayer extends Player{
 	private char lastRoomVisited;
 	private Set<Card> seenCards = new HashSet<Card>();
 	private Set<Card> unseenCards = new HashSet<Card>();
-	private Board board;
 	private Set<Card> myCards;
 
 
 	//Constructors
 	public ComputerPlayer(Board board) {
-		this.board = board;
+		super(board);
 		Set<Card> allCards = board.getCards();
 		myCards = super.getMyCards();
 		
