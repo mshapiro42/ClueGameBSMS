@@ -15,6 +15,8 @@ import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.Card.cardType;
 import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
+import clueGame.Player;
 import clueGame.Solution;
 
 public class gameActionsTests {
@@ -369,21 +371,111 @@ public class gameActionsTests {
 				showedSignora = true;
 			} 
 		}
-		
+
 		assertTrue(showedBowling);
 		assertTrue(showedSignora);
-		
+
 		//Make sure if player has no matching cards, null is returned
 		suggestion.setPerson(board.findCard("Murasaki Sensei"));
 		suggestion.setWeapon(board.findCard("Harpoon"));
-		
+
 		assertEquals(player.disproveSuggestion(suggestion), null);
 	}
 
 	//Test board's ability to check suggestions and return feedback
 	@Test
 	public void testSuggestionHandling() {
-		fail("Not yet implemented");
+		Player p1 = new ComputerPlayer(board);
+		Set<Card> p1Cards = new HashSet<Card>();
+		p1Cards.add(board.findCard("Harpoon"));
+		p1Cards.add(board.findCard("Aviary"));
+		p1Cards.add(board.findCard("Signora Rosso"));
+		p1.setMyCards(p1Cards);
+
+		Player p2 = new ComputerPlayer(board);
+		Set<Card> p2Cards = new HashSet<Card>();
+		p2Cards.add(board.findCard("Basement"));
+		p2Cards.add(board.findCard("Bird"));
+		p2Cards.add(board.findCard("Seniorita Amarillo"));
+		p2.setMyCards(p2Cards);
+
+		Player h1 = new HumanPlayer(board);
+		Set<Card> h1Cards = new HashSet<Card>();
+		h1Cards.add(board.findCard("Red Room"));
+		h1Cards.add(board.findCard("Arrow"));
+		h1Cards.add(board.findCard("Herr Grun"));
+		h1.setMyCards(h1Cards);
+
+
+		Set<Player> players = new HashSet<Player>();
+		players.add(p1);
+		players.add(p2);
+		players.add(h1);
+
+		Solution sugg = new Solution();
+		sugg.setWeapon(board.findCard("Axe"));
+		sugg.setPerson(board.findCard("Monsier Bleu"));
+		sugg.setRoom(board.findCard("Workshop"));
+
+		Set<Player> people = board.getPeople();
+		for (Player p:people) {
+			switch (p.getName()) {
+			case "Signora Rosso":
+				p = p1;
+				break;
+			case "Seniorita Amarillo":
+				p = p2;
+				break;
+			case "Herr Grun":
+				p = h1;
+				break;
+			case "Monsier Bleu":
+				p = null;
+				break;
+			case "Senhora Rosa":
+				p = null;
+				break;
+			case "Murasaki Sensei":
+				p = null;
+				break;
+			}
+		}
+
+		//If no one can disprove, return null
+		assertEquals(board.handleSuggestion(sugg,p1),null);
+
+		//if only accusing can disprove, return null
+		sugg.setWeapon(board.findCard("Harpoon"));
+		assertEquals(board.handleSuggestion(sugg,p1),null);
+
+		//if only human, not accusing, can disprove, show card
+		sugg.setWeapon(board.findCard("Arrow"));
+		assertEquals(board.handleSuggestion(sugg,p1),board.findCard("Arrow"));
+
+		//if only human, accusing, can disprove, return null;
+		assertEquals(board.handleSuggestion(sugg, h1),null);
+
+		//New suggestion that both p1 and p1 can disprove
+		sugg.setWeapon(board.findCard("Harpoon"));
+		sugg.setPerson(board.findCard("Seniorita Amarillo"));
+		assertEquals(p2.disproveSuggestion(sugg), board.findCard("Harpoon")); //p2 should disprove with Bird card
+		assertEquals(h1.disproveSuggestion(sugg), board.findCard("Seniorita Amarillo"));//h1 should disprove with Herr Grun card
+		assertEquals(board.handleSuggestion(sugg,p1), board.findCard("Harpoon")); //board should disprove with p2
+
+
+		//New suggestion that both p2 and h1 can disprove
+		sugg.setWeapon(board.findCard("Bird"));
+		sugg.setPerson(board.findCard("Herr Grun"));
+		assertEquals(p2.disproveSuggestion(sugg), board.findCard("Bird")); //p2 should disprove with Bird card
+		assertEquals(h1.disproveSuggestion(sugg), board.findCard("Herr Grun"));//h1 should disprove with Herr Grun card
+		assertEquals(board.handleSuggestion(sugg,p1), board.findCard("Bird")); //board should disprove with p2
+
+
+
+
+
+
+
 	}
 
 
