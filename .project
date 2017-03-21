@@ -14,16 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/tests/CR_ExceptionTests.java</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/comp_Sci%20/ClueFiles/CR_ExceptionTests.java</locationURI>
-		</link>
-		<link>
-			<name>src/tests/CR_FileInitTests.java</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/comp_Sci%20/CR_FileInitTests.java</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>

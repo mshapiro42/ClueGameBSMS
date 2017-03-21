@@ -11,6 +11,7 @@ import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.Card;
+import clueGame.Card.cardType;
 import clueGame.ComputerPlayer;
 import clueGame.Solution;
 
@@ -203,7 +204,29 @@ public class gameActionsTests {
 	//Test computer player's ability to create a suggestion
 	@Test
 	public void testSuggestionCreating() {
-		fail("Not yet implemented");
+		ComputerPlayer player = new ComputerPlayer();
+		Solution sugg = player.makeSuggestion();
+		Set<Card> cards = sugg.getCards();
+		int w = 0;
+		int p = 0;
+		int r = 0;
+		for (Card c : cards){
+			if (c.getType() == cardType.WEAPON){
+				w++;
+			}
+			else if(c.getType() == cardType.PERSON){
+				p++;
+			}
+			else if(c.getType() == cardType.ROOM){
+				r++;
+			}
+		}
+		assertEquals(w,1);
+		assertEquals(p,1);
+		assertEquals(r,1);
+		Set<Card> seen = player.getSeenCards();
+		Set<Card> unseen = player.getUnseenCards();
+		
 	}
 
 	//Test any player's ability to disprove a suggestion
