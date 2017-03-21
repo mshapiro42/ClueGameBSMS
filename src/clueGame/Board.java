@@ -357,6 +357,16 @@ public class Board{
 	public Set<Card> getCards() {
 		return cards;
 	}
+	
+	public Card findCard(String name) {
+		for (Card c : cards) {
+			if (c.getName().equals(name)) {
+				return c;
+			}
+		}
+		System.out.println("Card not found.");
+		return null;
+	}
 
 	public clueGame.BoardCell getCellAt(int i, int j) {
 
