@@ -1,5 +1,8 @@
 package tests;
 
+//Meg Shapiro and Stacia Near
+//JUnit test
+
 /*
  * This program tests that config files are loaded properly.
  */
