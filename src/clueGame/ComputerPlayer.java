@@ -18,6 +18,8 @@ public class ComputerPlayer extends Player{
 	//Constructors
 	public ComputerPlayer(Board board) {
 		super(board);
+		isHuman = false;
+		
 		Set<Card> allCards = board.getCards();
 		myCards = super.getMyCards();
 		

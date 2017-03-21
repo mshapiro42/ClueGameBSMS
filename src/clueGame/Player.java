@@ -12,8 +12,13 @@ public class Player {
 	private int column;
 	private Color color;
 	protected Board board;
+	protected boolean isHuman;
 
 
+
+	public boolean isHuman() {
+		return isHuman;
+	}
 
 	public Player(Board board) {
 		this.board = board;

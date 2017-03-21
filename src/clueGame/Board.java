@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -357,7 +358,7 @@ public class Board{
 	public Set<Card> getCards() {
 		return cards;
 	}
-	
+
 	public Card findCard(String name) {
 		for (Card c : cards) {
 			if (c.getName().equals(name)) {
@@ -422,7 +423,14 @@ public class Board{
 		while (in.hasNextLine()){
 			String line = in.nextLine();
 			String[] arr = line.split(",");
-			Player temp = new Player(this.getInstance());
+			Player temp;
+
+			if (arr[1].trim().equals("Murasaki Sensei")) {
+				temp = new HumanPlayer(this.getInstance());
+			}
+			else {
+				temp = new ComputerPlayer(this.getInstance());
+			}
 			temp.setColor(arr[0]);
 			temp.setName(arr[1].trim());
 			if (arr.length > 2) {
@@ -514,7 +522,7 @@ public class Board{
 		dealt.add(room);
 	}
 
-	
+
 	//For testing only
 	public void setSolution(Solution solution) {
 		this.solution = solution;
@@ -524,8 +532,63 @@ public class Board{
 		return solution;
 	}
 
-	public Card handleSuggestion(){
+	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer){
+
+
+		//Suggestion that two players can disprove, correct player 
+		//		(based on starting with next player in list) returns answer
+		//Suggestion that human and another player can disprove, other player is next in list, 
+		//		ensure other player returns answer
+
+		boolean matchExists = false;
+		ArrayList<Card> returnCards = new ArrayList<Card>();
+		ArrayList<Player> returnCardOwners = new ArrayList<Player>();
+
+		//Loop through all players
+		//i is the number of players with at least one matching card
+		int i = 0;
+		for (Player p : people) {
+			//ask them to disprove the card
+			//if they can, add it (in order ) to the list of possible return cards
+			Card returnCard = p.disproveSuggestion(suggestion);
+			if (returnCard != null){
+				returnCards.add(returnCard);
+				returnCardOwners.add(p);
+				matchExists = true;
+			}
+		}
+
+		//Suggestion no one can disprove returns null
+		if (!matchExists) {
+			return null;
+		}
+		else if (returnCards.size() == 1) {
+			//Accusing player has the matching card:
+			//Suggestion only accusing player can disprove returns null
+			//Suggestion only human can disprove, but human is accuser, returns null
+			if (returnCardOwners.get(0) == suggestingPlayer) {
+				return null;
+			}
+			//Other player has the matching card:
+			//Suggestion only human can disprove returns answer
+			//		(i.e., card that disproves suggestion)
+			//Player that is not a human returns answer too
+			else {
+				return returnCards.get(0);
+			}
+		}
+		//else if size 2----------------------------------------------------------
+
+
+
+
+
+
+
 		return null;
+
+
+
 	}
 
 	public boolean checkAccusation(Solution accusation){
@@ -615,7 +678,7 @@ public class Board{
 
 				//if not a walkway, or already a player there, get another random location
 			} while((location.getInitial() != 'W') || usedLocations.contains(location));
-			
+
 			//if everything checks out, update player location and add to used locations
 			p.setLocation(location);
 			usedLocations.add(location);
