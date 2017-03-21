@@ -104,7 +104,7 @@ public class gameActionsTests {
 	}
 
 
-	
+	//Next part-------------------------------------------------------------------------------
 	//Test board's ability to check accusation for correctness
 	@Test
 	public void testMakeAccusations() {

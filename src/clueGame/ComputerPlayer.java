@@ -7,6 +7,7 @@ import java.util.Set;
 public class ComputerPlayer extends Player{
 	
 	private char lastRoomVisited;
+	private Set<Card> seenCards;
 	
 
 
