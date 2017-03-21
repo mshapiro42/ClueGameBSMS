@@ -306,8 +306,91 @@ public class gameActionsTests {
 
 	//Test any player's ability to disprove a suggestion
 	@Test
-	public void testSuggestionDisproving() {
-		fail("Not yet implemented");
+	public void testSuggestionDisproving() {		
+		ComputerPlayer player = new ComputerPlayer(board);
+		Set<Card> matchingCards = new HashSet<Card>();
+
+		//Set computer player's cards for disproving suggestion
+		Set<Card> myCards = new HashSet<Card>();
+		myCards.add(board.findCard("Bowling Ball"));
+		myCards.add(board.findCard("Signora Rosso"));
+		myCards.add(board.findCard("Aviary"));
+		player.setMyCards(myCards);
+
+		//Set suggestion cards
+		Set<Card> weapons = board.getWeapons();
+		Set<Card> people = board.getPlayers();
+		Set<Card> rooms = board.getRooms();
+		//Suggestion Cards
+		Card murderWeapon = new Card();
+		Card perpetrator = new Card();
+		Card crimeScene = new Card();
+		//grab the ones you want
+		//this is a preset solution
+		for (Card w : weapons) {
+			if (w.getName().equals("Bowling Ball")) {
+				murderWeapon = w;
+			}
+		}
+		for (Card p : people) {
+			if (p.getName().equals("Murasaki Sensei")) {
+				perpetrator = p;
+			}
+		}
+		for (Card c : rooms) {
+			if (c.getName().equals("Ping Pong Room")) {
+				crimeScene = c;
+			}
+		}
+		//Set suggestion
+		Solution suggestion = new Solution();
+		suggestion.setWeapon(murderWeapon);
+		suggestion.setPerson(perpetrator);
+		suggestion.setRoom(crimeScene);
+
+		/*
+		for (Card c : myCards) {
+			//If current card in player's hand matches part of the suggestion,
+			//add it to matching cards
+			if ((c == suggestion.getWeapon()) || 
+					(c == suggestion.getPerson()) ||
+					(c == suggestion.getRoom())) {
+				matchingCards.add(c);
+			}
+		}*/
+
+
+		/*    	
+	    (2) If player has only one matching card it should be returned
+	    (2) If players has >1 matching card, returned card should be chosen randomly
+	    (2) If player has no matching cards, null is returned*/
+
+		//In this case, bowling ball is the only one that matches
+		//so it should be returned
+		assertEquals(player.disproveSuggestion(suggestion), board.findCard("Bowling Ball"));
+
+		//Make another card in the suggestion match what player has in hand
+		suggestion.setPerson(board.findCard("Signora Rosso"));
+		//Make sure disprove suggestion chooses randomly between Bowling ball and signora rosso to return
+		boolean showedBowling = false;
+		boolean showedSignora = false;
+		for (int i = 0; i < 100; i++) {
+			if (player.disproveSuggestion(suggestion) == board.findCard("Bowling Ball")){
+				showedBowling = true;
+			}
+			if (player.disproveSuggestion(suggestion) == board.findCard("Signora Rosso")){
+				showedSignora = true;
+			} 
+		}
+		
+		assertTrue(showedBowling);
+		assertTrue(showedSignora);
+		
+		//Make sure if player has no matching cards, null is returned
+		suggestion.setPerson(board.findCard("Murasaki Sensei"));
+		suggestion.setWeapon(board.findCard("Harpoon"));
+		
+		assertEquals(player.disproveSuggestion(suggestion), null);
 	}
 
 	//Test board's ability to check suggestions and return feedback

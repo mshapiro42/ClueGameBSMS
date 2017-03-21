@@ -86,7 +86,7 @@ public class Player {
 		// TODO Auto-generated constructor stub
 	}
 	
-	private Card disproveSuggestion(Solution suggestion){
+	public Card disproveSuggestion(Solution suggestion){
 		return null;
 	}
 }
