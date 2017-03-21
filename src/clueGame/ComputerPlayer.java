@@ -10,8 +10,8 @@ import clueGame.Card.cardType;
 public class ComputerPlayer extends Player{
 	
 	private char lastRoomVisited;
-	private Set<Card> seenCards;
-	private Set<Card> unseenCards;
+	private Set<Card> seenCards = new HashSet<Card>();
+	private Set<Card> unseenCards = new HashSet<Card>();
 	private Board board;
 	private Set<Card> myCards;
 

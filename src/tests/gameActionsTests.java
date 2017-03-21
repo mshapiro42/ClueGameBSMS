@@ -207,6 +207,7 @@ public class gameActionsTests {
 	@Test
 	public void testSuggestionCreating() {
 		ComputerPlayer player = new ComputerPlayer();
+		player.setLocation(board.getCellAt(6, 2));
 		Solution sugg = player.makeSuggestion();
 		Set<Card> cards = sugg.getCards();
 		Card weapon = sugg.getWeapon();

@@ -18,7 +18,6 @@ public class BoardCell {
 		this.col = col;
 	}
 	public void setDoorString(String doorString){
-		
 		this.doorString = doorString;
 	}
 	@Override
