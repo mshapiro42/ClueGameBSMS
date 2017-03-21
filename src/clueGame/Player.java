@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
-	private Set<Card> myCards = new HashSet<Card>();
+	protected Set<Card> myCards = new HashSet<Card>();
 	private String name;
 	private BoardCell location = new BoardCell(0, 0);
 	private int row;

@@ -385,61 +385,41 @@ public class gameActionsTests {
 	//Test board's ability to check suggestions and return feedback
 	@Test
 	public void testSuggestionHandling() {
-		Player p1 = new ComputerPlayer(board);
+		Player p1 = new ComputerPlayer(board); //create new player with certain name and cards
 		Set<Card> p1Cards = new HashSet<Card>();
 		p1Cards.add(board.findCard("Harpoon"));
 		p1Cards.add(board.findCard("Aviary"));
 		p1Cards.add(board.findCard("Signora Rosso"));
+		p1.setName("Herr Grun");
 		p1.setMyCards(p1Cards);
 
-		Player p2 = new ComputerPlayer(board);
+		Player p2 = new ComputerPlayer(board); //create new player with certain name and cards
 		Set<Card> p2Cards = new HashSet<Card>();
 		p2Cards.add(board.findCard("Basement"));
 		p2Cards.add(board.findCard("Bird"));
 		p2Cards.add(board.findCard("Seniorita Amarillo"));
+		p2.setName("Monsier Bleu");
 		p2.setMyCards(p2Cards);
 
-		Player h1 = new HumanPlayer(board);
+		Player h1 = new HumanPlayer(board); //create new human player with certain name and cards
 		Set<Card> h1Cards = new HashSet<Card>();
 		h1Cards.add(board.findCard("Red Room"));
 		h1Cards.add(board.findCard("Arrow"));
 		h1Cards.add(board.findCard("Herr Grun"));
+		h1.setName("Senhora Rosa");
 		h1.setMyCards(h1Cards);
 
+		Set<Player> people = new HashSet<Player>();
+		people.add(p1);
+		people.add(p2);
+		people.add(h1);
+		
+		board.setPeople(people);
 
-		Set<Player> players = new HashSet<Player>();
-		players.add(p1);
-		players.add(p2);
-		players.add(h1);
-
-		Solution sugg = new Solution();
+		Solution sugg = new Solution(); //create new solution with certain values
 		sugg.setWeapon(board.findCard("Axe"));
 		sugg.setPerson(board.findCard("Monsier Bleu"));
 		sugg.setRoom(board.findCard("Workshop"));
-
-		Set<Player> people = board.getPeople();
-		for (Player p:people) {
-			switch (p.getName()) {
-			case "Signora Rosso":
-				p = p1;
-				break;
-			case "Seniorita Amarillo":
-				p = p2;
-				break;
-			case "Herr Grun":
-				p = h1;
-				break;
-			case "Monsier Bleu":
-				p = null;
-				break;
-			case "Senhora Rosa":
-				p = null;
-				break;
-			case "Murasaki Sensei":
-				p = null;
-				break;
-			}
-		}
 
 		//If no one can disprove, return null
 		assertEquals(board.handleSuggestion(sugg,p1),null);
@@ -458,16 +438,20 @@ public class gameActionsTests {
 		//New suggestion that both p1 and p1 can disprove
 		sugg.setWeapon(board.findCard("Harpoon"));
 		sugg.setPerson(board.findCard("Seniorita Amarillo"));
-		assertEquals(p2.disproveSuggestion(sugg), board.findCard("Harpoon")); //p2 should disprove with Bird card
-		assertEquals(h1.disproveSuggestion(sugg), board.findCard("Seniorita Amarillo"));//h1 should disprove with Herr Grun card
-		assertEquals(board.handleSuggestion(sugg,p1), board.findCard("Harpoon")); //board should disprove with p2
+		Card p1Disprove  = p1.disproveSuggestion(sugg);
+		Card p2Disprove = p2.disproveSuggestion(sugg);
+		assertEquals(p1Disprove, board.findCard("Harpoon")); //p1 should disprove with Harpoon Card
+		assertEquals(p2Disprove, board.findCard("Seniorita Amarillo"));//p2 should disprove with Seniorita Amarillo card
+		assertEquals(board.handleSuggestion(sugg,p1), board.findCard("Harpoon")); //board should disprove with p1
 
 
 		//New suggestion that both p2 and h1 can disprove
 		sugg.setWeapon(board.findCard("Bird"));
 		sugg.setPerson(board.findCard("Herr Grun"));
-		assertEquals(p2.disproveSuggestion(sugg), board.findCard("Bird")); //p2 should disprove with Bird card
-		assertEquals(h1.disproveSuggestion(sugg), board.findCard("Herr Grun"));//h1 should disprove with Herr Grun card
+		Card h1Disprove = h1.disproveSuggestion(sugg);
+		p2Disprove  = p2.disproveSuggestion(sugg);
+		assertEquals(p2Disprove, board.findCard("Bird")); //p2 should disprove with Bird card
+		assertEquals(h1Disprove, board.findCard("Herr Grun"));//h1 should disprove with Herr Grun card
 		assertEquals(board.handleSuggestion(sugg,p1), board.findCard("Bird")); //board should disprove with p2
 
 

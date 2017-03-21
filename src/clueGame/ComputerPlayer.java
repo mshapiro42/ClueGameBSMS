@@ -12,7 +12,6 @@ public class ComputerPlayer extends Player{
 	private char lastRoomVisited;
 	private Set<Card> seenCards = new HashSet<Card>();
 	private Set<Card> unseenCards = new HashSet<Card>();
-	private Set<Card> myCards;
 
 
 	//Constructors
@@ -21,7 +20,6 @@ public class ComputerPlayer extends Player{
 		isHuman = false;
 		
 		Set<Card> allCards = board.getCards();
-		myCards = super.getMyCards();
 		
 		//Loop through all cards
 		for (Card c : allCards) {
@@ -37,7 +35,7 @@ public class ComputerPlayer extends Player{
 	}
 
 	//Show a card to computer player to update their seen/unseen cards
-	private void showCard(Card c) {
+	public void showCard(Card c) {
 		seenCards.add(c);
 		unseenCards.remove(c);
 	}
