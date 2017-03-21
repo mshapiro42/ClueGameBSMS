@@ -32,6 +32,10 @@ public class Board{
 	private Set<Card> dealt = new HashSet<Card>();
 	private Solution solution = new Solution();
 
+	public Map<Character, String> getLegendMap() {
+		return legendMap;
+	}
+
 	public Set<Player> getPeople() {
 		return people;
 	}

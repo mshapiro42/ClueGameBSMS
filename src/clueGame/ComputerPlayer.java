@@ -8,8 +8,25 @@ public class ComputerPlayer extends Player{
 	
 	private char lastRoomVisited;
 	private Set<Card> seenCards;
+	private Set<Card> unseenCards;
 	
 
+
+	public Set<Card> getSeenCards() {
+		return seenCards;
+	}
+
+	public void setSeenCards(Set<Card> seenCards) {
+		this.seenCards = seenCards;
+	}
+
+	public Set<Card> getUnseenCards() {
+		return unseenCards;
+	}
+
+	public void setUnseenCards(Set<Card> unseenCards) {
+		this.unseenCards = unseenCards;
+	}
 
 	public ComputerPlayer() {
 		// TODO Auto-generated constructor stub
