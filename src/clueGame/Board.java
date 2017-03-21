@@ -555,9 +555,12 @@ public class Board{
 			}
 		}
 
+		//value to be returned
+		Card finalValue = new Card();
+		
 		//Suggestion no one can disprove returns null
 		if (!matchExists) {
-			return null;
+			finalValue = null;
 		}
 		//Only one person can disprove
 		else if (returnCards.size() == 1) {
@@ -565,14 +568,14 @@ public class Board{
 			//Suggestion only accusing player can disprove returns null
 			//Suggestion only human can disprove, but human is accuser, returns null
 			if (returnCardOwners.get(0) == suggestingPlayer) {
-				return null;
+				finalValue = null;
 			}
 			//Other player has the matching card:
 			//Suggestion only human can disprove returns answer
 			//		(i.e., card that disproves suggestion)
 			//Player that is not a human returns answer too
 			else {
-				return returnCards.get(0);
+				finalValue = returnCards.get(0);
 			}
 		}
 		//Two or more people can disprove
@@ -588,13 +591,19 @@ public class Board{
 				}
 				//Otherwise, the first computer player in the list should return their match
 				else {
-					return returnCards.get(i);
+					finalValue = returnCards.get(i);
+					break;
 				}
 			}
 		}
 		
-		//Default
-		return null;
+		//if the suggester was a computer player, show them the card
+		//human is expected to know which cards they have seen
+		if (!suggestingPlayer.isHuman && matchExists) {
+			((ComputerPlayer)suggestingPlayer).showCard(finalValue);
+		}
+		//return the first matching card that a computer player had
+		return finalValue;
 	}
 
 	public boolean checkAccusation(Solution accusation){
