@@ -85,7 +85,16 @@ public class ComputerPlayer extends Player{
 		
 	}
 	
-	private void makeSuggestion(){
+	public Solution makeSuggestion(){
+		/*
+	    (2) Room matches current location
+	    (2) If only one weapon not seen, it's selected
+	    (2) If only one person not seen, it's selected (can be same test as weapon)
+	    (2) If multiple weapons not seen, one of them is randomly selected
+	    (2) If multiple persons not seen, one of them is randomly selected*/
+		
+		BoardCell location = getLocation();
+		return null;
 		
 	}
 	
