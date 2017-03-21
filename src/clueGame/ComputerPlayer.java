@@ -16,9 +16,9 @@ public class ComputerPlayer extends Player{
 	private Set<Card> myCards;
 
 
-	//Constructor
-	public ComputerPlayer() {
-		board = Board.getInstance();
+	//Constructors
+	public ComputerPlayer(Board board) {
+		this.board = board;
 		Set<Card> allCards = board.getCards();
 		myCards = super.getMyCards();
 		

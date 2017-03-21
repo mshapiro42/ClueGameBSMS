@@ -34,7 +34,7 @@ public class gameActionsTests {
 	//If no rooms in list, select randomly--------------------------------------------------
 	@Test
 	public void testTargetsNoRooms() {
-		ComputerPlayer player = new ComputerPlayer();
+		ComputerPlayer player = new ComputerPlayer(board);
 		// Pick a location with no rooms in target, just three targets
 		board.calcTargets(3, 3, 2);
 		boolean loc_2_4 = false;
@@ -61,7 +61,7 @@ public class gameActionsTests {
 	//If room in list that was not just visited, must select it---------------------------
 	@Test
 	public void testTargetsNewRoom() {
-		ComputerPlayer player = new ComputerPlayer();
+		ComputerPlayer player = new ComputerPlayer(board);
 		board.calcTargets(18, 15, 3);
 
 		// Run the test a large number of times
@@ -79,7 +79,7 @@ public class gameActionsTests {
 	//If room just visited is in list, each target (including room) selected randomly-----
 	@Test
 	public void testTargetsRoomVisited() {
-		ComputerPlayer player = new ComputerPlayer();
+		ComputerPlayer player = new ComputerPlayer(board);
 		board.calcTargets(21, 15, 2);
 		boolean loc_20_16 = false;
 		boolean loc_20_14 = false;
@@ -206,7 +206,7 @@ public class gameActionsTests {
 	//Test computer player's ability to create a suggestion
 	@Test
 	public void testSuggestionCreating() {
-		ComputerPlayer player = new ComputerPlayer();
+		ComputerPlayer player = new ComputerPlayer(board);
 		player.setLocation(board.getCellAt(6, 2));
 		Solution sugg = player.makeSuggestion();
 		Set<Card> cards = sugg.getCards();
