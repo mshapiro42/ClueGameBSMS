@@ -199,25 +199,25 @@ public class gameActionsTests {
 		assertFalse(board.checkAccusation(wrongAccusation_c));
 	}
 
-/*
+
 	//Test computer player's ability to create a suggestion
 	@Test
 	public void testSuggestionCreating() {
-		//fail("Not yet implemented");
+		fail("Not yet implemented");
 	}
 
 	//Test any player's ability to disprove a suggestion
 	@Test
 	public void testSuggestionDisproving() {
-		//fail("Not yet implemented");
+		fail("Not yet implemented");
 	}
 
 	//Test board's ability to check suggestions and return feedback
 	@Test
 	public void testSuggestionHandling() {
-		//fail("Not yet implemented");
+		fail("Not yet implemented");
 	}
- */
+
 
 	
 }
