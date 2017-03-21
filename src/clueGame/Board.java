@@ -515,7 +515,16 @@ public class Board{
 	}
 
 	public boolean checkAccusation(Solution accusation){
-		return false;
+		boolean isMurderWeapon = (accusation.getWeapon() == solution.getWeapon());
+		boolean isPerpetrator = (accusation.getPerson() == solution.getPerson());
+		boolean isCrimeScene = (accusation.getRoom() == solution.getRoom());
+
+		if (isMurderWeapon && isPerpetrator && isCrimeScene) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public Set<Card> getWeapons() {

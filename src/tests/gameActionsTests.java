@@ -176,21 +176,21 @@ public class gameActionsTests {
 		
 		//Wrong weapon
 		Solution wrongAccusation_w = new Solution();
-		correctAccusation.setWeapon(wrongWeapon);
-		correctAccusation.setPerson(perpetrator);
-		correctAccusation.setRoom(crimeScene);
+		wrongAccusation_w.setWeapon(wrongWeapon);
+		wrongAccusation_w.setPerson(perpetrator);
+		wrongAccusation_w.setRoom(crimeScene);
 		
 		//Wrong person
 		Solution wrongAccusation_p = new Solution();
-		correctAccusation.setWeapon(murderWeapon);
-		correctAccusation.setPerson(wrongPerson);
-		correctAccusation.setRoom(crimeScene);
+		wrongAccusation_p.setWeapon(murderWeapon);
+		wrongAccusation_p.setPerson(wrongPerson);
+		wrongAccusation_p.setRoom(crimeScene);
 		
 		//Wrong room
 		Solution wrongAccusation_c = new Solution();
-		correctAccusation.setWeapon(murderWeapon);
-		correctAccusation.setPerson(perpetrator);
-		correctAccusation.setRoom(wrongRoom);
+		wrongAccusation_c.setWeapon(murderWeapon);
+		wrongAccusation_c.setPerson(perpetrator);
+		wrongAccusation_c.setRoom(wrongRoom);
 		
 		assertTrue(board.checkAccusation(correctAccusation));
 		
