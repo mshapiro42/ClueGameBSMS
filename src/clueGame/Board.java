@@ -533,20 +533,11 @@ public class Board{
 	}
 
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer){
-
-
-		//Suggestion that two players can disprove, correct player 
-		//		(based on starting with next player in list) returns answer
-		//Suggestion that human and another player can disprove, other player is next in list, 
-		//		ensure other player returns answer
-
 		boolean matchExists = false;
 		ArrayList<Card> returnCards = new ArrayList<Card>();
 		ArrayList<Player> returnCardOwners = new ArrayList<Player>();
 
 		//Loop through all players
-		//i is the number of players with at least one matching card
-		int i = 0;
 		for (Player p : people) {
 			//ask them to disprove the card
 			//if they can, add it (in order ) to the list of possible return cards
@@ -562,6 +553,7 @@ public class Board{
 		if (!matchExists) {
 			return null;
 		}
+		//Only one person can disprove
 		else if (returnCards.size() == 1) {
 			//Accusing player has the matching card:
 			//Suggestion only accusing player can disprove returns null
@@ -577,18 +569,26 @@ public class Board{
 				return returnCards.get(0);
 			}
 		}
-		//else if size 2----------------------------------------------------------
-
-
-
-
-
-
-
+		//Two or more people can disprove
+		else if (returnCards.size() >= 2) {
+			//Suggestion that two players can disprove, correct player 
+			//		(based on starting with next player in list) returns answer
+			//Suggestion that human and another player can disprove, other player is next in list, 
+			//		ensure other player returns answer
+			for (int i = 0; i < returnCards.size(); i++) {
+				//If human and a computer player has a matching card, skip the human
+				if (returnCardOwners.get(i).isHuman) {
+					continue;
+				}
+				//Otherwise, the first computer player in the list should return their match
+				else {
+					return returnCards.get(i);
+				}
+			}
+		}
+		
+		//Default
 		return null;
-
-
-
 	}
 
 	public boolean checkAccusation(Solution accusation){
