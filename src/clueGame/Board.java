@@ -500,6 +500,12 @@ public class Board{
 		dealt.add(room);
 	}
 
+	
+	//For testing only
+	public void setSolution(Solution solution) {
+		this.solution = solution;
+	}
+
 	public Solution getSolution() {
 		return solution;
 	}

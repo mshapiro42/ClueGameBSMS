@@ -2,13 +2,17 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.Card;
 import clueGame.ComputerPlayer;
+import clueGame.Solution;
 
 public class gameActionsTests {
 	private static Board board;
@@ -61,6 +65,8 @@ public class gameActionsTests {
 		for (int i=0; i<100; i++) {
 			BoardCell selected = player.pickLocation(board.getTargets());
 			//There are two doors reachable from here, one of them better be the target
+			//This works because even though lastVisitedLocation makes the most recent door
+			//not a priority target, the other one gets chosen as the priority each time
 			if ((selected != board.getCellAt(20, 16)) && (selected != board.getCellAt(17, 13))){
 				fail("Invalid target selected");
 			}
@@ -77,6 +83,10 @@ public class gameActionsTests {
 		boolean loc_19_15 = false;
 		// Run the test a large number of times
 		for (int i=0; i<100; i++) {
+			//This works because there is only one door,
+			//and when it gets chosen, it updates its status to most recently chosen room
+			//so next pick from same location will be random
+			//but first time it runs it will always be that door
 			BoardCell selected = player.pickLocation(board.getTargets());
 			if (selected == board.getCellAt(20, 16))
 				loc_20_16 = true;
@@ -95,15 +105,101 @@ public class gameActionsTests {
 
 
 	
-	
-	
-	/*
 	//Test board's ability to check accusation for correctness
 	@Test
 	public void testMakeAccusations() {
-		//fail("Not yet implemented");
+		//load all the cards
+		Set<Card> weapons = board.getWeapons();
+		Set<Card> people = board.getPlayers();
+		Set<Card> rooms = board.getRooms();
+		
+		Card murderWeapon = new Card();
+		Card perpetrator = new Card();
+		Card crimeScene = new Card();
+		
+		Card wrongWeapon = new Card();
+		Card wrongPerson = new Card();
+		Card wrongRoom = new Card();
+		
+		
+		//The below loops are a bit complex, because the solution
+		//consists of an actual CARD object, so you can't just go by the name alone
+		
+		//grab the ones you want
+		//this is a preset solution
+		for (Card w : weapons) {
+			if (w.getName().equals("Bowling Ball")) {
+				murderWeapon = w;
+			}
+		}
+		for (Card p : people) {
+			if (p.getName().equals("Murasaki Sensei")) {
+				perpetrator = p;
+			}
+		}
+		for (Card c : rooms) {
+			if (c.getName().equals("Ping Pong Room")) {
+				crimeScene = c;
+			}
+		}
+		
+		//the below are going to be the wrong answers
+		for (Card w : weapons) {
+			if (w.getName().equals("Keyboard")) {
+				wrongWeapon = w;
+			}
+		}
+		for (Card p : people) {
+			if (p.getName().equals("Signora Rosso")) {
+				wrongPerson = p;
+			}
+		}
+		for (Card c : rooms) {
+			if (c.getName().equals("Basement")) {
+				wrongRoom = c;
+			}
+		}
+		
+		//Give the handpicked solution to the board
+		Solution solution = new Solution();
+		solution.setWeapon(murderWeapon);
+		solution.setPerson(perpetrator);
+		solution.setRoom(crimeScene);
+		board.setSolution(solution);
+		
+		//Set accusations
+		//Correct one
+		Solution correctAccusation = new Solution();
+		correctAccusation.setWeapon(murderWeapon);
+		correctAccusation.setPerson(perpetrator);
+		correctAccusation.setRoom(crimeScene);
+		
+		//Wrong weapon
+		Solution wrongAccusation_w = new Solution();
+		correctAccusation.setWeapon(wrongWeapon);
+		correctAccusation.setPerson(perpetrator);
+		correctAccusation.setRoom(crimeScene);
+		
+		//Wrong person
+		Solution wrongAccusation_p = new Solution();
+		correctAccusation.setWeapon(murderWeapon);
+		correctAccusation.setPerson(wrongPerson);
+		correctAccusation.setRoom(crimeScene);
+		
+		//Wrong room
+		Solution wrongAccusation_c = new Solution();
+		correctAccusation.setWeapon(murderWeapon);
+		correctAccusation.setPerson(perpetrator);
+		correctAccusation.setRoom(wrongRoom);
+		
+		assertTrue(board.checkAccusation(correctAccusation));
+		
+		assertFalse(board.checkAccusation(wrongAccusation_w));
+		assertFalse(board.checkAccusation(wrongAccusation_p));
+		assertFalse(board.checkAccusation(wrongAccusation_c));
 	}
 
+/*
 	//Test computer player's ability to create a suggestion
 	@Test
 	public void testSuggestionCreating() {
