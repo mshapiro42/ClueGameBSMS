@@ -4,14 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
 
 public class GUI extends JPanel{
 	private JTextField textField;
@@ -22,28 +25,38 @@ public class GUI extends JPanel{
 		// Create a layout with 2 rows
 		GridBagLayout layout = new GridBagLayout();
 		c = new GridBagConstraints();
+		c.weightx = .5;
+		c.weighty = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		setLayout(layout);
 		JPanel panel = createTurnPanel();
-		add(panel);
+		add(panel,c);
+		c.insets = new Insets(10,10,10,10);
 		panel = createButtonPanel();
-		add(panel);
+		add(panel,c);
 		panel = createDiePanel();
-		add(panel);
+		add(panel,c);
 		panel = createGuessPanel();
-		add(panel);
+		add(panel,c);
 		panel = createResultPanel();
-		add(panel);
+		add(panel,c);
 	}
 
 	 private JPanel createTurnPanel() {
 		 	JPanel panel = new JPanel();
 		 	// Use a grid layout, 1 row, 2 elements (label, text)
-			panel.setLayout(new GridLayout(1,2));
+			panel.setLayout(new GridLayout(2,1));
 		 	JLabel label = new JLabel("Whose Turn");
-			textField = new JTextField(20);
+		 	label.setHorizontalAlignment(SwingConstants.CENTER);
+			textField = new JTextField();
+			textField.setColumns(40);
 			textField.setEditable(false);
+			c.gridx =0;
+			c.gridy = 0;
+			c.insets = new Insets(10,50,10,10);
 			panel.add(label);
 			panel.add(textField);
+			
 			return panel;
 	}
 	 
@@ -53,24 +66,34 @@ public class GUI extends JPanel{
 		 	// Use a grid layout, 1 row, 2 elements (label, text)
 			panel.setLayout(new GridLayout(1,2));
 		 	JLabel turnLabel = new JLabel("Roll");
-			textField = new JTextField(20);
+			textField = new JTextField();
+			textField.setColumns(15);
 			textField.setEditable(false);
 			panel.add(turnLabel);
 			panel.add(textField);
+			c.gridx = 0;
+			c.gridy = 1;
+			c.gridwidth = 1;
 			panel.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
+			
 			return panel;
 	}
 	 
 	 private JPanel createGuessPanel() {
 		 	JPanel panel = new JPanel();
 		 	// Use a grid layout, 1 row, 2 elements (label, text)
-			panel.setLayout(new GridLayout(1,2));
+			panel.setLayout(new GridLayout(2,1));
 		 	JLabel turnLabel = new JLabel("Guess");
-			textField = new JTextField(20);
+			textField = new JTextField();
+			textField.setColumns(100);
 			textField.setEditable(false);
 			panel.add(turnLabel);
 			panel.add(textField);
+			c.gridx=1;
+			c.gridy = 1;
+			c.gridwidth = 3;
 			panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
+			
 			return panel;
 	}
 	 
@@ -79,11 +102,16 @@ public class GUI extends JPanel{
 		 	// Use a grid layout, 1 row, 2 elements (label, text)
 			panel.setLayout(new GridLayout(1,2));
 		 	JLabel turnLabel = new JLabel("Response");
-			textField = new JTextField(20);
+			textField = new JTextField();
+			textField.setColumns(50);
 			textField.setEditable(false);
 			panel.add(turnLabel);
 			panel.add(textField);
+			c.gridx = 4;
+			c.gridy = 1;
+			c.gridwidth =2;
 			panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess result"));
+			
 			return panel;
 	}
 	 
@@ -91,12 +119,15 @@ public class GUI extends JPanel{
 	 //-------------------
 	 
 	private JPanel createButtonPanel() {
-		// no layout specified, so this is flow
-		JButton agree = new JButton("Next player");
-		JButton disagree = new JButton("Make an accusation");
 		JPanel panel = new JPanel();
-		panel.add(agree);
-		panel.add(disagree);
+		JButton nextPlayer = new JButton("Next player");
+		c.gridx = 1;
+		c.gridy = 0;
+		panel.add(nextPlayer,c);
+		JButton accusation = new JButton("Make an accusation");
+		c.gridx = 2;
+		c.gridy = 0;
+		panel.add(accusation,c);
 		return panel;
 	}
 	
