@@ -80,6 +80,7 @@ public class Board{
 	}
 
 	public void initialize() {
+		//makeLegend
 		int i = 0; int j = 0;
 		BufferedReader br = null;
 		String line;
@@ -331,33 +332,35 @@ public class Board{
 		Scanner in = new Scanner(reader);
 		while((temp = in.nextLine()) != null ){
 			if(temp == "") break;
-			try{
-				mapKey = temp.charAt(0);
-				System.out.println(mapKey);
-			} catch (NumberFormatException e1) {
-				System.err.println("\nIncorrect format for " + mapKey + "Not a char");
-			}
-			int endi = temp.lastIndexOf(',');
-			roomName = temp.substring(3, endi);
-			Card c = new Card();
-			c.setType(cardType.ROOM);
-			c.setName(roomName);
-			Boolean contains = false;
-			for (Card t : cards){
-				if (t.getName().equals(roomName)){
-					contains = true;
+				String[] legendArray = new String[3];
+				legendArray = temp.split(", ");
+				if(legendArray[1].length() != 1){
+					try {
+						throw new BadConfigFormatException();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-			}
-			if (!contains){
-				cards.add(c);
-			}
-			//System.out.println("roomName is: " + roomName);
-			legendMap.put(mapKey, roomName);
-			//System.out.println(legendMap);
-			if(!in.hasNextLine()){
-				break;
-			}
-		}
+				mapKey = legendArray[1].charAt(0);
+
+				roomName = legendArray[2];
+				if(legendArray[3].equals("Card")){
+					Card c = new Card();
+					c.setType(cardType.ROOM);
+					c.setName(roomName);
+					Boolean contains = false;
+					for (Card t : cards){
+						if (t.getName().equals(roomName)){
+							contains = true;
+						}
+					}
+					if (!contains){
+						cards.add(c);
+					}
+				}
+				legendMap.put(mapKey, roomName);
+			} 
 		in.close();
 	}
 
