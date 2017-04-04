@@ -82,7 +82,7 @@ public class Board{
 	}
 
 	public void initialize() {
-		//makeLegend
+		makeLegend();
 		int i = 0; int j = 0;
 		BufferedReader br = null;
 		String line;
@@ -277,10 +277,6 @@ public class Board{
 		return numCols;
 	}
 
-	public Map<Character,String> getLegend(){
-		makeLegend();
-		return legendMap;
-	}
 
 	public void makeLegend() {
 		legendMap.clear();
