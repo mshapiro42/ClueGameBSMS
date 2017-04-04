@@ -44,7 +44,7 @@ public class CR_FileInitTests {
 	@Test
 	public void testRooms() {
 		// Get the map of initial => room 
-		Map<Character, String> legend = board.getLegend();
+		Map<Character, String> legend = board.getLegendMap();
 		// Ensure we read the correct number of rooms
 		assertEquals(LEGEND_SIZE, legend.size());
 		// To ensure data is correctly loaded, test retrieving a few rooms 

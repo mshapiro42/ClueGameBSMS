@@ -1,11 +1,11 @@
-A, Aviary,
-S, Workshop,
-T, Trophy Room,
-C, Computer Room,
-B, Bowling Alley,
-E, Entry Way,
-M, Basement,
-P, Ping Pong Room,
-R, Red Room,
-X, Closet,
-W, Walkway,
+A, Aviary, Card
+S, Workshop, Card
+T, Trophy Room, Card
+C, Computer Room, Card
+B, Bowling Alley, Card
+E, Entry Way, Card
+M, Basement, Card
+P, Ping Pong Room, Card
+R, Red Room, Card
+X, Closet, Other
+W, Walkway, Other
