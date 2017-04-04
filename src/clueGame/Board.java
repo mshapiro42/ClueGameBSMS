@@ -98,12 +98,12 @@ public class Board{
 					grid[i][j].setDoorString(s);
 					j++;
 				}
-				numCols = j;
+				numCols = j + 1;
 				j = 0;
 				i++;
 				//System.out.println("i is: " + i);
 			}
-			numRows = i;
+			numRows = i + 1;
 			br.close();
 			calcAdjacency();
 			if (playersString != null){
