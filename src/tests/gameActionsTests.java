@@ -443,7 +443,8 @@ public class gameActionsTests {
 		assertEquals(p1Disprove, board.findCard("Harpoon")); //p1 should disprove with Harpoon Card
 		assertEquals(p2Disprove, board.findCard("Seniorita Amarillo"));//p2 should disprove with Seniorita Amarillo card
 		assertEquals(board.handleSuggestion(sugg,p1), board.findCard("Harpoon")); //board should disprove with p1
-
+		//comment, here is the new problem
+		
 
 		//New suggestion that both p2 and h1 can disprove
 		sugg.setWeapon(board.findCard("Bird"));
