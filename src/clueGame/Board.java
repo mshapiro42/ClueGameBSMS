@@ -96,6 +96,9 @@ public class Board{
 					grid[i][j].setCol(j);
 					grid[i][j].setRow(i);
 					grid[i][j].setDoorString(s);
+					if(!legendMap.containsKey(s.charAt(0))){
+						throw new BadConfigFormatException();
+					}
 					j++;
 				}
 				numCols = j + 1;
