@@ -38,6 +38,8 @@ public class Board{
 	private String layoutString;
 	private String playersString;
 	private String weaponsString;
+	private int numRows;
+	private int numCols;
 	
 	
 	public Map<Character, String> getLegendMap() {
@@ -96,10 +98,12 @@ public class Board{
 					grid[i][j].setDoorString(s);
 					j++;
 				}
+				numCols = j;
 				j = 0;
 				i++;
 				//System.out.println("i is: " + i);
 			}
+			numRows = i;
 			br.close();
 			calcAdjacency();
 			if (playersString != null){
@@ -266,49 +270,11 @@ public class Board{
 	}
 
 	public int getNumRows() {
-		Map<Character,String> testLegend = getLegend();
-		int rowCounter = 0;
-		BufferedReader br = null;
-		String line = null;
-		try {
-			br = new BufferedReader(new FileReader(layoutString));
-			while((line = br.readLine()) != null){
-				if(testLegend.containsKey(line.charAt(0))){ 
-					rowCounter++;
-				}
-			}
-			br.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-		//System.out.println("row counter = " + rowCounter);
-		return rowCounter;
+		return numRows;
 	}
 
 	public int getNumColumns(){
-		Map<Character,String> testLegend = getLegend();
-		int colCounter = 0;
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader(layoutString));
-			String line = br.readLine();
-			String [] numColumns = line.split(",");
-			for(String s : numColumns){
-				if(testLegend.containsKey((s.toCharArray()[0]))){
-					colCounter++;
-				}
-			}
-			//System.out.println("col counter = " + colCounter);
-			br.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-
-		return colCounter;
+		return numCols;
 	}
 
 	public Map<Character,String> getLegend(){
