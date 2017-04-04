@@ -90,23 +90,22 @@ public class Board{
 			br = new BufferedReader(new FileReader(layoutString));
 			while((line = br.readLine()) != null && i < 100){
 				String [] thisLine = line.split(",");
-
+				numCols = thisLine.length;
 				for(String s: thisLine){
 					grid[i][j] = new BoardCell(i,j);
 					grid[i][j].setCol(j);
 					grid[i][j].setRow(i);
 					grid[i][j].setDoorString(s);
-					if(!legendMap.containsKey(s.charAt(0))){
-						throw new BadConfigFormatException();
-					}
+//					if(!legendMap.containsKey(s.charAt(0))){
+//						throw new BadConfigFormatException();
+//					}
 					j++;
 				}
-				numCols = j + 1;
 				j = 0;
 				i++;
 				//System.out.println("i is: " + i);
 			}
-			numRows = i + 1;
+			numRows = i;
 			br.close();
 			calcAdjacency();
 			if (playersString != null){
@@ -285,7 +284,7 @@ public class Board{
 		legendMap.clear();
 		Character mapKey = null;
 		String roomName = "";
-		String temp = "";
+		String line = "";
 		FileReader reader = null;
 
 		try {
@@ -295,11 +294,12 @@ public class Board{
 		} 
 
 		Scanner in = new Scanner(reader);
-		while((temp = in.nextLine()) != null ){
-			if(temp == "") break;
+		while(in.hasNextLine()){
+			line = in.nextLine();
+			if(line == "") break;
 				String[] legendArray = new String[3];
-				legendArray = temp.split(", ");
-				if(legendArray[1].length() != 1){
+				legendArray = line.split(", ");
+				if(legendArray[0].length() != 1){
 					try {
 						throw new BadConfigFormatException();
 					} catch (FileNotFoundException e) {
@@ -307,22 +307,15 @@ public class Board{
 						e.printStackTrace();
 					}
 				}
-				mapKey = legendArray[1].charAt(0);
+				mapKey = legendArray[0].charAt(0);
 
-				roomName = legendArray[2];
-				if(legendArray[3].equals("Card")){
+				roomName = legendArray[1];
+				if(legendArray[2].equals("Card")){
 					Card c = new Card();
 					c.setType(cardType.ROOM);
 					c.setName(roomName);
-					Boolean contains = false;
-					for (Card t : cards){
-						if (t.getName().equals(roomName)){
-							contains = true;
-						}
-					}
-					if (!contains){
-						cards.add(c);
-					}
+					cards.add(c);
+					
 				}
 				legendMap.put(mapKey, roomName);
 			} 

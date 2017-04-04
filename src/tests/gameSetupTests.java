@@ -113,7 +113,7 @@ public class gameSetupTests {
 	public void testCards() {
 		Set<Card> cards = board.getCards();
 		//Test that the set of cards is of proper size
-		assertEquals(26,cards.size());
+		assertEquals(24,cards.size());
 		Set<String> people = new HashSet<String>();
 		Set<String> weapons = new HashSet<String>();
 		Set<String> rooms = new HashSet<String>();
@@ -136,7 +136,7 @@ public class gameSetupTests {
 		//Make sure the categories have the right distribution of members
 		assertEquals(9, weapons.size());
 		assertEquals(6, people.size());
-		assertEquals(11, rooms.size());
+		assertEquals(9, rooms.size());
 		//Check one of each time, make sure it contains a known entry
 		assertTrue(people.contains("Signora Rosso"));
 		assertTrue(weapons.contains("Axe"));
