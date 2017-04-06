@@ -1,8 +1,10 @@
 package clueGame;
 
+import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
@@ -11,13 +13,13 @@ import java.util.Set;
 import com.sun.xml.internal.bind.v2.runtime.Location;
 
 import clueGame.Card.cardType;
+import sun.misc.Queue;
 
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
 
 
 public class Board{
@@ -28,6 +30,7 @@ public class Board{
 	private Set<BoardCell> adjSet = new HashSet<BoardCell>();
 	private Map<Character, String> legendMap = new HashMap<Character, String>();
 	private BoardCell[][] grid = new BoardCell[100][100];
+	private LinkedList<Player> turnOrder = new LinkedList<Player>();
 	private Set<Player> people = new HashSet<Player>();
 	private Set<Card> cards = new HashSet<Card>();
 	private Set<Card> dealt = new HashSet<Card>();
@@ -83,6 +86,7 @@ public class Board{
 
 	public void initialize() {
 		makeLegend();
+		
 		int i = 0; int j = 0;
 		BufferedReader br = null;
 		String line;
@@ -405,6 +409,7 @@ public class Board{
 			c.setName(arr[1].trim());
 			cards.add(c);
 		}
+		makePlayerQueue();
 		in.close();
 	}
 
@@ -501,7 +506,7 @@ public class Board{
 		ArrayList<Player> returnCardOwners = new ArrayList<Player>();
 
 		//Loop through all players
-		for (Player p : people) {
+		for (Player p: turnOrder) {
 			//ask them to disprove the card
 			//if they can, add it (in order ) to the list of possible return cards
 			Card returnCard = p.disproveSuggestion(suggestion);
@@ -665,6 +670,15 @@ public class Board{
 		int randomRow = new Random().nextInt(rows);
 
 		return grid[randomRow][randomCol];
+	}
+	
+	public void makePlayerQueue(){
+		for (Player p : people){
+			turnOrder.add(p);
+		}
+	}
+	public void setPlayerQueue(LinkedList<Player> players){
+		this.turnOrder = players;
 	}
 }
 

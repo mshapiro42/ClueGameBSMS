@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -409,12 +410,12 @@ public class gameActionsTests {
 		h1.setName("Senhora Rosa");
 		h1.setMyCards(h1Cards);
 
-		Set<Player> people = new HashSet<Player>();
+		LinkedList<Player> people = new LinkedList<Player>();
 		people.add(p1);
 		people.add(p2);
 		people.add(h1);
 		
-		board.setPeople(people);
+		board.setPlayerQueue(people);
 
 		Solution sugg = new Solution(); //create new solution with certain values
 		sugg.setWeapon(board.findCard("Axe"));
@@ -435,7 +436,7 @@ public class gameActionsTests {
 		//if only human, accusing, can disprove, return null;
 		assertEquals(board.handleSuggestion(sugg, h1),null);
 
-		//New suggestion that both p1 and p1 can disprove
+		//New suggestion that both p1 and p2 can disprove
 		sugg.setWeapon(board.findCard("Harpoon"));
 		sugg.setPerson(board.findCard("Seniorita Amarillo"));
 		Card p1Disprove  = p1.disproveSuggestion(sugg);
@@ -453,7 +454,7 @@ public class gameActionsTests {
 		p2Disprove  = p2.disproveSuggestion(sugg);
 		assertEquals(p2Disprove, board.findCard("Bird")); //p2 should disprove with Bird card
 		assertEquals(h1Disprove, board.findCard("Herr Grun"));//h1 should disprove with Herr Grun card
-		assertEquals(board.handleSuggestion(sugg,p1), board.findCard("Bird")); //board should disprove with p2
+		assertEquals(board.handleSuggestion(sugg,p2), board.findCard("Bird")); //board should disprove with p2
 
 
 
