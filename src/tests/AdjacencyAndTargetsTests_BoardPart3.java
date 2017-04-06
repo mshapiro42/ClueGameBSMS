@@ -92,7 +92,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 		assertTrue(testList.contains(board.getCellAt(6, 9)));
 		
 		testList = board.getAdjList(9, 15);
-		System.out.println(testList);
+		//System.out.println(testList);
 		assertEquals(4, testList.size());
 		assertTrue(testList.contains(board.getCellAt(8, 15)));
 		assertTrue(testList.contains(board.getCellAt(10, 15)));
@@ -100,7 +100,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 		assertTrue(testList.contains(board.getCellAt(9, 16)));
 		
 		testList = board.getAdjList(14, 17);
-		System.out.println(testList);
+		//System.out.println(testList);
 		assertEquals(4, testList.size());
 		assertTrue(testList.contains(board.getCellAt(13, 17)));
 		assertTrue(testList.contains(board.getCellAt(15, 17)));
@@ -131,14 +131,14 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 		
 		board.calcTargets(19, 17, 2);
 		targets= board.getTargets();
-		System.out.println(targets);
+		//System.out.println(targets);
 		assertEquals(2, targets.size());
 		assertTrue(targets.contains(board.getCellAt(18, 16)));	
 		assertTrue(targets.contains(board.getCellAt(19, 15)));	
 		
 		board.calcTargets(14, 11, 3);
 		targets= board.getTargets();
-		System.out.println(targets);
+		//System.out.println(targets);
 		assertEquals(8, targets.size());
 		assertTrue(targets.contains(board.getCellAt(15, 13)));	
 		assertTrue(targets.contains(board.getCellAt(13, 13)));
@@ -151,7 +151,7 @@ public class AdjacencyAndTargetsTests_BoardPart3 {
 		
 		board.calcTargets(13, 0, 5);
 		targets= board.getTargets();
-		System.out.println(targets);
+		//System.out.println(targets);
 		assertEquals(6, targets.size());
 		assertTrue(targets.contains(board.getCellAt(13, 1)));	
 		assertTrue(targets.contains(board.getCellAt(14, 0)));

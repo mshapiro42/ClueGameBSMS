@@ -103,7 +103,6 @@ public class Board{
 				}
 				j = 0;
 				i++;
-				//System.out.println("i is: " + i);
 			}
 			numRows = i;
 			br.close();
@@ -315,7 +314,6 @@ public class Board{
 					c.setType(cardType.ROOM);
 					c.setName(roomName);
 					cards.add(c);
-					
 				}
 				legendMap.put(mapKey, roomName);
 			} 
@@ -368,7 +366,6 @@ public class Board{
 		while((line = br.readLine()) != null && i < 100){
 			String [] thisLine = line.split(",");
 
-			//System.out.println("thisLine string: " + thisLine.toString());
 			for(String s: thisLine){
 				grid[i][j] = new BoardCell(i,j);
 				grid[i][j].setCol(i);
@@ -378,7 +375,6 @@ public class Board{
 			}
 			j = 0;
 			i++;
-			//System.out.println("i is: " + i);
 			br.close();
 		}
 
