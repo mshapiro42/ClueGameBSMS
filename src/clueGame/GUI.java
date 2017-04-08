@@ -40,6 +40,8 @@ public class GUI extends JPanel{
 		add(panel,c);
 		panel = createResultPanel();
 		add(panel,c);
+		
+		
 	}
 
 	 private JPanel createTurnPanel() {
