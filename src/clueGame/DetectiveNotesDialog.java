@@ -6,12 +6,13 @@ import java.util.Set;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class DetectiveNotesGUI extends JFrame{
+public class DetectiveNotesDialog extends JDialog{
 		private static Board board;
 		private Set<Card> deck = new HashSet<Card>();
 		private Set<Card> people= new HashSet<Card>();
@@ -19,15 +20,14 @@ public class DetectiveNotesGUI extends JFrame{
 		private Set<Card> rooms= new HashSet<Card>();
 //		private Board board = new Board();
 		
-		public DetectiveNotesGUI() {
+		public DetectiveNotesDialog() {
 			board = Board.getInstance();
-			board.setConfigFiles("ClueLayout.csv", "Legend.txt");
+			board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
 			board.initialize();
 			deck = board.getCards();
 			sortCards();
 			setSize(600,800);
 			setLayout(new GridLayout(0,2));
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			JPanel pp = PeoplePanel();
 			JPanel pgp = PersonGuessPanel();
 			JPanel rp = RoomsPanel();
@@ -48,10 +48,13 @@ public class DetectiveNotesGUI extends JFrame{
 				switch (c.getType()) {
 				case WEAPON:
 					weapons.add(c);
+					break;
 				case PERSON:
 					people.add(c);
+					break;
 				case ROOM:
 					rooms.add(c);
+					break;
 				}
 			}
 		}
@@ -60,12 +63,9 @@ public class DetectiveNotesGUI extends JFrame{
 			JPanel pp = new JPanel();
 			pp.setLayout(new GridLayout(0,2));
 			
-			pp.add(new JCheckBox("Miss Scarlet"));
-			pp.add(new JCheckBox("Colonel Mustard"));
-			pp.add(new JCheckBox("Mr Green"));
-			pp.add(new JCheckBox("Mrs White"));
-			pp.add(new JCheckBox("Mrs Peacock"));
-			pp.add(new JCheckBox("Professor Plum"));
+			for(Card p : people){
+				pp.add(new JCheckBox(p.getName()));
+			}
 
 			pp.setBorder(new TitledBorder (new EtchedBorder(), "People"));
 			
@@ -75,12 +75,10 @@ public class DetectiveNotesGUI extends JFrame{
 		private JPanel PersonGuessPanel(){
 			JPanel pp = new JPanel();
 			JComboBox<String> combo = new JComboBox<String>();
-			combo.addItem("Miss Scarlet");
-			combo.addItem("Colonel Mustard");
-			combo.addItem("Mr Green");
-			combo.addItem("Mrs White");
-			combo.addItem("Mrs Peacock");
-			combo.addItem("Professor Plum");
+
+			for(Card p : people){
+				combo.addItem(p.getName());
+			}
 			pp.add(combo);
 			pp.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
 			
@@ -90,13 +88,6 @@ public class DetectiveNotesGUI extends JFrame{
 		private JPanel RoomsPanel(){
 			JPanel pp = new JPanel();
 			pp.setLayout(new GridLayout(0,2));
-			
-//			pp.add(new JCheckBox("Kitchen"));
-//			pp.add(new JCheckBox("Lounge"));
-//			pp.add(new JCheckBox("Conservatory"));
-//			pp.add(new JCheckBox("Study"));
-//			pp.add(new JCheckBox("Billiard Room"));
-//			pp.add(new JCheckBox("Dining Room"));
 			
 			for(Card r : rooms){
 				pp.add(new JCheckBox(r.getName()));
@@ -113,12 +104,7 @@ public class DetectiveNotesGUI extends JFrame{
 			for(Card r : rooms){
 				combo.addItem(r.getName());
 			}
-//			combo.addItem("Kitchen");
-//			combo.addItem("Lounge");
-//			combo.addItem("Conservatory");
-//			combo.addItem("Study");
-//			combo.addItem("Billiard Room");
-//			combo.addItem("Dining Room");
+
 			pp.add(combo);
 			pp.setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
 			
@@ -129,12 +115,9 @@ public class DetectiveNotesGUI extends JFrame{
 			JPanel pp = new JPanel();
 			pp.setLayout(new GridLayout(0,2));
 			
-			pp.add(new JCheckBox("Candlestick"));
-			pp.add(new JCheckBox("Knife"));
-			pp.add(new JCheckBox("Lead Pipe"));
-			pp.add(new JCheckBox("Revolver"));
-			pp.add(new JCheckBox("Rope"));
-			pp.add(new JCheckBox("Wrench"));
+			for(Card w : weapons){
+				pp.add(new JCheckBox(w.getName()));
+			}
 
 			pp.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
 			
@@ -144,22 +127,14 @@ public class DetectiveNotesGUI extends JFrame{
 		private JPanel WeaponGuessPanel(){
 			JPanel pp = new JPanel();
 			JComboBox<String> combo = new JComboBox<String>();
-			combo.addItem("Candlestick");
-			combo.addItem("Knife");
-			combo.addItem("Lead Pipe");
-			combo.addItem("Revolver");
-			combo.addItem("Rope");
-			combo.addItem("Wrench");
+
+			for(Card w : weapons){
+				combo.addItem(w.getName());
+			}
+			
 			pp.add(combo);
 			pp.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
 			
 			return pp;
-		}
-		
-		
-		
-		public static void main(String[] args){
-			DetectiveNotesGUI gui = new DetectiveNotesGUI();
-			gui.setVisible(true);
 		}
 }

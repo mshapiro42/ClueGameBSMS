@@ -12,6 +12,7 @@ public class BoardGUI extends JFrame{
 	
 	
 	public BoardGUI() {
+		setSize(100,200);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -30,7 +31,8 @@ public class BoardGUI extends JFrame{
 		JMenuItem item = new JMenuItem("Show Detective Notes");
 		class MenuItemListener implements ActionListener {
 			public void actionPerformed(ActionEvent e){
-				DetectiveNotesGUI notes = new DetectiveNotesGUI();
+				DetectiveNotesDialog notes = new DetectiveNotesDialog();
+				notes.setVisible(true);
 			}
 		}
 		
