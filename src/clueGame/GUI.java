@@ -37,7 +37,7 @@ public class GUI extends JPanel{
 	private static JPanel boardPanel;
 	private static JPanel playerHandPanel;
 	private static JMenuBar menuBar;
-	private Board board;	//used to get the human player's cards
+	private Board board;	//used to get the human player's cards and name
 	private String humanName;
 	public GUI()
 	{
@@ -61,7 +61,6 @@ public class GUI extends JPanel{
 		add(panel,c);	
 		createBoardPanel();		
 		createPlayerHandPanel();
-		//add(playerHandPanel,c);
 
 
 		//Menu Bar Creation
@@ -115,6 +114,7 @@ public class GUI extends JPanel{
 	}
 
 	private void createPlayerHandPanel(){
+		//passes the human player's hand into the panel function
 		Set<Card> hand = new HashSet<Card>();
 		for(Player p: board.getPeople()){
 			if(p.isHuman){
@@ -197,7 +197,6 @@ public class GUI extends JPanel{
 	}
 
 
-	//-------------------
 
 	private JPanel createButtonPanel() {
 		JPanel panel = new JPanel();
@@ -268,9 +267,6 @@ public class GUI extends JPanel{
 		return panel;
 	}
 	
-	
-
-
 
 	public String getHumanName() {
 		return humanName;
