@@ -16,14 +16,26 @@ import clueGame.Card.cardType;
 import sun.misc.Queue;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
-public class Board{
 
+public final class Board extends JPanel {
+
+	private static Board instance;
 	private Map<BoardCell, HashSet<BoardCell>> adjMtx = new HashMap<BoardCell, HashSet<BoardCell>>();
 	private Set<BoardCell> visited = new HashSet<BoardCell>(); // this is just the interface remember to initialize a new set when using
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
@@ -44,6 +56,10 @@ public class Board{
 	private int numRows;
 	private int numCols;
 	
+	public static int PANEL_X_OFFSET = 18;
+	public static int PANEL_Y_OFFSET = 18;
+	
+	
 	
 	public Map<Character, String> getLegendMap() {
 		return legendMap;
@@ -62,14 +78,17 @@ public class Board{
 		return cellStrings;
 	}
 
-	public Board() {
+	private Board() {
 		super();
 	}
 
 	public static Board getInstance() {
-		Board board = new Board();
+		if (instance == null)
+		{
+			instance = new Board();
+		}
 		//board.loadCellStrings();
-		return board;
+		return instance;
 	}
 
 	public void setConfigFiles(String layout, String legend) {
@@ -85,9 +104,13 @@ public class Board{
 	}
 
 	public void initialize() {
+		adjMtx.clear();
+		legendMap.clear();
+		cards.clear();
 		makeLegend();
 		
-		int i = 0; int j = 0;
+		int i = 0; 
+		int j = 0;
 		BufferedReader br = null;
 		String line;
 		try {
@@ -97,8 +120,6 @@ public class Board{
 				numCols = thisLine.length;
 				for(String s: thisLine){
 					grid[i][j] = new BoardCell(i,j);
-					grid[i][j].setCol(j);
-					grid[i][j].setRow(i);
 					grid[i][j].setDoorString(s);
 //					if(!legendMap.containsKey(s.charAt(0))){
 //						throw new BadConfigFormatException();
@@ -490,6 +511,17 @@ public class Board{
 		dealt.add(room);
 	}
 
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		for (int row = 0; row < getNumRows(); row++)
+		{
+			for (int col = 0; col < getNumColumns(); col++)
+			{
+				grid[row][col].draw(g);
+			}
+		}
+	}
 
 	//For testing only
 	public void setSolution(Solution solution) {

@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -12,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
@@ -19,6 +22,7 @@ import javax.swing.border.TitledBorder;
 public class GUI extends JPanel{
 	private JTextField textField;
 	private GridBagConstraints c;
+	private static JPanel boardPanel;
 	
 	public GUI()
 	{
@@ -39,12 +43,19 @@ public class GUI extends JPanel{
 		panel = createGuessPanel();
 		add(panel,c);
 		panel = createResultPanel();
-		add(panel,c);
-		
-		
+		add(panel,c);	
+		createBoardPanel();		
 	}
 
-	 private JPanel createTurnPanel() {
+	 private void createBoardPanel() {
+		Board board = Board.getInstance();
+		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
+		board.initialize();
+		board.setBorder(new TitledBorder (new EtchedBorder(), "Clue Board"));
+		boardPanel = board;
+	}
+
+	private JPanel createTurnPanel() {
 		 	JPanel panel = new JPanel();
 		 	// Use a grid layout, 1 row, 2 elements (label, text)
 			panel.setLayout(new GridLayout(2,1));
@@ -54,7 +65,7 @@ public class GUI extends JPanel{
 			textField.setColumns(40);
 			textField.setEditable(false);
 			c.gridx =0;
-			c.gridy = 0;
+			c.gridy = 6;
 			c.insets = new Insets(10,50,10,10);
 			panel.add(label);
 			panel.add(textField);
@@ -74,7 +85,7 @@ public class GUI extends JPanel{
 			panel.add(turnLabel);
 			panel.add(textField);
 			c.gridx = 0;
-			c.gridy = 1;
+			c.gridy = 7;
 			c.gridwidth = 1;
 			panel.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
 			
@@ -85,14 +96,12 @@ public class GUI extends JPanel{
 		 	JPanel panel = new JPanel();
 		 	// Use a grid layout, 1 row, 2 elements (label, text)
 			panel.setLayout(new GridLayout(2,1));
-		 	JLabel turnLabel = new JLabel("Guess");
 			textField = new JTextField();
 			textField.setColumns(100);
 			textField.setEditable(false);
-			panel.add(turnLabel);
 			panel.add(textField);
 			c.gridx=1;
-			c.gridy = 1;
+			c.gridy = 7;
 			c.gridwidth = 3;
 			panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
 			
@@ -110,7 +119,7 @@ public class GUI extends JPanel{
 			panel.add(turnLabel);
 			panel.add(textField);
 			c.gridx = 4;
-			c.gridy = 1;
+			c.gridy = 7;
 			c.gridwidth =2;
 			panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess result"));
 			
@@ -124,11 +133,11 @@ public class GUI extends JPanel{
 		JPanel panel = new JPanel();
 		JButton nextPlayer = new JButton("Next player");
 		c.gridx = 1;
-		c.gridy = 0;
+		c.gridy = 5;
 		panel.add(nextPlayer,c);
 		JButton accusation = new JButton("Make an accusation");
 		c.gridx = 2;
-		c.gridy = 0;
+		c.gridy = 6;
 		panel.add(accusation,c);
 		return panel;
 	}
@@ -138,11 +147,12 @@ public class GUI extends JPanel{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
-		frame.setSize(800, 500);	
 		// Create the JPanel and add it to the JFrame
 		GUI gui = new GUI();
-		frame.add(gui, BorderLayout.CENTER);
+		frame.add(boardPanel, BorderLayout.CENTER);
+		frame.add(gui, BorderLayout.SOUTH);
 		// Now let's view it
+		frame.setSize(800, 800);
 		frame.setVisible(true);
 	}
 
