@@ -521,6 +521,10 @@ public final class Board extends JPanel {
 				grid[row][col].draw(g);
 			}
 		}
+		for (Player player : people)
+		{
+			player.getLocation().drawPlayer(g, player.getColor());
+		}
 	}
 
 	//For testing only

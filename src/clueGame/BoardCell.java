@@ -76,7 +76,7 @@ public class BoardCell {
 		g2.setStroke(new BasicStroke(0));
 		if (doorString.charAt(0) == 'W')
 		{
-			g2.setColor(Color.BLUE);
+			g2.setColor(Color.DARK_GRAY);
 			g2.drawRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 		}
 		else
@@ -115,6 +115,11 @@ public class BoardCell {
 			break;
 		}
 		
+	}
+	public void drawPlayer(Graphics g, Color color) 
+	{
+		g.setColor(color);
+		g.fillOval(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 	}
 
 }

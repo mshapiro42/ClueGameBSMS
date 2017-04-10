@@ -7,10 +7,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -23,6 +28,7 @@ public class GUI extends JPanel{
 	private JTextField textField;
 	private GridBagConstraints c;
 	private static JPanel boardPanel;
+	private static JMenuBar menuBar;
 	
 	public GUI()
 	{
@@ -45,8 +51,48 @@ public class GUI extends JPanel{
 		panel = createResultPanel();
 		add(panel,c);	
 		createBoardPanel();		
-	}
+		
 
+		//Menu Bar Creation
+		menuBar = new JMenuBar();
+		menuBar.add(createFileMenu());
+	}
+	
+	private JMenu createFileMenu() {
+		JMenu menu = new JMenu("File");
+		menu.add(createDetectiveItem());
+		menu.add(createFileExitItem());
+		return menu;
+	}
+	
+	private JMenuItem createDetectiveItem() {
+		JMenuItem item = new JMenuItem("Show Detective Notes");
+		class MenuItemListener implements ActionListener {
+			public void actionPerformed(ActionEvent e){
+				DetectiveNotesDialog notes = new DetectiveNotesDialog();
+				notes.setVisible(true);
+			}
+		}
+		
+		item.addActionListener(new MenuItemListener());
+		
+		return item;
+	}
+	
+	private JMenuItem createFileExitItem(){
+		JMenuItem item = new JMenuItem("Exit");
+		
+		class MenuItemListener implements ActionListener {
+			public void actionPerformed(ActionEvent e){
+				System.exit(0);
+			}
+		}
+		
+		item.addActionListener(new MenuItemListener());
+		
+		return item;
+	}
+	
 	 private void createBoardPanel() {
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
@@ -153,6 +199,7 @@ public class GUI extends JPanel{
 		frame.add(gui, BorderLayout.SOUTH);
 		// Now let's view it
 		frame.setSize(800, 800);
+		frame.setJMenuBar(menuBar);
 		frame.setVisible(true);
 	}
 
