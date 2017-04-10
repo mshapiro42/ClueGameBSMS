@@ -9,6 +9,11 @@ public class Card {
 
 	}
 	
+	public Card(String name, cardType type){
+		this.name = name;
+		this.type = type;
+	}
+	
 	public String getName() {
 		return name;
 	}

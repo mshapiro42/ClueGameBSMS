@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -23,11 +26,14 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import clueGame.Card.cardType;
+
 
 public class GUI extends JPanel{
 	private JTextField textField;
 	private GridBagConstraints c;
 	private static JPanel boardPanel;
+	private static JPanel playerHandPanel;
 	private static JMenuBar menuBar;
 	
 	public GUI()
@@ -51,11 +57,14 @@ public class GUI extends JPanel{
 		panel = createResultPanel();
 		add(panel,c);	
 		createBoardPanel();		
+		createPlayerHandPanel();
+		//add(playerHandPanel,c);
 		
 
 		//Menu Bar Creation
 		menuBar = new JMenuBar();
 		menuBar.add(createFileMenu());
+	
 	}
 	
 	private JMenu createFileMenu() {
@@ -100,6 +109,14 @@ public class GUI extends JPanel{
 		board.setBorder(new TitledBorder (new EtchedBorder(), "Clue Board"));
 		boardPanel = board;
 	}
+	 
+	 private void createPlayerHandPanel(){
+		 Set<Card> playerHand = new HashSet<Card>();
+		 playerHand.add(new Card("testWeapon", cardType.WEAPON));
+		 PlayerHandDisplay display = new PlayerHandDisplay(c, playerHand);
+		 playerHandPanel = display;
+		 add(playerHandPanel,c);
+	 }
 
 	private JPanel createTurnPanel() {
 		 	JPanel panel = new JPanel();
@@ -188,6 +205,8 @@ public class GUI extends JPanel{
 		return panel;
 	}
 	
+	
+	
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();
@@ -196,11 +215,15 @@ public class GUI extends JPanel{
 		// Create the JPanel and add it to the JFrame
 		GUI gui = new GUI();
 		frame.add(boardPanel, BorderLayout.CENTER);
+		frame.add(playerHandPanel, BorderLayout.EAST);
 		frame.add(gui, BorderLayout.SOUTH);
 		// Now let's view it
 		frame.setSize(800, 800);
 		frame.setJMenuBar(menuBar);
 		frame.setVisible(true);
+		//splash field for start message, need to get the starting player's name still
+		String startMessage = "You are " + "player name" + ", press Next Player to begin player";
+		JOptionPane.showMessageDialog(frame, startMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }
