@@ -35,6 +35,7 @@ public class GUI extends JPanel{
 	private static JPanel boardPanel;
 	private static JPanel playerHandPanel;
 	private static JMenuBar menuBar;
+	private Board board;	//used to get the human player's cards
 	
 	public GUI()
 	{
@@ -107,15 +108,18 @@ public class GUI extends JPanel{
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
 		board.initialize();
 		board.setBorder(new TitledBorder (new EtchedBorder(), "Clue Board"));
+		this.board = board;
 		boardPanel = board;
 	}
 	 
 	 private void createPlayerHandPanel(){
-		 Set<Card> playerHand = new HashSet<Card>();
-		 playerHand.add(new Card("testWeapon", cardType.WEAPON));
-		 PlayerHandDisplay display = new PlayerHandDisplay(c, playerHand);
-		 playerHandPanel = display;
-		 add(playerHandPanel,c);
+		Set<Card> hand = new HashSet<Card>();
+		for(Player p: board.getPeople()){
+			if(p.isHuman){
+				hand = p.getMyCards();
+			}
+		}
+		playerHandPanel = createPlayerCardsPanel(hand);
 	 }
 
 	private JPanel createTurnPanel() {
@@ -203,6 +207,44 @@ public class GUI extends JPanel{
 		c.gridy = 6;
 		panel.add(accusation,c);
 		return panel;
+	}
+	
+	public JPanel createPlayerCardsPanel(Set<Card> hand){
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
+		panel.setLayout(new GridLayout(5,1));
+		c.gridx = 10;
+		c.gridy = 0;
+		
+		JPanel peoplePanel = new JPanel();
+		peoplePanel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
+		textField = new JTextField();
+		textField.setText("People text");
+		textField.setColumns(10);
+		textField.setEditable(false);
+		peoplePanel.add(textField);
+		panel.add(peoplePanel, c);
+		
+		JPanel roomPanel = new JPanel();
+		roomPanel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setEditable(false);
+		textField.setText("Rooms text");
+		roomPanel.add(textField);
+		panel.add(roomPanel, c);
+
+		JPanel weaponPanel = new JPanel();
+		weaponPanel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
+		textField = new JTextField();
+		textField.setText("Weapons text");
+		textField.setColumns(10);
+		textField.setEditable(false);
+		weaponPanel.add(textField);
+		panel.add(weaponPanel, c);
+		
+		return panel;
+		
 	}
 	
 	
