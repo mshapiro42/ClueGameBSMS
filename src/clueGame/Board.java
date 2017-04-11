@@ -61,22 +61,7 @@ public final class Board extends JPanel {
 	
 	
 	
-	public Map<Character, String> getLegendMap() {
-		return legendMap;
-	}
-
-	public Set<Player> getPeople() {
-		return people;
-	}
-
-	//Tests only
-	public void setPeople(Set<Player> people) {
-		this.people = people;
-	}
-
-	public String[][] getCellStrings(){
-		return cellStrings;
-	}
+	
 
 	private Board() {
 		super();
@@ -121,9 +106,6 @@ public final class Board extends JPanel {
 				for(String s: thisLine){
 					grid[i][j] = new BoardCell(i,j);
 					grid[i][j].setDoorString(s);
-//					if(!legendMap.containsKey(s.charAt(0))){
-//						throw new BadConfigFormatException();
-//					}
 					j++;
 				}
 				j = 0;
@@ -294,14 +276,7 @@ public final class Board extends JPanel {
 
 		}
 	}
-
-	public int getNumRows() {
-		return numRows;
-	}
-
-	public int getNumColumns(){
-		return numCols;
-	}
+	
 
 
 	public void makeLegend() {
@@ -345,9 +320,7 @@ public final class Board extends JPanel {
 		in.close();
 	}
 
-	public Set<Card> getCards() {
-		return cards;
-	}
+
 
 	public Card findCard(String name) {
 		for (Card c : cards) {
@@ -359,10 +332,7 @@ public final class Board extends JPanel {
 		return null;
 	}
 
-	public clueGame.BoardCell getCellAt(int i, int j) {
 
-		return grid[i][j];
-	}
 
 	public void loadRoomConfig() throws BadConfigFormatException, IOException, FileNotFoundException {
 		String[] configStrings = new String[1000];
@@ -447,10 +417,7 @@ public final class Board extends JPanel {
 		in.close();
 	}
 
-	public Set<BoardCell> getAdjList(int i, int j) {
 
-		return adjMtx.get(grid[i][j]);
-	}
 
 	public void calcTargets(int i, int j, int k) {
 		targets.clear(); // clears old targets 
@@ -480,19 +447,13 @@ public final class Board extends JPanel {
 
 	}
 
-	public Set<BoardCell> getTargets() {
-		return targets;
-	}
-
+	
 	public boolean checkCell(BoardCell current){
 		boolean checkValue = false;
 
 		if(grid[current.getRow()][current.getCol()].getInitial()=='W'){
 			checkValue = true;
 		}
-
-
-
 		return checkValue;
 	}
 
@@ -526,14 +487,19 @@ public final class Board extends JPanel {
 			player.getLocation().drawPlayer(g, player.getColor());
 		}
 	}
-
-	//For testing only
-	public void setSolution(Solution solution) {
-		this.solution = solution;
+	
+	public Integer rollDie(){
+		Random rn = new Random();
+		int maximum = 6;
+		int minimum = 1;
+		int range = maximum - minimum + 1;
+		int roll =  rn.nextInt(range) + minimum;
+		return roll;
 	}
-
-	public Solution getSolution() {
-		return solution;
+	
+	public void cycleTurnOrder(){
+		Player previous = turnOrder.removeFirst();
+		turnOrder.add(previous);
 	}
 
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer){
@@ -617,36 +583,6 @@ public final class Board extends JPanel {
 		}
 	}
 
-	public Set<Card> getWeapons() {
-		Set<Card> weapons = new HashSet<Card>();
-		for (Card c : cards){
-			if (c.getType() == cardType.WEAPON){
-				weapons.add(c);
-			}
-		}
-		return weapons;
-	}
-
-	public Set<Card> getRooms() {
-		Set<Card> rooms = new HashSet<Card>();
-		for (Card c : cards){
-			if (c.getType() == cardType.ROOM){
-				rooms.add(c);
-			}
-		}
-		return rooms;
-	}
-
-
-	public Set<Card> getPlayers() {
-		Set<Card> people = new HashSet<Card>();
-		for (Card c : cards){
-			if (c.getType() == cardType.PERSON){
-				people.add(c);
-			}
-		}
-		return people;
-	}
 
 	public Card getRandomCard(Set<Card> cards){
 		int size = cards.size();
@@ -688,7 +624,7 @@ public final class Board extends JPanel {
 		for (Player p : people) {
 			do {
 				location = getRandomLocation();
-
+				
 				//if not a walkway, or already a player there, get another random location
 			} while((location.getInitial() != 'W') || usedLocations.contains(location));
 
@@ -708,13 +644,99 @@ public final class Board extends JPanel {
 		return grid[randomRow][randomCol];
 	}
 	
+	public Set<Card> getWeapons() {
+		Set<Card> weapons = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.WEAPON){
+				weapons.add(c);
+			}
+		}
+		return weapons;
+	}
+
+	public Set<Card> getRooms() {
+		Set<Card> rooms = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.ROOM){
+				rooms.add(c);
+			}
+		}
+		return rooms;
+	}
+
+
+	public Set<Card> getPlayers() {
+		Set<Card> people = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.PERSON){
+				people.add(c);
+			}
+		}
+		return people;
+	}
+	
 	public void makePlayerQueue(){
 		for (Player p : people){
 			turnOrder.add(p);
 		}
+		//cycle to human player first in turnOrder
+		while(!turnOrder.getFirst().isHuman){
+			cycleTurnOrder();
+		}
 	}
+	public LinkedList<Player> getTurnOrder(){
+		return turnOrder;
+	}
+	
 	public void setPlayerQueue(LinkedList<Player> players){
 		this.turnOrder = players;
+	}
+	
+	//For testing only
+	public void setSolution(Solution solution) {
+		this.solution = solution;
+	}
+
+	public Solution getSolution() {
+		return solution;
+	}
+	
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
+	
+	public Set<Card> getCards() {
+		return cards;
+	}
+	public clueGame.BoardCell getCellAt(int i, int j) {
+		return grid[i][j];
+	}
+
+	public int getNumRows() {
+		return numRows;
+	}
+
+	public int getNumColumns(){
+		return numCols;
+	}
+	public Map<Character, String> getLegendMap() {
+		return legendMap;
+	}
+
+	public Set<Player> getPeople() {
+		return people;
+	}
+
+	//Tests only
+	public void setPeople(Set<Player> people) {
+		this.people = people;
+	}
+
+	public String[][] getCellStrings(){
+		return cellStrings;
+	}
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return adjMtx.get(grid[i][j]);
 	}
 }
 
