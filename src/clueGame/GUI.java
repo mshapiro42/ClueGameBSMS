@@ -40,12 +40,14 @@ public class GUI extends JPanel{
 	private static JPanel diePanel;
 	private static JPanel guessPanel;
 	private static JPanel resultPanel;
+	private static JButton next;
+	private static JButton accusation;
 	private String turn = null;
 	private String die = null;
 	private String guess = null;
 	private String result = null;
 	private static JMenuBar menuBar;
-	private Board board;	//used to get the human player's cards and name
+	private static Board board;	//used to get the human player's cards and name
 	private String humanName;
 	public GUI()
 	{
@@ -101,7 +103,7 @@ public class GUI extends JPanel{
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
 		board.initialize();
 		board.setBorder(new TitledBorder (new EtchedBorder(), "Clue Board"));
-		this.board = board;
+		GUI.board = board;
 		boardPanel = board;
 	}
 
@@ -192,17 +194,30 @@ public class GUI extends JPanel{
 
 		resultPanel = panel;
 	}
-
+	
+	class ButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			if(e.getSource() == next){
+				//do something with next button
+			}
+			else if (e.getSource() == accusation){
+				//do something with accusation button
+			}
+		}
+	}
+	
 	private JPanel createNextPanel() {
 		JPanel panel = new JPanel();
-		JButton nextPlayer = new JButton("Next player");
-		panel.add(nextPlayer);
+		next = new JButton("Next player");
+		next.addActionListener(new ButtonListener());
+		panel.add(next);
 		return panel;
 	}
 	
 	private JPanel createAccusationPanel() {
 		JPanel panel = new JPanel();
-		JButton accusation = new JButton("Make an accusation");
+		accusation = new JButton("Make an accusation");
+		accusation.addActionListener(new ButtonListener());
 		panel.add(accusation);
 		return panel;
 	}
@@ -261,7 +276,6 @@ public class GUI extends JPanel{
 		return panel;
 	}
 	
-
 	public String getHumanName() {
 		return humanName;
 	}
@@ -270,7 +284,9 @@ public class GUI extends JPanel{
 		//recursive, needs to know whose turn, location,
 		Player currentPlayer = board.getTurnOrder().getFirst();
 		int roll = board.rollDie();
-		
+		die = Integer.toString(roll);
+		turn = currentPlayer.getName();
+		createDisplayPanel();
 		if(currentPlayer.isHuman()){
 			//display dice roll
 			//draw target options
@@ -278,7 +294,7 @@ public class GUI extends JPanel{
 			//display error message for invalid target
 			
 		}
-		if(!currentPlayer.isHuman){
+		if(!currentPlayer.isHuman()){
 			//update bottom panel for name and dice roll
 			//update player location, display
 		}
@@ -287,7 +303,8 @@ public class GUI extends JPanel{
 		//cycle playerOrder
 		board.cycleTurnOrder();
 	}
-	
+
+
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();
@@ -305,6 +322,7 @@ public class GUI extends JPanel{
 		//splash field for start message, need to get the starting player's name still
 		String startMessage = "You are " + gui.getHumanName() + ", press Next Player to begin player";
 		JOptionPane.showMessageDialog(frame, startMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
+		gui.playOneTurn();
 	}
 
 }

@@ -427,8 +427,19 @@ public final class Board extends JPanel {
 		findAllTargets(startCell, k);
 
 	}
+	
+	public void calcTargets(BoardCell cell, int k) {
+		int i = cell.getRow();
+		int j = cell.getCol();
+		targets.clear(); // clears old targets 
+		visited.clear(); 
+		visited.add(grid[i][j]);
+		BoardCell startCell = grid[i][j]; 
+		findAllTargets(startCell, k);
 
-	private void findAllTargets(BoardCell startCell, int k) {
+	}
+
+	 void findAllTargets(BoardCell startCell, int k) {
 		Set<BoardCell> adjacent = adjMtx.get(startCell);
 		for(BoardCell cell : adjacent){
 			if (visited.contains(cell)){
