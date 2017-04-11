@@ -215,8 +215,6 @@ public class GUI extends JPanel{
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
 		panel.setLayout(new GridLayout(5,1));
-		c.gridx = 10;
-		c.gridy = 0;
 		String text = "";
 		
 		JPanel peoplePanel = new JPanel();
@@ -231,7 +229,7 @@ public class GUI extends JPanel{
 		textArea.setColumns(10);
 		textArea.setEditable(false);
 		peoplePanel.add(textArea);
-		panel.add(peoplePanel, c);
+		panel.add(peoplePanel);
 		text = "";
 
 		JPanel roomPanel = new JPanel();
@@ -246,7 +244,7 @@ public class GUI extends JPanel{
 		textArea.setEditable(false);
 		textArea.setText(text);
 		roomPanel.add(textArea);
-		panel.add(roomPanel, c);
+		panel.add(roomPanel);
 		text = "";
 
 		JPanel weaponPanel = new JPanel();
@@ -261,7 +259,7 @@ public class GUI extends JPanel{
 		textArea.setColumns(10);
 		textArea.setEditable(false);
 		weaponPanel.add(textArea);
-		panel.add(weaponPanel, c);
+		panel.add(weaponPanel);
 		text = "";
 
 		return panel;
