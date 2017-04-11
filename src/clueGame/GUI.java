@@ -266,6 +266,28 @@ public class GUI extends JPanel{
 		return humanName;
 	}
 
+	public void playOneTurn() {
+		//recursive, needs to know whose turn, location,
+		Player currentPlayer = board.getTurnOrder().getFirst();
+		int roll = board.rollDie();
+		
+		if(currentPlayer.isHuman()){
+			//display dice roll
+			//draw target options
+			//listen for click, validate selection
+			//display error message for invalid target
+			
+		}
+		if(!currentPlayer.isHuman){
+			//update bottom panel for name and dice roll
+			//update player location, display
+		}
+		
+		
+		//cycle playerOrder
+		board.cycleTurnOrder();
+	}
+	
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();

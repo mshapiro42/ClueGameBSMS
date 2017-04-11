@@ -106,8 +106,6 @@ public class Player {
 				matchingCards.add(c);
 			}
 		}
-
-
 		//If player has only one matching card it should be returned
 		if (matchingCards.size() == 1) {
 			//return the only member
