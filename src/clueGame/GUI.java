@@ -33,35 +33,27 @@ import clueGame.Card.cardType;
 public class GUI extends JPanel{
 	private JTextField textField;
 	private JTextArea textArea;
-	private GridBagConstraints c;
 	private static JPanel boardPanel;
 	private static JPanel playerHandPanel;
+	private static JPanel displayPanel;
+	private static JPanel turnPanel;
+	private static JPanel diePanel;
+	private static JPanel guessPanel;
+	private static JPanel resultPanel;
+	private String turn = null;
+	private String die = null;
+	private String guess = null;
+	private String result = null;
 	private static JMenuBar menuBar;
 	private Board board;	//used to get the human player's cards and name
 	private String humanName;
 	public GUI()
 	{
 		// Create a layout with 2 rows
-		GridBagLayout layout = new GridBagLayout();
-		c = new GridBagConstraints();
-		c.weightx = .5;
-		c.weighty = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		setLayout(layout);
-		JPanel panel = createTurnPanel();
-		add(panel,c);
-		c.insets = new Insets(10,10,10,10);
-		panel = createButtonPanel();
-		add(panel,c);
-		panel = createDiePanel();
-		add(panel,c);
-		panel = createGuessPanel();
-		add(panel,c);
-		panel = createResultPanel();
-		add(panel,c);	
+		
 		createBoardPanel();		
 		createPlayerHandPanel();
-
+		createDisplayPanel();
 
 		//Menu Bar Creation
 		menuBar = new JMenuBar();
@@ -80,7 +72,7 @@ public class GUI extends JPanel{
 		JMenuItem item = new JMenuItem("Show Detective Notes");
 		class MenuItemListener implements ActionListener {
 			public void actionPerformed(ActionEvent e){
-				DetectiveNotesDialog notes = new DetectiveNotesDialog();
+				DetectiveNotesDialog notes = new DetectiveNotesDialog(board);
 				notes.setVisible(true);
 			}
 		}
@@ -125,89 +117,93 @@ public class GUI extends JPanel{
 		playerHandPanel = createPlayerCardsPanel(hand);
 	}
 
-	private JPanel createTurnPanel() {
+	private void createDisplayPanel(){
+		JPanel dp = new JPanel();
+		dp.setLayout(new GridLayout(0,3));
+		createTurnPanel();
+		dp.add(turnPanel);
+		JPanel next = createNextPanel();
+		dp.add(next);
+		JPanel accusation = createAccusationPanel();
+		dp.add(accusation);
+		createDiePanel();
+		dp.add(diePanel);
+		createGuessPanel();
+		dp.add(guessPanel);
+		createResultPanel();
+		dp.add(resultPanel);	
+		displayPanel = dp;
+	}
+	
+	private void createTurnPanel() {
 		JPanel panel = new JPanel();
 		// Use a grid layout, 1 row, 2 elements (label, text)
 		panel.setLayout(new GridLayout(2,1));
 		JLabel label = new JLabel("Whose Turn");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		textField = new JTextField();
+		textField = new JTextField(turn);
 		textField.setColumns(40);
 		textField.setEditable(false);
-		c.gridx =0;
-		c.gridy = 6;
-		c.insets = new Insets(10,50,10,10);
 		panel.add(label);
 		panel.add(textField);
 
-		return panel;
+		turnPanel = panel;
 	}
 
-	//-------------------
-	private JPanel createDiePanel() {
+	private void createDiePanel() {
 		JPanel panel = new JPanel();
 		// Use a grid layout, 1 row, 2 elements (label, text)
 		panel.setLayout(new GridLayout(1,2));
 		JLabel turnLabel = new JLabel("Roll");
-		textField = new JTextField();
+		textField = new JTextField(die);
 		textField.setColumns(15);
 		textField.setEditable(false);
 		panel.add(turnLabel);
 		panel.add(textField);
-		c.gridx = 0;
-		c.gridy = 7;
-		c.gridwidth = 1;
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
 
-		return panel;
+		diePanel = panel;
 	}
 
-	private JPanel createGuessPanel() {
+	private void createGuessPanel() {
 		JPanel panel = new JPanel();
 		// Use a grid layout, 1 row, 2 elements (label, text)
 		panel.setLayout(new GridLayout(2,1));
-		textField = new JTextField();
+		textField = new JTextField(guess);
 		textField.setColumns(100);
 		textField.setEditable(false);
 		panel.add(textField);
-		c.gridx = 1;
-		c.gridy = 7;
-		c.gridwidth = 3;
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
 
-		return panel;
+		guessPanel = panel;
 	}
 
-	private JPanel createResultPanel() {
+	private void createResultPanel() {
 		JPanel panel = new JPanel();
 		// Use a grid layout, 1 row, 2 elements (label, text)
 		panel.setLayout(new GridLayout(1,2));
 		JLabel turnLabel = new JLabel("Response");
-		textField = new JTextField();
+		textField = new JTextField(result);
 		textField.setColumns(50);
 		textField.setEditable(false);
 		panel.add(turnLabel);
 		panel.add(textField);
-		c.gridx = 4;
-		c.gridy = 7;
-		c.gridwidth = 2;
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess result"));
 
-		return panel;
+		resultPanel = panel;
 	}
 
-
-
-	private JPanel createButtonPanel() {
+	private JPanel createNextPanel() {
 		JPanel panel = new JPanel();
 		JButton nextPlayer = new JButton("Next player");
-		c.gridx = 1;
-		c.gridy = 5;
-		panel.add(nextPlayer,c);
+		panel.add(nextPlayer);
+		return panel;
+	}
+	
+	private JPanel createAccusationPanel() {
+		JPanel panel = new JPanel();
 		JButton accusation = new JButton("Make an accusation");
-		c.gridx = 2;
-		c.gridy = 6;
-		panel.add(accusation,c);
+		panel.add(accusation);
 		return panel;
 	}
 
@@ -270,7 +266,6 @@ public class GUI extends JPanel{
 		return humanName;
 	}
 
-
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();
@@ -280,7 +275,7 @@ public class GUI extends JPanel{
 		GUI gui = new GUI();
 		frame.add(boardPanel, BorderLayout.CENTER);
 		frame.add(playerHandPanel, BorderLayout.EAST);
-		frame.add(gui, BorderLayout.SOUTH);
+		frame.add(displayPanel, BorderLayout.SOUTH);
 		// Now let's view it
 		frame.setSize(800, 800);
 		frame.setJMenuBar(menuBar);

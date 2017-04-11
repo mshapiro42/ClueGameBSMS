@@ -171,8 +171,8 @@ public class BoardGUI extends JFrame{
 		JMenuItem item = new JMenuItem("Show Detective Notes");
 		class MenuItemListener implements ActionListener {
 			public void actionPerformed(ActionEvent e){
-				DetectiveNotesDialog notes = new DetectiveNotesDialog();
-				notes.setVisible(true);
+//				DetectiveNotesDialog notes = new DetectiveNotesDialog();
+//				notes.setVisible(true);
 			}
 		}
 		

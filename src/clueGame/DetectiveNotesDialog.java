@@ -20,10 +20,8 @@ public class DetectiveNotesDialog extends JDialog{
 		private Set<Card> rooms= new HashSet<Card>();
 //		private Board board = new Board();
 		
-		public DetectiveNotesDialog() {
-			board = Board.getInstance();
-			board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
-			board.initialize();
+		public DetectiveNotesDialog(Board board) {
+			this.board= board;
 			deck = board.getCards();
 			sortCards();
 			setSize(600,800);
