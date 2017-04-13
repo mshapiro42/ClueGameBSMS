@@ -1,6 +1,6 @@
-RED, Signora Rosso
-YELLOW, Seniorita Amarillo
-GREEN, Herr Grun
-BLUE, Monsier Bleu
-PINK, Senhora Rosa
-MAGENTA, Murasaki Sensei
+RED, Signora Rosso,4,0
+YELLOW, Seniorita Amarillo,12,0
+GREEN, Herr Grun,20,9
+BLUE, Monsier Bleu,15,21
+PINK, Senhora Rosa,7,21
+MAGENTA, Murasaki Sensei,0,16

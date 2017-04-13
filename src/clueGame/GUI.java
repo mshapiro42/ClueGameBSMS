@@ -30,37 +30,33 @@ import javax.swing.border.TitledBorder;
 import clueGame.Card.cardType;
 
 
-public class GUI extends JPanel{
-	private JTextField textField;
+public class GUI extends JFrame{
 	private JTextArea textArea;
-	private static JPanel boardPanel;
-	private static JPanel playerHandPanel;
-	private static JPanel displayPanel;
-	private static JPanel turnPanel;
-	private static JPanel diePanel;
-	private static JPanel guessPanel;
-	private static JPanel resultPanel;
-	private static JButton next;
-	private static JButton accusation;
-	private String turn = null;
-	private String die = null;
-	private String guess = null;
-	private String result = null;
-	private static JMenuBar menuBar;
+	private JPanel boardPanel;
+	private JPanel playerHandPanel;
+	private DisplayPanel displayPanel;
+	private JMenuBar menuBar;
 	private static Board board;	//used to get the human player's cards and name
 	private String humanName;
 	public GUI()
 	{
-		// Create a layout with 2 rows
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Clue Game");
+		setSize(800, 800);
 		
 		createBoardPanel();		
 		createPlayerHandPanel();
-		createDisplayPanel();
+		displayPanel = new DisplayPanel();
 
 		//Menu Bar Creation
 		menuBar = new JMenuBar();
 		menuBar.add(createFileMenu());
-
+		
+		add(boardPanel, BorderLayout.CENTER);
+		add(playerHandPanel, BorderLayout.EAST);
+		add(displayPanel, BorderLayout.SOUTH);
+		setJMenuBar(menuBar);
 	}
 
 	private JMenu createFileMenu() {
@@ -119,108 +115,6 @@ public class GUI extends JPanel{
 		playerHandPanel = createPlayerCardsPanel(hand);
 	}
 
-	private void createDisplayPanel(){
-		JPanel dp = new JPanel();
-		dp.setLayout(new GridLayout(0,3));
-		createTurnPanel();
-		dp.add(turnPanel);
-		JPanel next = createNextPanel();
-		dp.add(next);
-		JPanel accusation = createAccusationPanel();
-		dp.add(accusation);
-		createDiePanel();
-		dp.add(diePanel);
-		createGuessPanel();
-		dp.add(guessPanel);
-		createResultPanel();
-		dp.add(resultPanel);	
-		displayPanel = dp;
-	}
-	
-	private void createTurnPanel() {
-		JPanel panel = new JPanel();
-		// Use a grid layout, 1 row, 2 elements (label, text)
-		panel.setLayout(new GridLayout(2,1));
-		JLabel label = new JLabel("Whose Turn");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		textField = new JTextField(turn);
-		textField.setColumns(40);
-		textField.setEditable(false);
-		panel.add(label);
-		panel.add(textField);
-
-		turnPanel = panel;
-	}
-
-	private void createDiePanel() {
-		JPanel panel = new JPanel();
-		// Use a grid layout, 1 row, 2 elements (label, text)
-		panel.setLayout(new GridLayout(1,2));
-		JLabel turnLabel = new JLabel("Roll");
-		textField = new JTextField(die);
-		textField.setColumns(15);
-		textField.setEditable(false);
-		panel.add(turnLabel);
-		panel.add(textField);
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
-
-		diePanel = panel;
-	}
-
-	private void createGuessPanel() {
-		JPanel panel = new JPanel();
-		// Use a grid layout, 1 row, 2 elements (label, text)
-		panel.setLayout(new GridLayout(2,1));
-		textField = new JTextField(guess);
-		textField.setColumns(100);
-		textField.setEditable(false);
-		panel.add(textField);
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
-
-		guessPanel = panel;
-	}
-
-	private void createResultPanel() {
-		JPanel panel = new JPanel();
-		// Use a grid layout, 1 row, 2 elements (label, text)
-		panel.setLayout(new GridLayout(1,2));
-		JLabel turnLabel = new JLabel("Response");
-		textField = new JTextField(result);
-		textField.setColumns(50);
-		textField.setEditable(false);
-		panel.add(turnLabel);
-		panel.add(textField);
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess result"));
-
-		resultPanel = panel;
-	}
-	
-	class ButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){
-			if(e.getSource() == next){
-				//do something with next button
-			}
-			else if (e.getSource() == accusation){
-				//do something with accusation button
-			}
-		}
-	}
-	
-	private JPanel createNextPanel() {
-		JPanel panel = new JPanel();
-		next = new JButton("Next player");
-		next.addActionListener(new ButtonListener());
-		panel.add(next);
-		return panel;
-	}
-	
-	private JPanel createAccusationPanel() {
-		JPanel panel = new JPanel();
-		accusation = new JButton("Make an accusation");
-		accusation.addActionListener(new ButtonListener());
-		panel.add(accusation);
-		return panel;
-	}
 
 	public JPanel createPlayerCardsPanel(Set<Card> hand){
 		JPanel panel = new JPanel();
@@ -284,18 +178,25 @@ public class GUI extends JPanel{
 		//recursive, needs to know whose turn, location,
 		Player currentPlayer = board.getTurnOrder().getFirst();
 		int roll = board.rollDie();
-		die = Integer.toString(roll);
-		turn = currentPlayer.getName();
-		createDisplayPanel();
+		boolean turnCompleted;
+		//update bottom panel for name and dice roll
+		displayPanel.setTurnText(currentPlayer.getName());
+		displayPanel.setDieText(Integer.toString(roll));
+		board.calcTargets(currentPlayer.getLocation(), roll);
+		Set<BoardCell> targets = board.getTargets();
+		
 		if(currentPlayer.isHuman()){
-			//display dice roll
+			for(BoardCell c : targets){
+				c.makeTarget();
+			}
+			board.repaint();
+			//board.displayTargets();
 			//draw target options
 			//listen for click, validate selection
 			//display error message for invalid target
 			
 		}
 		if(!currentPlayer.isHuman()){
-			//update bottom panel for name and dice roll
 			//update player location, display
 		}
 		
@@ -304,24 +205,13 @@ public class GUI extends JPanel{
 		board.cycleTurnOrder();
 	}
 
-
 	public static void main(String[] args) {
 		// Create a JFrame with all the normal functionality
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Clue Game");
-		// Create the JPanel and add it to the JFrame
 		GUI gui = new GUI();
-		frame.add(boardPanel, BorderLayout.CENTER);
-		frame.add(playerHandPanel, BorderLayout.EAST);
-		frame.add(displayPanel, BorderLayout.SOUTH);
-		// Now let's view it
-		frame.setSize(800, 800);
-		frame.setJMenuBar(menuBar);
-		frame.setVisible(true);
+		gui.setVisible(true);
 		//splash field for start message, need to get the starting player's name still
 		String startMessage = "You are " + gui.getHumanName() + ", press Next Player to begin player";
-		JOptionPane.showMessageDialog(frame, startMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(gui, startMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		gui.playOneTurn();
 	}
 

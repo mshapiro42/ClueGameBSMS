@@ -14,6 +14,7 @@ public class BoardCell {
 	private int row;
 	private int col;
 	private String doorString;
+	private boolean isTarget = false;
 	
 	public BoardCell(int row, int col) {
 		super();
@@ -40,6 +41,10 @@ public class BoardCell {
 	}
 	public int getCol() {
 		return col;
+	}
+	
+	public void makeTarget() {
+		isTarget = true;
 	}
 
 	public boolean isDoorway() {
@@ -76,6 +81,11 @@ public class BoardCell {
 		g2.setStroke(new BasicStroke(0));
 		if (doorString.charAt(0) == 'W')
 		{
+			if(isTarget){
+				g2.setColor(Color.CYAN);
+				g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
+				isTarget = false;
+			}
 			g2.setColor(Color.DARK_GRAY);
 			g2.drawRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 		}

@@ -118,7 +118,7 @@ public final class Board extends JPanel {
 				loadPlayersConfig();
 				loadWeaponsConfig();
 				dealCards();
-				setPlayerLocations();
+				//setPlayerLocations();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -333,7 +333,6 @@ public final class Board extends JPanel {
 	}
 
 
-
 	public void loadRoomConfig() throws BadConfigFormatException, IOException, FileNotFoundException {
 		String[] configStrings = new String[1000];
 		int i = 0;
@@ -391,7 +390,12 @@ public final class Board extends JPanel {
 			}
 			temp.setColor(arr[0]);
 			temp.setName(arr[1].trim());
-			if (arr.length > 2) {
+			int x = Integer.parseInt(arr[2]);
+			int y = Integer.parseInt(arr[3]);
+			temp.setRow(x);
+			temp.setColumn(y);
+			temp.setLocation(grid[x][y]);
+			if (arr.length > 4) {
 				throw new BadConfigFormatException("Players File has incorrect formatting");
 			}
 			people.add(temp);
@@ -439,7 +443,7 @@ public final class Board extends JPanel {
 
 	}
 
-	 void findAllTargets(BoardCell startCell, int k) {
+	void findAllTargets(BoardCell startCell, int k) {
 		Set<BoardCell> adjacent = adjMtx.get(startCell);
 		for(BoardCell cell : adjacent){
 			if (visited.contains(cell)){
