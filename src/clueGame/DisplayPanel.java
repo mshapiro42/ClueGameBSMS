@@ -144,5 +144,4 @@ public class DisplayPanel extends JPanel{
 		panel.add(accusation);
 		return panel;
 	}
-
 }
