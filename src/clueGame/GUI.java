@@ -28,13 +28,14 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Card.cardType;
+import clueGame.DisplayPanel;
 
 
 public class GUI extends JFrame{
 	private JTextArea textArea;
 	private JPanel boardPanel;
 	private JPanel playerHandPanel;
-	private DisplayPanel displayPanel;
+	//private DisplayPanel displayPanel;
 	private JMenuBar menuBar;
 	private static Board board;	//used to get the human player's cards and name
 	private String humanName;
@@ -47,7 +48,7 @@ public class GUI extends JFrame{
 		
 		createBoardPanel();		
 		createPlayerHandPanel();
-		displayPanel = new DisplayPanel();
+		//displayPanel = new DisplayPanel();
 
 		//Menu Bar Creation
 		menuBar = new JMenuBar();
@@ -55,7 +56,7 @@ public class GUI extends JFrame{
 		
 		add(boardPanel, BorderLayout.CENTER);
 		add(playerHandPanel, BorderLayout.EAST);
-		add(displayPanel, BorderLayout.SOUTH);
+		//add(displayPanel, BorderLayout.SOUTH);
 		setJMenuBar(menuBar);
 	}
 
@@ -96,7 +97,7 @@ public class GUI extends JFrame{
 
 	private void createBoardPanel() {
 		Board board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
+		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players2.txt","Weapons.txt");
 		board.initialize();
 		board.setBorder(new TitledBorder (new EtchedBorder(), "Clue Board"));
 		GUI.board = board;
@@ -180,8 +181,8 @@ public class GUI extends JFrame{
 		int roll = board.rollDie();
 		boolean turnCompleted;
 		//update bottom panel for name and dice roll
-		displayPanel.setTurnText(currentPlayer.getName());
-		displayPanel.setDieText(Integer.toString(roll));
+//		displayPanel.setTurnText(currentPlayer.getName());
+//		displayPanel.setDieText(Integer.toString(roll));
 		board.calcTargets(currentPlayer.getLocation(), roll);
 		Set<BoardCell> targets = board.getTargets();
 		

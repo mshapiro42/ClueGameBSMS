@@ -47,7 +47,7 @@ public final class Board extends JPanel {
 	private Set<Card> cards = new HashSet<Card>();
 	private Set<Card> dealt = new HashSet<Card>();
 	private Solution solution = new Solution();
-	
+
 	private String[][] cellStrings = new String[100][100];
 	private String legendString;
 	private String layoutString;
@@ -55,13 +55,13 @@ public final class Board extends JPanel {
 	private String weaponsString;
 	private int numRows;
 	private int numCols;
-	
+
 	public static int PANEL_X_OFFSET = 18;
 	public static int PANEL_Y_OFFSET = 18;
-	
-	
-	
-	
+
+
+
+
 
 	private Board() {
 		super();
@@ -93,7 +93,7 @@ public final class Board extends JPanel {
 		legendMap.clear();
 		cards.clear();
 		makeLegend();
-		
+
 		int i = 0; 
 		int j = 0;
 		BufferedReader br = null;
@@ -276,7 +276,7 @@ public final class Board extends JPanel {
 
 		}
 	}
-	
+
 
 
 	public void makeLegend() {
@@ -296,27 +296,27 @@ public final class Board extends JPanel {
 		while(in.hasNextLine()){
 			line = in.nextLine();
 			if(line == "") break;
-				String[] legendArray = new String[3];
-				legendArray = line.split(", ");
-				if(legendArray[0].length() != 1){
-					try {
-						throw new BadConfigFormatException();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			String[] legendArray = new String[3];
+			legendArray = line.split(", ");
+			if(legendArray[0].length() != 1){
+				try {
+					throw new BadConfigFormatException();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				mapKey = legendArray[0].charAt(0);
+			}
+			mapKey = legendArray[0].charAt(0);
 
-				roomName = legendArray[1];
-				if(legendArray[2].equals("Card")){
-					Card c = new Card();
-					c.setType(cardType.ROOM);
-					c.setName(roomName);
-					cards.add(c);
-				}
-				legendMap.put(mapKey, roomName);
-			} 
+			roomName = legendArray[1];
+			if(legendArray[2].equals("Card")){
+				Card c = new Card();
+				c.setType(cardType.ROOM);
+				c.setName(roomName);
+				cards.add(c);
+			}
+			legendMap.put(mapKey, roomName);
+		} 
 		in.close();
 	}
 
@@ -431,7 +431,7 @@ public final class Board extends JPanel {
 		findAllTargets(startCell, k);
 
 	}
-	
+
 	public void calcTargets(BoardCell cell, int k) {
 		int i = cell.getRow();
 		int j = cell.getCol();
@@ -462,7 +462,7 @@ public final class Board extends JPanel {
 
 	}
 
-	
+
 	public boolean checkCell(BoardCell current){
 		boolean checkValue = false;
 
@@ -502,7 +502,7 @@ public final class Board extends JPanel {
 			player.getLocation().drawPlayer(g, player.getColor());
 		}
 	}
-	
+
 	public Integer rollDie(){
 		Random rn = new Random();
 		int maximum = 6;
@@ -511,7 +511,7 @@ public final class Board extends JPanel {
 		int roll =  rn.nextInt(range) + minimum;
 		return roll;
 	}
-	
+
 	public void cycleTurnOrder(){
 		Player previous = turnOrder.removeFirst();
 		turnOrder.add(previous);
@@ -536,7 +536,7 @@ public final class Board extends JPanel {
 
 		//value to be returned
 		Card finalValue = new Card();
-		
+
 		//Suggestion no one can disprove returns null
 		if (!matchExists) {
 			finalValue = null;
@@ -575,7 +575,7 @@ public final class Board extends JPanel {
 				}
 			}
 		}
-		
+
 		//if the suggester was a computer player, show them the card
 		//human is expected to know which cards they have seen
 		if (!suggestingPlayer.isHuman && matchExists) {
@@ -639,7 +639,7 @@ public final class Board extends JPanel {
 		for (Player p : people) {
 			do {
 				location = getRandomLocation();
-				
+
 				//if not a walkway, or already a player there, get another random location
 			} while((location.getInitial() != 'W') || usedLocations.contains(location));
 
@@ -658,7 +658,7 @@ public final class Board extends JPanel {
 
 		return grid[randomRow][randomCol];
 	}
-	
+
 	public Set<Card> getWeapons() {
 		Set<Card> weapons = new HashSet<Card>();
 		for (Card c : cards){
@@ -689,7 +689,7 @@ public final class Board extends JPanel {
 		}
 		return people;
 	}
-	
+
 	public void makePlayerQueue(){
 		for (Player p : people){
 			turnOrder.add(p);
@@ -702,11 +702,11 @@ public final class Board extends JPanel {
 	public LinkedList<Player> getTurnOrder(){
 		return turnOrder;
 	}
-	
+
 	public void setPlayerQueue(LinkedList<Player> players){
 		this.turnOrder = players;
 	}
-	
+
 	//For testing only
 	public void setSolution(Solution solution) {
 		this.solution = solution;
@@ -715,11 +715,11 @@ public final class Board extends JPanel {
 	public Solution getSolution() {
 		return solution;
 	}
-	
+
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
-	
+
 	public Set<Card> getCards() {
 		return cards;
 	}
