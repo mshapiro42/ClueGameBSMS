@@ -1,0 +1,45 @@
+public void makeLegend() {
+		legendMap.clear();
+		Character mapKey = null;
+		String roomName = "";
+		String temp = "";
+		FileReader reader = null;
+
+		try {
+			reader = new FileReader(legendString);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+
+		Scanner in = new Scanner(reader);
+		while((temp = in.nextLine()) != null ){
+			if(temp == "") break;
+			try{
+				mapKey = temp.charAt(0);
+				System.out.println(mapKey);
+			} catch (NumberFormatException e1) {
+				System.err.println("\nIncorrect format for " + mapKey + "Not a char");
+			}
+			int endi = temp.lastIndexOf(',');
+			roomName = temp.substring(3, endi);
+			Card c = new Card();
+			c.setType(cardType.ROOM);
+			c.setName(roomName);
+			Boolean contains = false;
+			for (Card t : cards){
+				if (t.getName().equals(roomName)){
+					contains = true;
+				}
+			}
+			if (!contains){
+				cards.add(c);
+			}
+			//System.out.println("roomName is: " + roomName);
+			legendMap.put(mapKey, roomName);
+			//System.out.println(legendMap);
+			if(!in.hasNextLine()){
+				break;
+			}
+		}
+		in.close();
+	}
