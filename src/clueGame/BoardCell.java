@@ -13,11 +13,12 @@ import java.util.Map;
 //Blake Sanders
 //Jonny Morsicato 
 public class BoardCell{
-	private final int CELL_SIDE_LENGTH = 25;
+	private final static int CELL_SIDE_LENGTH = 25;
 	private int pixelX, pixelY;
 	private int row;
 	private int col;
 	private String doorString;
+
 	private boolean isTarget = false;
 	
 	public BoardCell(int row, int col) {
@@ -45,6 +46,10 @@ public class BoardCell{
 	}
 	public int getCol() {
 		return col;
+	}
+	
+	public static int getCELL_SIDE_LENGTH() {
+		return CELL_SIDE_LENGTH;
 	}
 	
 	public void setTarget(boolean target) {

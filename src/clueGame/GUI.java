@@ -133,14 +133,30 @@ public class GUI extends JFrame{
 		public void mouseExited(MouseEvent e) {}
 		public void mouseReleased(MouseEvent e) {}
 		public void mousePressed(MouseEvent e) {
-			BoardCell cell = null;
-			for(int i =0;i<board.getNumRows();i++){
-				for(int j=0;j<board.getNumColumns();j++){
-					if(board.grid[i][j].containsClick(e.getX(),e.getY())){
-						cell = board.grid[i][j];
-					}
-				}
+			BoardCell cell = board.grid[board.getNumColumns()][board.getNumRows()]; //just initialize to a far out room cell
+//			for(int i =0;i<board.getNumRows();i++){
+//				for(int j=0;j<board.getNumColumns();j++){
+//					if(board.grid[i][j].containsClick(e.getX(),e.getY())){
+//						cell = board.grid[i][j];
+//					}
+//				}
+//			}
+			int gridX = e.getX() / BoardCell.getCELL_SIDE_LENGTH();
+			int gridY = e.getY() / BoardCell.getCELL_SIDE_LENGTH();
+			
+			if(gridX <= board.getNumColumns()){
+				cell.setCol(gridX);
 			}
+			else{
+				cell = null;
+			}
+			if(gridY <= board.getNumRows()){
+				cell.setRow(gridY);
+			}
+			else{
+				cell = null;
+			}
+			
 			if (cell != null){
 				if (!targets.contains(cell)){
 					JOptionPane.showMessageDialog(getInstance(),"That is not a target!");
@@ -375,12 +391,8 @@ public class GUI extends JFrame{
 			setTurnText(currentPlayer.getName());
 			setDieText(Integer.toString(roll));
 			board.calcTargets(currentPlayer.getLocation(), roll);
-<<<<<<< HEAD
 			Set<BoardCell> targets = board.getTargets();
-			
-=======
-			targets = board.getTargets();
->>>>>>> c2d46ed62c85c4604f2364eaad92c135a292ac8d
+
 			if(currentPlayer.isHuman()){
 				for(BoardCell c : targets){
 					c.setTarget(true);
