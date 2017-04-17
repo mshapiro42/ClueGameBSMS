@@ -28,8 +28,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Card.cardType;
-import clueGame.DisplayPanel.ButtonListener;
-import clueGame.DisplayPanel;
 
 
 public class GUI extends JFrame{
@@ -54,7 +52,8 @@ public class GUI extends JFrame{
 	private JTextField guessText;
 	private JTextField resultText;
 	private boolean turnCompleted;
-	
+	private Player currentPlayer;
+
 	private static GUI getInstance() {
 		return instance;
 	}
@@ -199,7 +198,7 @@ public class GUI extends JFrame{
 		createDiePanel();
 		createGuessPanel();
 		createResultPanel();
-		
+
 		displayPanel.add(turnPanel);
 		displayPanel.add(accusationPanel);
 		displayPanel.add(nextPanel);
@@ -207,7 +206,7 @@ public class GUI extends JFrame{
 		displayPanel.add(guessPanel);
 		displayPanel.add(resultPanel);	
 	}
-	
+
 	private void createTurnPanel() {
 		JPanel panel = new JPanel();
 		// Use a grid layout, 1 row, 2 elements (label, text)
@@ -222,19 +221,19 @@ public class GUI extends JFrame{
 
 		turnPanel = panel;
 	}
-	
+
 	public void setTurnText(String turn){
 		turnText.setText(turn);
 	}
-	
+
 	public void setDieText(String roll){
 		dieText.setText(roll);
 	}
-	
+
 	public void setGuessText(String guess){
 		guessText.setText(guess);
 	}
-	
+
 	public void setResultText(String result){
 		resultText.setText(result);
 	}
@@ -281,20 +280,34 @@ public class GUI extends JFrame{
 
 		resultPanel = panel;
 	}
-	
+
 	class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			if(e.getSource() == next){
 				if(!turnCompleted){
 					JOptionPane.showMessageDialog(getInstance(), "You must complete your turn");
 				}
+				else{
+					board.cycleTurnOrder();
+					playOneTurn();
+				}
 			}
 			else if (e.getSource() == accusation){
-				//do something with accusation button
+				if(!currentPlayer.isHuman()){
+					JOptionPane.showMessageDialog(getInstance(), "It is not your turn");
+				}
+				else {
+					if(turnCompleted){
+						JOptionPane.showMessageDialog(getInstance(), "Your turn is already complete");
+					}
+					else{
+						//create accusation panel
+					}
+				}
 			}
 		}
 	}
-	
+
 	private JPanel createNextPanel() {
 		JPanel panel = new JPanel();
 		next = new JButton("Next player");
@@ -302,7 +315,7 @@ public class GUI extends JFrame{
 		panel.add(next);
 		return panel;
 	}
-	
+
 	private JPanel createAccusationPanel() {
 		JPanel panel = new JPanel();
 		accusation = new JButton("Make an accusation");
@@ -310,26 +323,25 @@ public class GUI extends JFrame{
 		panel.add(accusation);
 		return panel;
 	}
-	
+
 	public String getHumanName() {
 		return humanName;
 	}
 
-	
-	
-	
-	
+
 	public void playOneTurn() {
-		//recursive, needs to know whose turn, location,
-		Player currentPlayer = board.getTurnOrder().getFirst();
-		int roll = board.rollDie();
-		turnCompleted = false;
-		//update bottom panel for name and dice roll
-		setTurnText(currentPlayer.getName());
-		setDieText(Integer.toString(roll));
-		board.calcTargets(currentPlayer.getLocation(), roll);
-		Set<BoardCell> targets = board.getTargets();
-		if(currentPlayer.isHuman()){
+		if(!board.isGameSolved()){
+			//recursive, needs to know whose turn, location,
+			board.cycleTurnOrder();
+			currentPlayer = board.getTurnOrder().getFirst();
+			int roll = board.rollDie();
+			turnCompleted = false;
+			//update bottom panel for name and dice roll
+			setTurnText(currentPlayer.getName());
+			setDieText(Integer.toString(roll));
+			board.calcTargets(currentPlayer.getLocation(), roll);
+			Set<BoardCell> targets = board.getTargets();
+			if(currentPlayer.isHuman()){
 				for(BoardCell c : targets){
 					c.setTarget(true);
 				}
@@ -350,7 +362,11 @@ public class GUI extends JFrame{
 			//}
 			//cycle playerOrder
 
-		board.cycleTurnOrder();
+		}
+		else{
+			JOptionPane.showMessageDialog(getInstance(), "You've won!");
+			System.exit(0);
+		}
 	}
 
 	public static void main(String[] args) {
@@ -361,7 +377,7 @@ public class GUI extends JFrame{
 		String startMessage = "You are " + gui.getHumanName() + ", press Next Player to begin player";
 		JOptionPane.showMessageDialog(gui, startMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		//while(!board.isGameSolved()){
-			gui.playOneTurn();
+		gui.playOneTurn();
 		//}
 	}
 
