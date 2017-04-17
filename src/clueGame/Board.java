@@ -18,6 +18,7 @@ import sun.misc.Queue;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -33,7 +34,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 
-public final class Board extends JPanel {
+public final class Board extends JPanel{
 
 	private static Board instance;
 	public static int PANEL_X_OFFSET = 18;
@@ -51,7 +52,7 @@ public final class Board extends JPanel {
 	private Set<BoardCell> targets = new HashSet<BoardCell>();
 	private Set<BoardCell> adjSet = new HashSet<BoardCell>();
 	private Map<Character, String> legendMap = new HashMap<Character, String>();
-	private BoardCell[][] grid = new BoardCell[100][100];
+	BoardCell[][] grid = new BoardCell[100][100];
 	private LinkedList<Player> turnOrder = new LinkedList<Player>();
 	private Set<Player> people = new HashSet<Player>();
 	private Set<Card> cards = new HashSet<Card>();
@@ -724,7 +725,10 @@ public final class Board extends JPanel {
 	}
 
 	public void setSolution(Solution solution) {
+
 		this.solution = solution;
 	}
+
+
 }
 
