@@ -54,7 +54,6 @@ public final class Board extends JPanel {
 	private BoardCell[][] grid = new BoardCell[100][100];
 	private LinkedList<Player> turnOrder = new LinkedList<Player>();
 	private Set<Player> people = new HashSet<Player>();
-
 	private Set<Card> cards = new HashSet<Card>();
 	private Set<Card> dealt = new HashSet<Card>();
 	private Solution solution = new Solution();
@@ -62,11 +61,10 @@ public final class Board extends JPanel {
 	private String legendString;
 	private String layoutString;
 	private String playersString;
-
 	private String weaponsString;
 	private int numRows;
-
 	private int numCols;
+	private boolean gameSolved = false;
 
 	private Board() {
 		super();
@@ -510,7 +508,6 @@ public final class Board extends JPanel {
 				loadPlayersConfig();
 				loadWeaponsConfig();
 				dealCards();
-				//setPlayerLocations();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -522,6 +519,10 @@ public final class Board extends JPanel {
 
 	}
 
+	public boolean isGameSolved() {
+		return gameSolved;
+	}
+	
 	public void loadBoardConfig() throws IOException, BadConfigFormatException{
 
 		int i = 0; int j = 0;
@@ -544,7 +545,7 @@ public final class Board extends JPanel {
 		}
 
 	}
-	
+
 	public void loadPlayersConfig() throws FileNotFoundException, BadConfigFormatException{
 		FileReader reader = new FileReader(playersString);
 		Scanner in = new Scanner(reader);
@@ -658,7 +659,6 @@ public final class Board extends JPanel {
 			cycleTurnOrder();
 		}
 	}
-
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
@@ -674,6 +674,7 @@ public final class Board extends JPanel {
 			player.getLocation().drawPlayer(g, player.getColor());
 		}
 	}
+
 	public Integer rollDie(){
 		Random rn = new Random();
 		int maximum = 6;
@@ -697,11 +698,11 @@ public final class Board extends JPanel {
 		dealt.add(person);
 		dealt.add(room);
 	}
-
 	public void setConfigFiles(String layout, String legend) {
 		layoutString = layout;
 		legendString = legend;
 	}
+
 	public void setConfigFiles(String layout, String legend, String players, String weapons) {
 		layoutString = layout;
 		legendString = legend;
@@ -709,32 +710,19 @@ public final class Board extends JPanel {
 		weaponsString = weapons;
 	}
 
+	public void setGameSolved(boolean gameSolved) {
+		this.gameSolved = gameSolved;
+	}
+
 	//Tests only
 	public void setPeople(Set<Player> people) {
 		this.people = people;
 	}
 
-	public void setPlayerLocations() {
-		Set<BoardCell> usedLocations = new HashSet<BoardCell>();
-		BoardCell location;
-
-		for (Player p : people) {
-			do {
-				location = getRandomLocation();
-
-				//if not a walkway, or already a player there, get another random location
-			} while((location.getInitial() != 'W') || usedLocations.contains(location));
-
-			//if everything checks out, update player location and add to used locations
-			p.setLocation(location);
-			usedLocations.add(location);
-		}
-	}
-
 	public void setPlayerQueue(LinkedList<Player> players){
 		this.turnOrder = players;
 	}
-	//For testing only
+
 	public void setSolution(Solution solution) {
 		this.solution = solution;
 	}

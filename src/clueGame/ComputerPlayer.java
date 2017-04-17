@@ -166,7 +166,10 @@ public class ComputerPlayer extends Player{
 	public void makeMove(int die){
 		BoardCell newLocation = pickLocation(board.getTargets());
 		this.setLocation(newLocation);
-		//makeSuggestion();
+		if (newLocation.isDoorway()){
+			//makeSuggestion();
+		}
+		board.repaint();
 		//makeAccusation();
 	}
 }

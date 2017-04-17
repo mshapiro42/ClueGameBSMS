@@ -28,32 +28,51 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Card.cardType;
+import clueGame.DisplayPanel.ButtonListener;
 import clueGame.DisplayPanel;
 
 
 public class GUI extends JFrame{
+	private static GUI instance;
 	private JTextArea textArea;
 	private JPanel boardPanel;
 	private JPanel playerHandPanel;
-	private DisplayPanel displayPanel;
+	private JPanel displayPanel;
 	private JMenuBar menuBar;
 	private static Board board;	//used to get the human player's cards and name
 	private String humanName;
+	JPanel turnPanel;
+	JPanel nextPanel;
+	JPanel accusationPanel;
+	JPanel diePanel;
+	JPanel guessPanel;
+	JPanel resultPanel;
+	JButton next;
+	JButton accusation;
+	private JTextField turnText;
+	private JTextField dieText;
+	private JTextField guessText;
+	private JTextField resultText;
+	private boolean turnCompleted;
+	
+	private static GUI getInstance() {
+		return instance;
+	}
 	public GUI()
 	{
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Clue Game");
 		setSize(800, 800);
-		
+
 		createBoardPanel();		
 		createPlayerHandPanel();
-		displayPanel = new DisplayPanel();
+		createDisplayPanel();
 
 		//Menu Bar Creation
 		menuBar = new JMenuBar();
 		menuBar.add(createFileMenu());
-		
+
 		add(boardPanel, BorderLayout.CENTER);
 		add(playerHandPanel, BorderLayout.EAST);
 		add(displayPanel, BorderLayout.SOUTH);
@@ -117,13 +136,12 @@ public class GUI extends JFrame{
 		playerHandPanel = createPlayerCardsPanel(hand);
 	}
 
-
 	public JPanel createPlayerCardsPanel(Set<Card> hand){
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
 		panel.setLayout(new GridLayout(5,1));
 		String text = "";
-		
+
 		JPanel peoplePanel = new JPanel();
 		peoplePanel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
 		textArea = new JTextArea();
@@ -171,41 +189,167 @@ public class GUI extends JFrame{
 
 		return panel;
 	}
+
+	public void createDisplayPanel() {
+		displayPanel = new JPanel();
+		displayPanel.setLayout(new GridLayout(0,3));
+		createTurnPanel();
+		nextPanel = createNextPanel();
+		accusationPanel = createAccusationPanel();
+		createDiePanel();
+		createGuessPanel();
+		createResultPanel();
+		
+		displayPanel.add(turnPanel);
+		displayPanel.add(accusationPanel);
+		displayPanel.add(nextPanel);
+		displayPanel.add(diePanel);
+		displayPanel.add(guessPanel);
+		displayPanel.add(resultPanel);	
+	}
+	
+	private void createTurnPanel() {
+		JPanel panel = new JPanel();
+		// Use a grid layout, 1 row, 2 elements (label, text)
+		panel.setLayout(new GridLayout(2,1));
+		JLabel label = new JLabel("Whose Turn");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		turnText = new JTextField("");
+		turnText.setColumns(40);
+		turnText.setEditable(false);
+		panel.add(label);
+		panel.add(turnText);
+
+		turnPanel = panel;
+	}
+	
+	public void setTurnText(String turn){
+		turnText.setText(turn);
+	}
+	
+	public void setDieText(String roll){
+		dieText.setText(roll);
+	}
+	
+	public void setGuessText(String guess){
+		guessText.setText(guess);
+	}
+	
+	public void setResultText(String result){
+		resultText.setText(result);
+	}
+
+	private void createDiePanel() {
+		JPanel panel = new JPanel();
+		// Use a grid layout, 1 row, 2 elements (label, text)
+		panel.setLayout(new GridLayout(1,2));
+		JLabel turnLabel = new JLabel("Roll");
+		dieText = new JTextField("");
+		dieText.setColumns(15);
+		dieText.setEditable(false);
+		panel.add(turnLabel);
+		panel.add(dieText);
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
+
+		diePanel = panel;
+	}
+
+	private void createGuessPanel() {
+		JPanel panel = new JPanel();
+		// Use a grid layout, 1 row, 2 elements (label, text)
+		panel.setLayout(new GridLayout(2,1));
+		guessText = new JTextField("");
+		guessText.setColumns(100);
+		guessText.setEditable(false);
+		panel.add(guessText);
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
+
+		guessPanel = panel;
+	}
+
+	private void createResultPanel() {
+		JPanel panel = new JPanel();
+		// Use a grid layout, 1 row, 2 elements (label, text)
+		panel.setLayout(new GridLayout(1,2));
+		JLabel turnLabel = new JLabel("Response");
+		resultText = new JTextField("");
+		resultText.setColumns(50);
+		resultText.setEditable(false);
+		panel.add(turnLabel);
+		panel.add(resultText);
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess result"));
+
+		resultPanel = panel;
+	}
+	
+	class ButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			if(e.getSource() == next){
+				if(!turnCompleted){
+					JOptionPane.showMessageDialog(getInstance(), "You must complete your turn");
+				}
+			}
+			else if (e.getSource() == accusation){
+				//do something with accusation button
+			}
+		}
+	}
+	
+	private JPanel createNextPanel() {
+		JPanel panel = new JPanel();
+		next = new JButton("Next player");
+		next.addActionListener(new ButtonListener());
+		panel.add(next);
+		return panel;
+	}
+	
+	private JPanel createAccusationPanel() {
+		JPanel panel = new JPanel();
+		accusation = new JButton("Make an accusation");
+		accusation.addActionListener(new ButtonListener());
+		panel.add(accusation);
+		return panel;
+	}
 	
 	public String getHumanName() {
 		return humanName;
 	}
 
+	
+	
+	
+	
 	public void playOneTurn() {
 		//recursive, needs to know whose turn, location,
 		Player currentPlayer = board.getTurnOrder().getFirst();
 		int roll = board.rollDie();
-		boolean turnCompleted = false;
+		turnCompleted = false;
 		//update bottom panel for name and dice roll
-		displayPanel.setTurnText(currentPlayer.getName());
-		displayPanel.setDieText(Integer.toString(roll));
+		setTurnText(currentPlayer.getName());
+		setDieText(Integer.toString(roll));
 		board.calcTargets(currentPlayer.getLocation(), roll);
 		Set<BoardCell> targets = board.getTargets();
-		
 		if(currentPlayer.isHuman()){
-			for(BoardCell c : targets){
-				c.setTarget(true);
+				for(BoardCell c : targets){
+					c.setTarget(true);
+				}
+				board.repaint();
+
+				//listen for click, validate selection
+				//display error message for invalid target
+
 			}
-			board.repaint();
-			//board.displayTargets();
-			//draw target options
-			//listen for click, validate selection
-			//display error message for invalid target
-//			for(BoardCell c: targets){
-//				c.setTarget(false);
-//			}
-		}
-		if(!currentPlayer.isHuman()){
-			//update player location, display
-		}
-		
-		
-		//cycle playerOrder
+			if(!currentPlayer.isHuman()){
+				ComputerPlayer cp = (ComputerPlayer) currentPlayer;
+				cp.makeMove(roll);
+				turnCompleted = true;
+			}
+
+			//for(BoardCell c: targets){
+			//	c.setTarget(false);
+			//}
+			//cycle playerOrder
+
 		board.cycleTurnOrder();
 	}
 
@@ -216,7 +360,9 @@ public class GUI extends JFrame{
 		//splash field for start message, need to get the starting player's name still
 		String startMessage = "You are " + gui.getHumanName() + ", press Next Player to begin player";
 		JOptionPane.showMessageDialog(gui, startMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
-		gui.playOneTurn();
+		//while(!board.isGameSolved()){
+			gui.playOneTurn();
+		//}
 	}
 
 }
