@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,6 +55,7 @@ public class GUI extends JFrame{
 	private JTextField resultText;
 	private boolean turnCompleted;
 	private Player currentPlayer;
+	private Set<BoardCell> targets;
 
 	private static GUI getInstance() {
 		return instance;
@@ -114,15 +117,47 @@ public class GUI extends JFrame{
 		return item;
 	}
 
-	private void createBoardPanel() {
+	private void createBoardPanel(){
 		Board board = Board.getInstance();
 		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
 		board.initialize();
 		board.setBorder(new TitledBorder (new EtchedBorder(), "Clue Board"));
 		GUI.board = board;
+		board.addMouseListener(new targetListener());
 		boardPanel = board;
 	}
 
+	class targetListener implements MouseListener{
+		public void mouseClicked(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {
+			BoardCell cell = null;
+			for(int i =0;i<board.getNumRows();i++){
+				for(int j=0;j<board.getNumColumns();j++){
+					if(board.grid[i][j].containsClick(e.getX(),e.getY())){
+						cell = board.grid[i][j];
+					}
+				}
+			}
+			if (cell != null){
+				if (!targets.contains(cell)){
+					JOptionPane.showMessageDialog(getInstance(),"That is not a target!");
+				}
+				else{
+					currentPlayer.setLocation(cell);
+					board.repaint();
+					turnCompleted = true;
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(getInstance(), "That is not a cell!");
+			}
+		}
+
+
+	}
 	private void createPlayerHandPanel(){
 		//passes the human player's hand into the panel function
 		Set<Card> hand = new HashSet<Card>();
@@ -332,7 +367,7 @@ public class GUI extends JFrame{
 	public void playOneTurn() {
 		if(!board.isGameSolved()){
 			//recursive, needs to know whose turn, location,
-			
+
 			currentPlayer = board.getTurnOrder().getFirst();
 			int roll = board.rollDie();
 			turnCompleted = false;
@@ -340,8 +375,12 @@ public class GUI extends JFrame{
 			setTurnText(currentPlayer.getName());
 			setDieText(Integer.toString(roll));
 			board.calcTargets(currentPlayer.getLocation(), roll);
+<<<<<<< HEAD
 			Set<BoardCell> targets = board.getTargets();
 			
+=======
+			targets = board.getTargets();
+>>>>>>> c2d46ed62c85c4604f2364eaad92c135a292ac8d
 			if(currentPlayer.isHuman()){
 				for(BoardCell c : targets){
 					c.setTarget(true);
