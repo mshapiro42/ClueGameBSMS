@@ -36,37 +36,8 @@ import javax.swing.border.TitledBorder;
 public final class Board extends JPanel {
 
 	private static Board instance;
-	private Map<BoardCell, HashSet<BoardCell>> adjMtx = new HashMap<BoardCell, HashSet<BoardCell>>();
-	private Set<BoardCell> visited = new HashSet<BoardCell>(); // this is just the interface remember to initialize a new set when using
-	private Set<BoardCell> targets = new HashSet<BoardCell>();
-	private Set<BoardCell> adjSet = new HashSet<BoardCell>();
-	private Map<Character, String> legendMap = new HashMap<Character, String>();
-	private BoardCell[][] grid = new BoardCell[100][100];
-	private LinkedList<Player> turnOrder = new LinkedList<Player>();
-	private Set<Player> people = new HashSet<Player>();
-	private Set<Card> cards = new HashSet<Card>();
-	private Set<Card> dealt = new HashSet<Card>();
-	private Solution solution = new Solution();
-
-	private String[][] cellStrings = new String[100][100];
-	private String legendString;
-	private String layoutString;
-	private String playersString;
-	private String weaponsString;
-	private int numRows;
-	private int numCols;
-
 	public static int PANEL_X_OFFSET = 18;
 	public static int PANEL_Y_OFFSET = 18;
-
-
-
-
-
-	private Board() {
-		super();
-	}
-
 	public static Board getInstance() {
 		if (instance == null)
 		{
@@ -75,59 +46,30 @@ public final class Board extends JPanel {
 		//board.loadCellStrings();
 		return instance;
 	}
+	private Map<BoardCell, HashSet<BoardCell>> adjMtx = new HashMap<BoardCell, HashSet<BoardCell>>();
+	private Set<BoardCell> visited = new HashSet<BoardCell>(); // this is just the interface remember to initialize a new set when using
+	private Set<BoardCell> targets = new HashSet<BoardCell>();
+	private Set<BoardCell> adjSet = new HashSet<BoardCell>();
+	private Map<Character, String> legendMap = new HashMap<Character, String>();
+	private BoardCell[][] grid = new BoardCell[100][100];
+	private LinkedList<Player> turnOrder = new LinkedList<Player>();
+	private Set<Player> people = new HashSet<Player>();
 
-	public void setConfigFiles(String layout, String legend) {
-		layoutString = layout;
-		legendString = legend;
-	}
+	private Set<Card> cards = new HashSet<Card>();
+	private Set<Card> dealt = new HashSet<Card>();
+	private Solution solution = new Solution();
+	private String[][] cellStrings = new String[100][100];
+	private String legendString;
+	private String layoutString;
+	private String playersString;
 
-	public void setConfigFiles(String layout, String legend, String players, String weapons) {
-		layoutString = layout;
-		legendString = legend;
-		playersString = players;
-		weaponsString = weapons;
-	}
+	private String weaponsString;
+	private int numRows;
 
-	public void initialize() {
-		adjMtx.clear();
-		legendMap.clear();
-		cards.clear();
-		makeLegend();
+	private int numCols;
 
-		int i = 0; 
-		int j = 0;
-		BufferedReader br = null;
-		String line;
-		try {
-			br = new BufferedReader(new FileReader(layoutString));
-			while((line = br.readLine()) != null && i < 100){
-				String [] thisLine = line.split(",");
-				numCols = thisLine.length;
-				for(String s: thisLine){
-					grid[i][j] = new BoardCell(i,j);
-					grid[i][j].setDoorString(s);
-					j++;
-				}
-				j = 0;
-				i++;
-			}
-			numRows = i;
-			br.close();
-			calcAdjacency();
-			if (playersString != null){
-				loadPlayersConfig();
-				loadWeaponsConfig();
-				dealCards();
-				//setPlayerLocations();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (BadConfigFormatException e){
-			e.printStackTrace();
-		}
-
+	private Board() {
+		super();
 	}
 
 	private void calcAdjacency() {
@@ -277,151 +219,16 @@ public final class Board extends JPanel {
 		}
 	}
 
-
-
-	public void makeLegend() {
-		legendMap.clear();
-		Character mapKey = null;
-		String roomName = "";
-		String line = "";
-		FileReader reader = null;
-
-		try {
-			reader = new FileReader(legendString);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} 
-
-		Scanner in = new Scanner(reader);
-		while(in.hasNextLine()){
-			line = in.nextLine();
-			if(line == "") break;
-			String[] legendArray = new String[3];
-			legendArray = line.split(", ");
-			if(legendArray[0].length() != 1){
-				try {
-					throw new BadConfigFormatException();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			mapKey = legendArray[0].charAt(0);
-
-			roomName = legendArray[1];
-			if(legendArray[2].equals("Card")){
-				Card c = new Card();
-				c.setType(cardType.ROOM);
-				c.setName(roomName);
-				cards.add(c);
-			}
-			legendMap.put(mapKey, roomName);
-		} 
-		in.close();
-	}
-
-
-
-	public Card findCard(String name) {
-		for (Card c : cards) {
-			if (c.getName().equals(name)) {
-				return c;
-			}
-		}
-		System.out.println("Card not found.");
-		return null;
-	}
-
-
-	public void loadRoomConfig() throws BadConfigFormatException, IOException, FileNotFoundException {
-		String[] configStrings = new String[1000];
-		int i = 0;
-		String line;
-		BufferedReader in = new BufferedReader(new FileReader(layoutString));
-		while((line = in.readLine()) != null){
-			String [] thisLine = line.split(",");
-			for(String s:thisLine){
-				configStrings[i] = s;
-				if(!legendMap.containsKey(s.charAt(0))){
-					throw new BadConfigFormatException(layoutString);
-				}
-			}
-		}
-		in.close();
+	public void calcTargets(BoardCell cell, int k) {
+		int i = cell.getRow();
+		int j = cell.getCol();
+		targets.clear(); // clears old targets 
+		visited.clear(); 
+		visited.add(grid[i][j]);
+		BoardCell startCell = grid[i][j]; 
+		findAllTargets(startCell, k);
 
 	}
-
-	public void loadBoardConfig() throws IOException, BadConfigFormatException{
-
-		int i = 0; int j = 0;
-		BufferedReader br = null;
-		String line;
-		br = new BufferedReader(new FileReader(layoutString));
-		while((line = br.readLine()) != null && i < 100){
-			String [] thisLine = line.split(",");
-
-			for(String s: thisLine){
-				grid[i][j] = new BoardCell(i,j);
-				grid[i][j].setCol(i);
-				grid[i][j].setRow(j);
-				grid[i][j].setDoorString(s);
-				j++;
-			}
-			j = 0;
-			i++;
-			br.close();
-		}
-
-	}
-
-	public void loadPlayersConfig() throws FileNotFoundException, BadConfigFormatException{
-		FileReader reader = new FileReader(playersString);
-		Scanner in = new Scanner(reader);
-		while (in.hasNextLine()){
-			String line = in.nextLine();
-			String[] arr = line.split(",");
-			Player temp;
-
-			if (arr[1].trim().equals("Murasaki Sensei")) {
-				temp = new HumanPlayer(this.getInstance());
-			}
-			else {
-				temp = new ComputerPlayer(this.getInstance());
-			}
-			temp.setColor(arr[0]);
-			temp.setName(arr[1].trim());
-			int x = Integer.parseInt(arr[2]);
-			int y = Integer.parseInt(arr[3]);
-			temp.setRow(x);
-			temp.setColumn(y);
-			temp.setLocation(grid[x][y]);
-			if (arr.length > 4) {
-				throw new BadConfigFormatException("Players File has incorrect formatting");
-			}
-			people.add(temp);
-			Card c = new Card();
-			c.setType(cardType.PERSON);
-			c.setName(arr[1].trim());
-			cards.add(c);
-		}
-		makePlayerQueue();
-		in.close();
-	}
-
-	public void loadWeaponsConfig() throws FileNotFoundException{
-		FileReader reader = new FileReader(weaponsString);
-		Scanner in = new Scanner(reader);
-		while (in.hasNextLine()){
-			String line = in.nextLine();
-			Card temp = new Card();
-			temp.setType(cardType.WEAPON);
-			temp.setName(line);
-			cards.add(temp);
-		}
-		in.close();
-	}
-
-
 
 	public void calcTargets(int i, int j, int k) {
 		targets.clear(); // clears old targets 
@@ -432,15 +239,51 @@ public final class Board extends JPanel {
 
 	}
 
-	public void calcTargets(BoardCell cell, int k) {
-		int i = cell.getRow();
-		int j = cell.getCol();
-		targets.clear(); // clears old targets 
-		visited.clear(); 
-		visited.add(grid[i][j]);
-		BoardCell startCell = grid[i][j]; 
-		findAllTargets(startCell, k);
+	public boolean checkAccusation(Solution accusation){
+		boolean isMurderWeapon = (accusation.getWeapon() == solution.getWeapon());
+		boolean isPerpetrator = (accusation.getPerson() == solution.getPerson());
+		boolean isCrimeScene = (accusation.getRoom() == solution.getRoom());
 
+		if (isMurderWeapon && isPerpetrator && isCrimeScene) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public boolean checkCell(BoardCell current){
+		boolean checkValue = false;
+
+		if(grid[current.getRow()][current.getCol()].getInitial()=='W'){
+			checkValue = true;
+		}
+		return checkValue;
+	}
+
+	public void cycleTurnOrder(){
+		Player previous = turnOrder.removeFirst();
+		turnOrder.add(previous);
+	}
+
+	public void dealCards(){
+		Integer numDealt = 0;
+		while (numDealt < cards.size()){
+			for(Player p : people){
+				Set<Card> myCards = p.getMyCards();
+				Card temp = new Card();
+				do{
+					temp = getRandomCard(cards);
+				} while (dealt.contains(temp));
+				dealt.add(temp);
+				myCards.add(temp);
+				numDealt++;
+				p.setMyCards(myCards);
+				if (numDealt==cards.size()){
+					break;
+				}
+			}
+		}
 	}
 
 	void findAllTargets(BoardCell startCell, int k) {
@@ -462,59 +305,111 @@ public final class Board extends JPanel {
 
 	}
 
-
-	public boolean checkCell(BoardCell current){
-		boolean checkValue = false;
-
-		if(grid[current.getRow()][current.getCol()].getInitial()=='W'){
-			checkValue = true;
-		}
-		return checkValue;
-	}
-
-	public void selectAnswer(){
-		Set<Card> weapons = getWeapons();
-		Set<Card> people = getPlayers();
-		Set<Card> rooms = getRooms();
-		Card weapon = getRandomCard(weapons);
-		Card person = getRandomCard(people);
-		Card room = getRandomCard(rooms);
-		solution.setWeapon(weapon);
-		solution.setPerson(person);
-		solution.setRoom(room);
-		dealt.add(weapon);
-		dealt.add(person);
-		dealt.add(room);
-	}
-
-	public void paintComponent(Graphics g)
-	{
-		super.paintComponent(g);
-		for (int row = 0; row < getNumRows(); row++)
-		{
-			for (int col = 0; col < getNumColumns(); col++)
-			{
-				grid[row][col].draw(g);
+	public Card findCard(String name) {
+		for (Card c : cards) {
+			if (c.getName().equals(name)) {
+				return c;
 			}
 		}
-		for (Player player : people)
-		{
-			player.getLocation().drawPlayer(g, player.getColor());
+		System.out.println("Card not found.");
+		return null;
+	}
+
+	public Set<BoardCell> getAdjList(int i, int j) {
+		return adjMtx.get(grid[i][j]);
+	}
+
+	public Set<Card> getCards() {
+		return cards;
+	}
+
+	public clueGame.BoardCell getCellAt(int i, int j) {
+		return grid[i][j];
+	}
+
+	public String[][] getCellStrings(){
+		return cellStrings;
+	}
+
+	public Map<Character, String> getLegendMap() {
+		return legendMap;
+	}
+
+	public int getNumColumns(){
+		return numCols;
+	}
+
+	public int getNumRows() {
+		return numRows;
+	}
+
+	public Set<Player> getPeople() {
+		return people;
+	}
+
+	public Set<Card> getPlayers() {
+		Set<Card> people = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.PERSON){
+				people.add(c);
+			}
 		}
+		return people;
 	}
 
-	public Integer rollDie(){
-		Random rn = new Random();
-		int maximum = 6;
-		int minimum = 1;
-		int range = maximum - minimum + 1;
-		int roll =  rn.nextInt(range) + minimum;
-		return roll;
+	public Card getRandomCard(Set<Card> cards){
+		int size = cards.size();
+		int item = new Random().nextInt(size);
+		int i = 0;
+		for (Card c : cards){
+			if (i == item){
+				return c;
+			}
+			i++;
+		}
+		return null;
 	}
 
-	public void cycleTurnOrder(){
-		Player previous = turnOrder.removeFirst();
-		turnOrder.add(previous);
+	public BoardCell getRandomLocation() {
+		int cols = getNumColumns();
+		int rows = getNumRows();
+
+		int randomCol = new Random().nextInt(cols);
+		int randomRow = new Random().nextInt(rows);
+
+		return grid[randomRow][randomCol];
+	}
+
+	public Set<Card> getRooms() {
+		Set<Card> rooms = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.ROOM){
+				rooms.add(c);
+			}
+		}
+		return rooms;
+	}
+
+	public Solution getSolution() {
+		return solution;
+	}
+
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
+
+	public LinkedList<Player> getTurnOrder(){
+		return turnOrder;
+	}
+
+	public Set<Card> getWeapons() {
+		Set<Card> weapons = new HashSet<Card>();
+		for (Card c : cards){
+			if (c.getType() == cardType.WEAPON){
+				weapons.add(c);
+			}
+		}
+		return weapons;
 	}
 
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer){
@@ -585,51 +480,240 @@ public final class Board extends JPanel {
 		return finalValue;
 	}
 
-	public boolean checkAccusation(Solution accusation){
-		boolean isMurderWeapon = (accusation.getWeapon() == solution.getWeapon());
-		boolean isPerpetrator = (accusation.getPerson() == solution.getPerson());
-		boolean isCrimeScene = (accusation.getRoom() == solution.getRoom());
+	public void initialize() {
+		adjMtx.clear();
+		legendMap.clear();
+		cards.clear();
+		makeLegend();
 
-		if (isMurderWeapon && isPerpetrator && isCrimeScene) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-
-	public Card getRandomCard(Set<Card> cards){
-		int size = cards.size();
-		int item = new Random().nextInt(size);
-		int i = 0;
-		for (Card c : cards){
-			if (i == item){
-				return c;
+		int i = 0; 
+		int j = 0;
+		BufferedReader br = null;
+		String line;
+		try {
+			br = new BufferedReader(new FileReader(layoutString));
+			while((line = br.readLine()) != null && i < 100){
+				String [] thisLine = line.split(",");
+				numCols = thisLine.length;
+				for(String s: thisLine){
+					grid[i][j] = new BoardCell(i,j);
+					grid[i][j].setDoorString(s);
+					j++;
+				}
+				j = 0;
+				i++;
 			}
-			i++;
+			numRows = i;
+			br.close();
+			calcAdjacency();
+			if (playersString != null){
+				loadPlayersConfig();
+				loadWeaponsConfig();
+				dealCards();
+				//setPlayerLocations();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (BadConfigFormatException e){
+			e.printStackTrace();
 		}
-		return null;
+
 	}
 
-	public void dealCards(){
-		Integer numDealt = 0;
-		while (numDealt < cards.size()){
-			for(Player p : people){
-				Set<Card> myCards = p.getMyCards();
-				Card temp = new Card();
-				do{
-					temp = getRandomCard(cards);
-				} while (dealt.contains(temp));
-				dealt.add(temp);
-				myCards.add(temp);
-				numDealt++;
-				p.setMyCards(myCards);
-				if (numDealt==cards.size()){
-					break;
+	public void loadBoardConfig() throws IOException, BadConfigFormatException{
+
+		int i = 0; int j = 0;
+		BufferedReader br = null;
+		String line;
+		br = new BufferedReader(new FileReader(layoutString));
+		while((line = br.readLine()) != null && i < 100){
+			String [] thisLine = line.split(",");
+
+			for(String s: thisLine){
+				grid[i][j] = new BoardCell(i,j);
+				grid[i][j].setCol(i);
+				grid[i][j].setRow(j);
+				grid[i][j].setDoorString(s);
+				j++;
+			}
+			j = 0;
+			i++;
+			br.close();
+		}
+
+	}
+	
+	public void loadPlayersConfig() throws FileNotFoundException, BadConfigFormatException{
+		FileReader reader = new FileReader(playersString);
+		Scanner in = new Scanner(reader);
+		while (in.hasNextLine()){
+			String line = in.nextLine();
+			String[] arr = line.split(",");
+			Player temp;
+
+			if (arr[1].trim().equals("Murasaki Sensei")) {
+				temp = new HumanPlayer(this.getInstance());
+			}
+			else {
+				temp = new ComputerPlayer(this.getInstance());
+			}
+			temp.setColor(arr[0]);
+			temp.setName(arr[1].trim());
+			int x = Integer.parseInt(arr[2]);
+			int y = Integer.parseInt(arr[3]);
+			temp.setRow(x);
+			temp.setColumn(y);
+			temp.setLocation(grid[x][y]);
+			if (arr.length > 4) {
+				throw new BadConfigFormatException("Players File has incorrect formatting");
+			}
+			people.add(temp);
+			Card c = new Card();
+			c.setType(cardType.PERSON);
+			c.setName(arr[1].trim());
+			cards.add(c);
+		}
+		makePlayerQueue();
+		in.close();
+	}
+
+	public void loadRoomConfig() throws BadConfigFormatException, IOException, FileNotFoundException {
+		String[] configStrings = new String[1000];
+		int i = 0;
+		String line;
+		BufferedReader in = new BufferedReader(new FileReader(layoutString));
+		while((line = in.readLine()) != null){
+			String [] thisLine = line.split(",");
+			for(String s:thisLine){
+				configStrings[i] = s;
+				if(!legendMap.containsKey(s.charAt(0))){
+					throw new BadConfigFormatException(layoutString);
 				}
 			}
 		}
+		in.close();
+
+	}
+
+	public void loadWeaponsConfig() throws FileNotFoundException{
+		FileReader reader = new FileReader(weaponsString);
+		Scanner in = new Scanner(reader);
+		while (in.hasNextLine()){
+			String line = in.nextLine();
+			Card temp = new Card();
+			temp.setType(cardType.WEAPON);
+			temp.setName(line);
+			cards.add(temp);
+		}
+		in.close();
+	}
+
+	public void makeLegend() {
+		legendMap.clear();
+		Character mapKey = null;
+		String roomName = "";
+		String line = "";
+		FileReader reader = null;
+
+		try {
+			reader = new FileReader(legendString);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+
+		Scanner in = new Scanner(reader);
+		while(in.hasNextLine()){
+			line = in.nextLine();
+			if(line == "") break;
+			String[] legendArray = new String[3];
+			legendArray = line.split(", ");
+			if(legendArray[0].length() != 1){
+				try {
+					throw new BadConfigFormatException();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			mapKey = legendArray[0].charAt(0);
+
+			roomName = legendArray[1];
+			if(legendArray[2].equals("Card")){
+				Card c = new Card();
+				c.setType(cardType.ROOM);
+				c.setName(roomName);
+				cards.add(c);
+			}
+			legendMap.put(mapKey, roomName);
+		} 
+		in.close();
+	}
+
+	public void makePlayerQueue(){
+		for (Player p : people){
+			turnOrder.add(p);
+		}
+		//cycle to human player first in turnOrder
+		while(!turnOrder.getFirst().isHuman){
+			cycleTurnOrder();
+		}
+	}
+
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		for (int row = 0; row < getNumRows(); row++)
+		{
+			for (int col = 0; col < getNumColumns(); col++)
+			{
+				grid[row][col].draw(g);
+			}
+		}
+		for (Player player : people)
+		{
+			player.getLocation().drawPlayer(g, player.getColor());
+		}
+	}
+	public Integer rollDie(){
+		Random rn = new Random();
+		int maximum = 6;
+		int minimum = 1;
+		int range = maximum - minimum + 1;
+		int roll =  rn.nextInt(range) + minimum;
+		return roll;
+	}
+
+	public void selectAnswer(){
+		Set<Card> weapons = getWeapons();
+		Set<Card> people = getPlayers();
+		Set<Card> rooms = getRooms();
+		Card weapon = getRandomCard(weapons);
+		Card person = getRandomCard(people);
+		Card room = getRandomCard(rooms);
+		solution.setWeapon(weapon);
+		solution.setPerson(person);
+		solution.setRoom(room);
+		dealt.add(weapon);
+		dealt.add(person);
+		dealt.add(room);
+	}
+
+	public void setConfigFiles(String layout, String legend) {
+		layoutString = layout;
+		legendString = legend;
+	}
+	public void setConfigFiles(String layout, String legend, String players, String weapons) {
+		layoutString = layout;
+		legendString = legend;
+		playersString = players;
+		weaponsString = weapons;
+	}
+
+	//Tests only
+	public void setPeople(Set<Player> people) {
+		this.people = people;
 	}
 
 	public void setPlayerLocations() {
@@ -649,109 +733,12 @@ public final class Board extends JPanel {
 		}
 	}
 
-	public BoardCell getRandomLocation() {
-		int cols = getNumColumns();
-		int rows = getNumRows();
-
-		int randomCol = new Random().nextInt(cols);
-		int randomRow = new Random().nextInt(rows);
-
-		return grid[randomRow][randomCol];
-	}
-
-	public Set<Card> getWeapons() {
-		Set<Card> weapons = new HashSet<Card>();
-		for (Card c : cards){
-			if (c.getType() == cardType.WEAPON){
-				weapons.add(c);
-			}
-		}
-		return weapons;
-	}
-
-	public Set<Card> getRooms() {
-		Set<Card> rooms = new HashSet<Card>();
-		for (Card c : cards){
-			if (c.getType() == cardType.ROOM){
-				rooms.add(c);
-			}
-		}
-		return rooms;
-	}
-
-
-	public Set<Card> getPlayers() {
-		Set<Card> people = new HashSet<Card>();
-		for (Card c : cards){
-			if (c.getType() == cardType.PERSON){
-				people.add(c);
-			}
-		}
-		return people;
-	}
-
-	public void makePlayerQueue(){
-		for (Player p : people){
-			turnOrder.add(p);
-		}
-		//cycle to human player first in turnOrder
-		while(!turnOrder.getFirst().isHuman){
-			cycleTurnOrder();
-		}
-	}
-	public LinkedList<Player> getTurnOrder(){
-		return turnOrder;
-	}
-
 	public void setPlayerQueue(LinkedList<Player> players){
 		this.turnOrder = players;
 	}
-
 	//For testing only
 	public void setSolution(Solution solution) {
 		this.solution = solution;
-	}
-
-	public Solution getSolution() {
-		return solution;
-	}
-
-	public Set<BoardCell> getTargets() {
-		return targets;
-	}
-
-	public Set<Card> getCards() {
-		return cards;
-	}
-	public clueGame.BoardCell getCellAt(int i, int j) {
-		return grid[i][j];
-	}
-
-	public int getNumRows() {
-		return numRows;
-	}
-
-	public int getNumColumns(){
-		return numCols;
-	}
-	public Map<Character, String> getLegendMap() {
-		return legendMap;
-	}
-
-	public Set<Player> getPeople() {
-		return people;
-	}
-
-	//Tests only
-	public void setPeople(Set<Player> people) {
-		this.people = people;
-	}
-
-	public String[][] getCellStrings(){
-		return cellStrings;
-	}
-	public Set<BoardCell> getAdjList(int i, int j) {
-		return adjMtx.get(grid[i][j]);
 	}
 }
 

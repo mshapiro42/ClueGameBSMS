@@ -35,7 +35,7 @@ public class GUI extends JFrame{
 	private JTextArea textArea;
 	private JPanel boardPanel;
 	private JPanel playerHandPanel;
-	//private DisplayPanel displayPanel;
+	private DisplayPanel displayPanel;
 	private JMenuBar menuBar;
 	private static Board board;	//used to get the human player's cards and name
 	private String humanName;
@@ -48,7 +48,7 @@ public class GUI extends JFrame{
 		
 		createBoardPanel();		
 		createPlayerHandPanel();
-		//displayPanel = new DisplayPanel();
+		displayPanel = new DisplayPanel();
 
 		//Menu Bar Creation
 		menuBar = new JMenuBar();
@@ -56,7 +56,7 @@ public class GUI extends JFrame{
 		
 		add(boardPanel, BorderLayout.CENTER);
 		add(playerHandPanel, BorderLayout.EAST);
-		//add(displayPanel, BorderLayout.SOUTH);
+		add(displayPanel, BorderLayout.SOUTH);
 		setJMenuBar(menuBar);
 	}
 
@@ -73,6 +73,7 @@ public class GUI extends JFrame{
 			public void actionPerformed(ActionEvent e){
 				DetectiveNotesDialog notes = new DetectiveNotesDialog(board);
 				notes.setVisible(true);
+				board.repaint();
 			}
 		}
 
@@ -97,7 +98,7 @@ public class GUI extends JFrame{
 
 	private void createBoardPanel() {
 		Board board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players2.txt","Weapons.txt");
+		board.setConfigFiles("ClueLayout.csv", "Legend.txt", "Players.txt","Weapons.txt");
 		board.initialize();
 		board.setBorder(new TitledBorder (new EtchedBorder(), "Clue Board"));
 		GUI.board = board;
@@ -179,23 +180,25 @@ public class GUI extends JFrame{
 		//recursive, needs to know whose turn, location,
 		Player currentPlayer = board.getTurnOrder().getFirst();
 		int roll = board.rollDie();
-		boolean turnCompleted;
+		boolean turnCompleted = false;
 		//update bottom panel for name and dice roll
-//		displayPanel.setTurnText(currentPlayer.getName());
-//		displayPanel.setDieText(Integer.toString(roll));
+		displayPanel.setTurnText(currentPlayer.getName());
+		displayPanel.setDieText(Integer.toString(roll));
 		board.calcTargets(currentPlayer.getLocation(), roll);
 		Set<BoardCell> targets = board.getTargets();
 		
 		if(currentPlayer.isHuman()){
 			for(BoardCell c : targets){
-				c.makeTarget();
+				c.setTarget(true);
 			}
 			board.repaint();
 			//board.displayTargets();
 			//draw target options
 			//listen for click, validate selection
 			//display error message for invalid target
-			
+//			for(BoardCell c: targets){
+//				c.setTarget(false);
+//			}
 		}
 		if(!currentPlayer.isHuman()){
 			//update player location, display

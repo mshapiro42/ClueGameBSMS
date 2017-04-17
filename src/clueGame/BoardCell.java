@@ -43,8 +43,8 @@ public class BoardCell {
 		return col;
 	}
 	
-	public void makeTarget() {
-		isTarget = true;
+	public void setTarget(boolean target) {
+		isTarget = target;
 	}
 
 	public boolean isDoorway() {
@@ -84,7 +84,7 @@ public class BoardCell {
 			if(isTarget){
 				g2.setColor(Color.CYAN);
 				g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
-				isTarget = false;
+				//isTarget = false;
 			}
 			g2.setColor(Color.DARK_GRAY);
 			g2.drawRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
