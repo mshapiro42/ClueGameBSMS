@@ -46,7 +46,8 @@ public class Player {
 
 	public void setLocation(BoardCell location) {
 		this.location = location;
-		//board.repaint();
+		row = location.getRow();
+		column = location.getCol();
 	}
 
 	public int getRow() {

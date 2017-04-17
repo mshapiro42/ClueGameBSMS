@@ -554,17 +554,15 @@ public final class Board extends JPanel {
 			Player temp;
 
 			if (arr[1].trim().equals("Murasaki Sensei")) {
-				temp = new HumanPlayer(this.getInstance());
+				temp = new HumanPlayer(Board.getInstance());
 			}
 			else {
-				temp = new ComputerPlayer(this.getInstance());
+				temp = new ComputerPlayer(Board.getInstance());
 			}
 			temp.setColor(arr[0]);
 			temp.setName(arr[1].trim());
 			int x = Integer.parseInt(arr[2]);
 			int y = Integer.parseInt(arr[3]);
-			temp.setRow(x);
-			temp.setColumn(y);
 			temp.setLocation(grid[x][y]);
 			if (arr.length > 4) {
 				throw new BadConfigFormatException("Players File has incorrect formatting");
