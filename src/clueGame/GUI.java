@@ -377,7 +377,8 @@ public class GUI extends JFrame{
 		String startMessage = "You are " + gui.getHumanName() + ", press Next Player to begin player";
 		JOptionPane.showMessageDialog(gui, startMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		//while(!board.isGameSolved()){
-		board.cycleTurnOrder();
+		// Cycle before game for testing purposes
+		//board.cycleTurnOrder();
 		gui.playOneTurn();
 		//}
 	}
