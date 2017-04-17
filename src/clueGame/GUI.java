@@ -341,6 +341,7 @@ public class GUI extends JFrame{
 			setDieText(Integer.toString(roll));
 			board.calcTargets(currentPlayer.getLocation(), roll);
 			Set<BoardCell> targets = board.getTargets();
+			
 			if(currentPlayer.isHuman()){
 				for(BoardCell c : targets){
 					c.setTarget(true);
