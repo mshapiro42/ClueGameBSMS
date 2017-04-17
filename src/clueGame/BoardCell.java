@@ -4,11 +4,15 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Map;
 
 //Blake Sanders
 //Jonny Morsicato 
-public class BoardCell {
+public class BoardCell{
 	private final int CELL_SIDE_LENGTH = 25;
 	private int pixelX, pixelY;
 	private int row;
@@ -131,5 +135,15 @@ public class BoardCell {
 		g.setColor(color);
 		g.fillOval(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 	}
+	
+	public boolean containsClick(int mouseX, int mouseY){
+		Rectangle rect = new Rectangle(row,col,CELL_SIDE_LENGTH,CELL_SIDE_LENGTH);
+		if (rect.contains(new Point(mouseX,mouseY))){
+			return true;
+		}
+		return false;
+	}
+
+	
 
 }

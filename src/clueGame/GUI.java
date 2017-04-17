@@ -332,7 +332,7 @@ public class GUI extends JFrame{
 	public void playOneTurn() {
 		if(!board.isGameSolved()){
 			//recursive, needs to know whose turn, location,
-			board.cycleTurnOrder();
+			
 			currentPlayer = board.getTurnOrder().getFirst();
 			int roll = board.rollDie();
 			turnCompleted = false;
@@ -377,6 +377,7 @@ public class GUI extends JFrame{
 		String startMessage = "You are " + gui.getHumanName() + ", press Next Player to begin player";
 		JOptionPane.showMessageDialog(gui, startMessage, "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		//while(!board.isGameSolved()){
+		board.cycleTurnOrder();
 		gui.playOneTurn();
 		//}
 	}
