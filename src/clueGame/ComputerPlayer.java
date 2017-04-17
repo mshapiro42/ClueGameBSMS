@@ -9,6 +9,7 @@ import clueGame.Card.cardType;
 
 public class ComputerPlayer extends Player{
 	
+	private char [] roomsVisited = new char[2];
 	private char lastRoomVisited;
 	private Set<Card> seenCards = new HashSet<Card>();
 	private Set<Card> unseenCards = new HashSet<Card>();
@@ -63,7 +64,7 @@ public class ComputerPlayer extends Player{
 		
 		for (BoardCell t : targets) {
 			//if room not just visited, it will be a priority target
-			if (t.isDoorway() && (t.getInitial() != lastRoomVisited)) {
+			if (t.isDoorway() && (t.getInitial() != roomsVisited[0] || t.getInitial() != roomsVisited[1])) {
 				priorityTargets.add(t);
 			}
 			//other cases:
@@ -161,6 +162,8 @@ public class ComputerPlayer extends Player{
 
 	public void setLastRoomVisited(char lastRoomVisited) {
 		this.lastRoomVisited = lastRoomVisited;
+		roomsVisited[1] = roomsVisited[0];
+		roomsVisited[0] = lastRoomVisited;
 	}
 	
 	public void makeMove(int die){
