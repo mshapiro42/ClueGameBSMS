@@ -12,6 +12,11 @@ public class Solution {
 	private Card room = new Card();
 
 	public Solution() {}
+	public Solution(Card room, Card person, Card weapon) {
+		this.room = room;
+		this.person = person;
+		this.weapon = weapon;
+	}
 
 	public Card getPerson() {
 		return person;

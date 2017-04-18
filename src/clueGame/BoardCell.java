@@ -93,15 +93,23 @@ public class BoardCell{
 			if(isTarget){
 				g2.setColor(Color.CYAN);
 				g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
-				isTarget = false;
+				//isTarget = false;
 			}
 			g2.setColor(Color.DARK_GRAY);
 			g2.drawRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 		}
 		else
 		{
+			if(isTarget){
+				g2.setColor(Color.CYAN);
+				g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
+				//isTarget = false;
+			}
+			else {
+				g2.setColor(Color.DARK_GRAY);
+				g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
+			}
 			g2.setColor(Color.DARK_GRAY);
-			g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 			g2.drawRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 			if (isDoorway())
 			{
@@ -113,7 +121,7 @@ public class BoardCell{
 				g2.drawString(board.getLegendMap().get(doorString.charAt(0)), pixelX + 1, pixelY - 5);
 			}
 		}
-		isTarget = false;
+		//isTarget = false;
 	}
 	private void drawDoorLine(Graphics2D g) {
 		Graphics2D g2 = (Graphics2D)g;
