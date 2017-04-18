@@ -431,17 +431,29 @@ public class GUI extends JFrame{
 
 			}
 			if(!currentPlayer.isHuman()){
-				if((ComputerPlayer)currentPlayer.getUnseenCards().size() == 3)
 				ComputerPlayer cp = (ComputerPlayer) currentPlayer;
+				if(cp.getUnseenCards().size() == 3){
+					Solution accusation = cp.makeAccusation();
+					board.setGameSolved(board.checkAccusation(accusation));
+					if (board.isGameSolved()){
+						JOptionPane.showMessageDialog(getInstance(), currentPlayer + " was the winner!" + " Try harder next time.");
+						System.exit(0);
+					}
+					else{
+						JOptionPane.showMessageDialog(getInstance(), currentPlayer + " made an accusation, and failed.");
+						LinkedList<Player> newTurnOrder = board.getTurnOrder();
+						for(Player p: newTurnOrder){
+							if(p == currentPlayer){
+								newTurnOrder.remove(p);
+							}
+						}
+						board.setPlayerQueue(newTurnOrder);
+					}
+				}
+				
 				cp.makeMove(roll);
 				turnCompleted = true;
 			}
-
-			//for(BoardCell c: targets){
-			//	c.setTarget(false);
-			//}
-			//cycle playerOrder
-
 		}
 		else{
 			JOptionPane.showMessageDialog(getInstance(), "You've won!");
