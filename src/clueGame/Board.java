@@ -414,9 +414,13 @@ public final class Board extends JPanel{
 		boolean matchExists = false;
 		ArrayList<Card> returnCards = new ArrayList<Card>();
 		ArrayList<Player> returnCardOwners = new ArrayList<Player>();
-
+		
 		//Loop through all players
 		for (Player p: turnOrder) {
+			//brings the suggested player to the location of the suggestion
+			if(p.getName().equals(suggestion.getPerson().getName())){
+				p.setLocation(suggestingPlayer.getLocation());
+			}
 			//ask them to disprove the card
 			//if they can, add it (in order ) to the list of possible return cards
 			Card returnCard = p.disproveSuggestion(suggestion);

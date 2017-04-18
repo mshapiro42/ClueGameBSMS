@@ -189,6 +189,5 @@ public class ComputerPlayer extends Player{
 			//makeSuggestion();
 		}
 		board.repaint();
-		//makeAccusation();
 	}
 }
