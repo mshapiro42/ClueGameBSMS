@@ -168,16 +168,19 @@ public class GUI extends JFrame{
 			if(cell == null){
 				JOptionPane.showMessageDialog(getInstance(),"That is not a cell!");
 			}
-			if(turnCompleted == true){
+			else if(turnCompleted == true){
 				JOptionPane.showMessageDialog(getInstance(),"Your turn in over, press Next Player");
 			}
-			if (cell != null && (turnCompleted != true)){
+			else { //if (cell != null && (turnCompleted != true)){
 				cell = board.getCellAt(gridY, gridX);
 				if (!targets.contains(cell)){
 					JOptionPane.showMessageDialog(getInstance(),"That is not a target!");
 				}
 				else{
 					currentPlayer.setLocation(cell);
+					for(BoardCell c: targets){
+						c.setTarget(false);
+					}
 					board.repaint();
 					turnCompleted = true;
 				}
@@ -435,11 +438,7 @@ public class GUI extends JFrame{
 				cp.makeMove(roll);
 				turnCompleted = true;
 			}
-
-			//for(BoardCell c: targets){
-			//	c.setTarget(false);
-			//}
-			//cycle playerOrder
+			
 
 		}
 		else{
