@@ -431,6 +431,7 @@ public class GUI extends JFrame{
 
 			}
 			if(!currentPlayer.isHuman()){
+				if((ComputerPlayer)currentPlayer.getUnseenCards().size() == 3)
 				ComputerPlayer cp = (ComputerPlayer) currentPlayer;
 				cp.makeMove(roll);
 				turnCompleted = true;
