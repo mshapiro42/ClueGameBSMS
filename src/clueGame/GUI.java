@@ -406,11 +406,11 @@ public class GUI extends JFrame{
 	public void playOneTurn() {
 		if(!board.isGameSolved()){
 			//recursive, needs to know whose turn, location,
-			String turnText = "";
+			String turnOrderPanelText = "";
 			for(Player p: board.getTurnOrder()){
-				turnText += (p.getName() + "\n");
+				turnOrderPanelText += (p.getName() + "\n");
 			}
-			turnOrderText.setText(turnText);
+			turnOrderText.setText(turnOrderPanelText);
 			currentPlayer = board.getTurnOrder().getFirst();
 			int roll = board.rollDie();
 			turnCompleted = false;
@@ -434,7 +434,6 @@ public class GUI extends JFrame{
 				ComputerPlayer cp = (ComputerPlayer) currentPlayer;
 				cp.makeMove(roll);
 				turnCompleted = true;
-				playerHandPanel.repaint();
 			}
 
 			//for(BoardCell c: targets){
