@@ -33,6 +33,7 @@ import clueGame.Card.cardType;
 
 
 public class GUI extends JFrame{
+	private int cellLength = BoardCell.getCELL_SIDE_LENGTH();
 	private static GUI instance;
 	private JTextArea textArea;
 	private JPanel boardPanel;
@@ -133,30 +134,36 @@ public class GUI extends JFrame{
 		public void mouseExited(MouseEvent e) {}
 		public void mouseReleased(MouseEvent e) {}
 		public void mousePressed(MouseEvent e) {
-			BoardCell cell = board.grid[board.getNumColumns()][board.getNumRows()]; //just initialize to a far out room cell
-//			for(int i =0;i<board.getNumRows();i++){
-//				for(int j=0;j<board.getNumColumns();j++){
-//					if(board.grid[i][j].containsClick(e.getX(),e.getY())){
-//						cell = board.grid[i][j];
-//					}
-//				}
-//			}
-			int gridX = e.getX() / BoardCell.getCELL_SIDE_LENGTH();
-			int gridY = e.getY() / BoardCell.getCELL_SIDE_LENGTH();
-			
-			if(gridX <= board.getNumColumns()){
+			System.out.println("cell length is" + cellLength);
+			System.out.println("e.getX is: " + e.getX());
+			System.out.println("e.getY is: " + e.getY());
+			BoardCell cell = board.getCellAt(0, 0); //just initialize to a far out room cell
+			//			for(int i =0;i<board.getNumRows();i++){
+			//				for(int j=0;j<board.getNumColumns();j++){
+			//					if(board.grid[i][j].containsClick(e.getX(),e.getY())){
+			//						cell = board.grid[i][j];
+			//					}
+			//				}
+			//			}
+			int gridX = 0;
+			int gridY = 0;
+			if(e.getX() > board.PANEL_X_OFFSET && e.getX() < 543){
+				gridX = ((e.getX() - 18) / cellLength);
+				System.out.println("gridX is" + gridX);
+			}
+			if(e.getY() > board.PANEL_Y_OFFSET  && e.getY() < 568){
+				gridY = ((e.getY() - 18) / cellLength);
+				System.out.println("gridY is" + gridY);
+			}
+			if(gridX < board.getNumColumns()){
 				cell.setCol(gridX);
+				if(gridY < board.getNumRows()){
+					cell.setRow(gridY);
+				}
+				else{cell = null;}
 			}
-			else{
-				cell = null;
-			}
-			if(gridY <= board.getNumRows()){
-				cell.setRow(gridY);
-			}
-			else{
-				cell = null;
-			}
-			
+			else{cell = null;}
+
 			if (cell != null){
 				if (!targets.contains(cell)){
 					JOptionPane.showMessageDialog(getInstance(),"That is not a target!");
