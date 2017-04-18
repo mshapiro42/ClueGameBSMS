@@ -54,7 +54,7 @@ public class GUI extends JFrame{
 	JPanel diePanel;
 	JPanel guessPanel;
 	JPanel resultPanel;
-	JDialog suggestionDialog;
+	SuggestionDialog suggestionDialog;
 	JDialog accusationPanel;
 	JButton next;
 	JButton accusation;
@@ -209,7 +209,8 @@ public class GUI extends JFrame{
 						String room = board.getLegendMap().get(cell.getInitial());
 						Card currentRoom = board.findCard(room);
 						currentPlayer.setCurrentRoom(currentRoom);
-						createSuggestionDialog();
+						suggestionDialog = new SuggestionDialog();
+						suggestionDialog.setVisible(true);
 					}
 					else{
 						currentPlayer.setCurrentRoom(null);
@@ -442,6 +443,7 @@ public class GUI extends JFrame{
 		public SuggestionDialog(){
 
 			JTextArea room = new JTextArea();
+			room.setEditable(false);
 			JComboBox<String> person = new JComboBox<String>();
 			JComboBox<String> weapon = new JComboBox<String>();
 			JLabel roomLabel = new JLabel("Your Room");
@@ -455,10 +457,15 @@ public class GUI extends JFrame{
 						Card sugPerson = board.findCard(person.getSelectedItem().toString());
 						Card sugWeapon = board.findCard(weapon.getSelectedItem().toString());
 						Solution suggestion = new Solution(sugRoom,sugPerson,sugWeapon);
-						board.handleSuggestion(suggestion,currentPlayer);
+						Card result = board.handleSuggestion(suggestion,currentPlayer);
+						resultText.setText(result.getName());
+						String guess = currentPlayer.getName() + " guessed " + sugRoom.getName() + ", " + sugPerson.getName()
+							+ ", " + sugWeapon.getName();
+						guessText.setText(guess);
+						setVisible(false);
 					}
 					else if(e.getSource() == cancel){
-						panel.setVisible(false);
+						setVisible(false);
 					}
 				}
 			}
@@ -470,6 +477,7 @@ public class GUI extends JFrame{
 			cancel.addActionListener(new suggestionListener());
 
 			setTitle("Make a Guess");
+			setSize(300,200);
 			setLayout(new GridLayout(0,2));
 
 			room.setText(currentPlayer.getCurrentRoom().getName());
@@ -486,7 +494,8 @@ public class GUI extends JFrame{
 			add(person);
 			add(weaponLabel);
 			add(weapon);
-
+			add(submit);
+			add(cancel);
 		}
 	}
 
