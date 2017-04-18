@@ -514,10 +514,8 @@ public class GUI extends JFrame{
 					c.setTarget(true);
 				}
 				board.repaint();
-
 				//listen for click, validate selection
 				//display error message for invalid target
-
 			}
 			if(!currentPlayer.isHuman()){
 				ComputerPlayer cp = (ComputerPlayer) currentPlayer;
@@ -538,16 +536,10 @@ public class GUI extends JFrame{
 						}
 						board.setPlayerQueue(newTurnOrder);
 					}
-				}
-				
 				cp.makeMove(roll);
 				turnCompleted = true;
+				}
 			}
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 1d3de092349766f5fc6c7a95613f4a5e731817fc
 		}
 		else{
 			JOptionPane.showMessageDialog(getInstance(), "You've won!");
