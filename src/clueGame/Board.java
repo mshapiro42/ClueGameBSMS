@@ -226,7 +226,6 @@ public final class Board extends JPanel{
 		visited.add(grid[i][j]);
 		BoardCell startCell = grid[i][j]; 
 		findAllTargets(startCell, k);
-
 	}
 
 	public void calcTargets(int i, int j, int k) {

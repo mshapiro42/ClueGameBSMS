@@ -134,6 +134,7 @@ public class GUI extends JFrame{
 		public void mouseExited(MouseEvent e) {}
 		public void mouseReleased(MouseEvent e) {}
 		public void mousePressed(MouseEvent e) {
+			targets = board.getTargets();
 			System.out.println("cell length is" + cellLength);
 			System.out.println("e.getX is: " + e.getX());
 			System.out.println("e.getY is: " + e.getY());
@@ -163,7 +164,7 @@ public class GUI extends JFrame{
 				else{cell = null;}
 			}
 			else{cell = null;}
-
+			cell = board.getCellAt(gridY, gridX);
 			if (cell != null){
 				if (!targets.contains(cell)){
 					JOptionPane.showMessageDialog(getInstance(),"That is not a target!");
@@ -181,6 +182,7 @@ public class GUI extends JFrame{
 
 
 	}
+	
 	private void createPlayerHandPanel(){
 		//passes the human player's hand into the panel function
 		Set<Card> hand = new HashSet<Card>();
