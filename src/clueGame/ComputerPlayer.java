@@ -58,14 +58,19 @@ public class ComputerPlayer extends Player{
 		this.unseenCards = unseenCards;
 	}
 
-	public BoardCell pickLocation (Set<BoardCell> targets){
+	public BoardCell pickLocation (){
 		//If a door is in range, it is a priority target
 		//there may be more than one door in range, make it a set
 		Set<BoardCell> priorityTargets = new HashSet<BoardCell>();
-
+		Set<BoardCell> targets = board.getTargets();
+		Set<BoardCell> newTargets = new HashSet<BoardCell>(targets);
 		for (BoardCell t : targets) {
 			//if room not just visited, it will be a priority target
-			if (t.isDoorway() && t.getInitial() != roomsVisited[0] && t.getInitial() != roomsVisited[1]) {
+			if (t.isDoorway()) {
+				if(t.getInitial() == roomsVisited[0] || t.getInitial() == roomsVisited[1]){
+					newTargets.remove(t);
+					continue;
+				}
 				priorityTargets.add(t);
 			}
 			//other cases:
@@ -85,7 +90,7 @@ public class ComputerPlayer extends Player{
 		}
 		//otherwise, select from the normal targets
 		else {
-			newTarget = getRandomTarget(targets);
+			newTarget = getRandomTarget(newTargets);
 		}
 		return newTarget;
 	}
@@ -178,7 +183,7 @@ public class ComputerPlayer extends Player{
 	}
 
 	public void makeMove(int die){
-		BoardCell newLocation = pickLocation(board.getTargets());
+		BoardCell newLocation = pickLocation();
 		this.setLocation(newLocation);
 		if (newLocation.isDoorway()){
 			//makeSuggestion();

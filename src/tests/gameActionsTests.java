@@ -45,7 +45,7 @@ public class gameActionsTests {
 		boolean loc_3_5 = false;
 		// Run the test a large number of times
 		for (int i=0; i<100; i++) {
-			BoardCell selected = player.pickLocation(board.getTargets());
+			BoardCell selected = player.pickLocation();
 			if (selected == board.getCellAt(2, 4))
 				loc_2_4 = true;
 			else if (selected == board.getCellAt(4, 4))
@@ -69,7 +69,7 @@ public class gameActionsTests {
 
 		// Run the test a large number of times
 		for (int i=0; i<100; i++) {
-			BoardCell selected = player.pickLocation(board.getTargets());
+			BoardCell selected = player.pickLocation();
 			//There are two doors reachable from here, one of them better be the target
 			//This works because even though lastVisitedLocation makes the most recent door
 			//not a priority target, the other one gets chosen as the priority each time
@@ -93,7 +93,7 @@ public class gameActionsTests {
 			//and when it gets chosen, it updates its status to most recently chosen room
 			//so next pick from same location will be random
 			//but first time it runs it will always be that door
-			BoardCell selected = player.pickLocation(board.getTargets());
+			BoardCell selected = player.pickLocation();
 			if (selected == board.getCellAt(20, 16))
 				loc_20_16 = true;
 			else if (selected == board.getCellAt(20, 14))

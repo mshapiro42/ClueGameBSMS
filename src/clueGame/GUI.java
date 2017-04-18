@@ -545,9 +545,9 @@ public class GUI extends JFrame{
 						}
 						board.setPlayerQueue(newTurnOrder);
 					}
+				}
 				cp.makeMove(roll);
 				turnCompleted = true;
-				}
 			}
 		}
 		else{
