@@ -54,7 +54,7 @@ public class GUI extends JFrame{
 	JPanel diePanel;
 	JPanel guessPanel;
 	JPanel resultPanel;
-	JDialog suggestionPanel;
+	JDialog suggestionDialog;
 	JDialog accusationPanel;
 	JButton next;
 	JButton accusation;
@@ -94,7 +94,7 @@ public class GUI extends JFrame{
 		add(playerHandPanel, BorderLayout.EAST);
 		add(displayPanel, BorderLayout.SOUTH);
 		setJMenuBar(menuBar);
-		
+
 		for(Card c : board.getWeapons()){
 			weapons.add(c.getName());
 		}
@@ -162,9 +162,9 @@ public class GUI extends JFrame{
 		public void mouseReleased(MouseEvent e) {}
 		public void mousePressed(MouseEvent e) {
 			targets = board.getTargets();
-//			System.out.println("cell length is" + cellLength);
-//			System.out.println("e.getX is: " + e.getX());
-//			System.out.println("e.getY is: " + e.getY());
+			//			System.out.println("cell length is" + cellLength);
+			//			System.out.println("e.getX is: " + e.getX());
+			//			System.out.println("e.getY is: " + e.getY());
 			BoardCell cell = board.getCellAt(0, 0); //just initialize to a far out room cell
 			//			for(int i =0;i<board.getNumRows();i++){
 			//				for(int j=0;j<board.getNumColumns();j++){
@@ -177,11 +177,11 @@ public class GUI extends JFrame{
 			int gridY = 0;
 			if(e.getX() > board.PANEL_X_OFFSET && e.getX() < 543){
 				gridX = ((e.getX() - 18) / cellLength);
-//				System.out.println("gridX is" + gridX);
+				//				System.out.println("gridX is" + gridX);
 			}
 			if(e.getY() > board.PANEL_Y_OFFSET  && e.getY() < 568){
 				gridY = ((e.getY() - 18) / cellLength);
-//				System.out.println("gridY is" + gridY);
+				//				System.out.println("gridY is" + gridY);
 			}
 			if(gridX < board.getNumColumns() && gridY < board.getNumRows()){
 				cell.setCol(gridX);
@@ -204,6 +204,15 @@ public class GUI extends JFrame{
 					currentPlayer.setLocation(cell);
 					for(BoardCell c: targets){
 						c.setTarget(false);
+					}
+					if(cell.getInitial()!= 'W'){
+						String room = board.getLegendMap().get(cell.getInitial());
+						Card currentRoom = board.findCard(room);
+						currentPlayer.setCurrentRoom(currentRoom);
+						createSuggestionDialog();
+					}
+					else{
+						currentPlayer.setCurrentRoom(null);
 					}
 					board.repaint();
 					turnCompleted = true;
@@ -278,7 +287,7 @@ public class GUI extends JFrame{
 		weaponPanel.add(textArea);
 		panel.add(weaponPanel);
 		text = "";
-		
+
 		JPanel turnOrderPanel = new JPanel();
 		turnOrderPanel.setBorder(new TitledBorder (new EtchedBorder(), "Turn Order"));
 		textArea = turnOrderText;
@@ -429,59 +438,60 @@ public class GUI extends JFrame{
 		return humanName;
 	}
 
-	public void createSuggestionPanel(){
-		JDialog panel = new JDialog();
-		JTextArea room = new JTextArea();
-		JComboBox<String> person = new JComboBox<String>();
-		JComboBox<String> weapon = new JComboBox<String>();
-		JLabel roomLabel = new JLabel("Your Room");
-		JLabel personLabel = new JLabel("Person");
-		JLabel weaponLabel = new JLabel("Weapon");
-		
-		class suggestionListener implements ActionListener {
-			public void actionPerformed(ActionEvent e){
-				if(e.getSource() == submit){
-					Card sugRoom = board.findCard(room.getText());
-					Card sugPerson = board.findCard(person.getSelectedItem().toString());
-					Card sugWeapon = board.findCard(weapon.getSelectedItem().toString());
-					Solution suggestion = new Solution(sugRoom,sugPerson,sugWeapon);
-					board.handleSuggestion(suggestion,currentPlayer);
-				}
-				else if(e.getSource() == cancel){
-					panel.setVisible(false);
+	class SuggestionDialog extends JDialog{
+		public SuggestionDialog(){
+
+			JTextArea room = new JTextArea();
+			JComboBox<String> person = new JComboBox<String>();
+			JComboBox<String> weapon = new JComboBox<String>();
+			JLabel roomLabel = new JLabel("Your Room");
+			JLabel personLabel = new JLabel("Person");
+			JLabel weaponLabel = new JLabel("Weapon");
+
+			class suggestionListener implements ActionListener {
+				public void actionPerformed(ActionEvent e){
+					if(e.getSource() == submit){
+						Card sugRoom = board.findCard(room.getText());
+						Card sugPerson = board.findCard(person.getSelectedItem().toString());
+						Card sugWeapon = board.findCard(weapon.getSelectedItem().toString());
+						Solution suggestion = new Solution(sugRoom,sugPerson,sugWeapon);
+						board.handleSuggestion(suggestion,currentPlayer);
+					}
+					else if(e.getSource() == cancel){
+						panel.setVisible(false);
+					}
 				}
 			}
+
+
+			submit = new JButton("Submit");
+			cancel = new JButton("Cancel");
+			submit.addActionListener(new suggestionListener());
+			cancel.addActionListener(new suggestionListener());
+
+			setTitle("Make a Guess");
+			setLayout(new GridLayout(0,2));
+
+			room.setText(currentPlayer.getCurrentRoom().getName());
+			for(int i = 0; i <people.size();i++){
+				person.addItem(people.get(i));
+			}
+			for(int i = 0; i<weapons.size();i++){
+				weapon.addItem(weapons.get(i));
+			}
+
+			add(roomLabel);
+			add(room);
+			add(personLabel);
+			add(person);
+			add(weaponLabel);
+			add(weapon);
+
 		}
-		
-		
-		submit = new JButton("Submit");
-		cancel = new JButton("Cancel");
-		submit.addActionListener(new suggestionListener());
-		cancel.addActionListener(new suggestionListener());
-		
-		panel.setTitle("Make a Guess");
-		panel.setLayout(new GridLayout(0,2));
-		
-		room.setText("");
-		for(int i = 0; i <people.size();i++){
-			person.addItem(people.get(i));
-		}
-		for(int i = 0; i<weapons.size();i++){
-			weapon.addItem(weapons.get(i));
-		}
-		
-		panel.add(roomLabel);
-		panel.add(room);
-		panel.add(personLabel);
-		panel.add(person);
-		panel.add(weaponLabel);
-		panel.add(weapon);
-		
-		
 	}
-	
-	
-	
+
+
+
 	public void playOneTurn() {
 		if(!board.isGameSolved()){
 			//recursive, needs to know whose turn, location,
@@ -514,7 +524,7 @@ public class GUI extends JFrame{
 				cp.makeMove(roll);
 				turnCompleted = true;
 			}
-			
+
 
 		}
 		else{

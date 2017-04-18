@@ -13,8 +13,16 @@ public class Player {
 	private Color color;
 	protected Board board;
 	protected boolean isHuman;
+	private Card currentRoom = null;
 
 
+	public Card getCurrentRoom() {
+		return currentRoom;
+	}
+
+	public void setCurrentRoom(Card currentRoom) {
+		this.currentRoom = currentRoom;
+	}
 
 	public boolean isHuman() {
 		return isHuman;
