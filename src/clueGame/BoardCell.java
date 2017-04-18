@@ -100,8 +100,16 @@ public class BoardCell{
 		}
 		else
 		{
+			if(isTarget){
+				g2.setColor(Color.CYAN);
+				g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
+				//isTarget = false;
+			}
+			else {
+				g2.setColor(Color.DARK_GRAY);
+				g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
+			}
 			g2.setColor(Color.DARK_GRAY);
-			g2.fillRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 			g2.drawRect(pixelX, pixelY, CELL_SIDE_LENGTH, CELL_SIDE_LENGTH);
 			if (isDoorway())
 			{
