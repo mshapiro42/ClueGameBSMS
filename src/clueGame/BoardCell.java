@@ -113,6 +113,7 @@ public class BoardCell{
 				g2.drawString(board.getLegendMap().get(doorString.charAt(0)), pixelX + 1, pixelY - 5);
 			}
 		}
+		isTarget = false;
 	}
 	private void drawDoorLine(Graphics2D g) {
 		Graphics2D g2 = (Graphics2D)g;

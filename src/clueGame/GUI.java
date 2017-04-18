@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -50,6 +52,7 @@ public class GUI extends JFrame{
 	JPanel resultPanel;
 	JButton next;
 	JButton accusation;
+	private JTextArea turnOrderText = new JTextArea();
 	private JTextField turnText;
 	private JTextField dieText;
 	private JTextField guessText;
@@ -156,16 +159,20 @@ public class GUI extends JFrame{
 				gridY = ((e.getY() - 18) / cellLength);
 				System.out.println("gridY is" + gridY);
 			}
-			if(gridX < board.getNumColumns()){
+			if(gridX < board.getNumColumns() && gridY < board.getNumRows()){
 				cell.setCol(gridX);
-				if(gridY < board.getNumRows()){
-					cell.setRow(gridY);
-				}
-				else{cell = null;}
+				cell.setRow(gridY);
 			}
 			else{cell = null;}
-			cell = board.getCellAt(gridY, gridX);
-			if (cell != null){
+
+			if(cell == null){
+				JOptionPane.showMessageDialog(getInstance(),"That is not a cell!");
+			}
+			if(turnCompleted == true){
+				JOptionPane.showMessageDialog(getInstance(),"Your turn in over, press Next Player");
+			}
+			if (cell != null && (turnCompleted != true)){
+				cell = board.getCellAt(gridY, gridX);
 				if (!targets.contains(cell)){
 					JOptionPane.showMessageDialog(getInstance(),"That is not a target!");
 				}
@@ -175,14 +182,13 @@ public class GUI extends JFrame{
 					turnCompleted = true;
 				}
 			}
-			else{
-				JOptionPane.showMessageDialog(getInstance(), "That is not a cell!");
-			}
+
+
 		}
 
 
 	}
-	
+
 	private void createPlayerHandPanel(){
 		//passes the human player's hand into the panel function
 		Set<Card> hand = new HashSet<Card>();
@@ -245,6 +251,14 @@ public class GUI extends JFrame{
 		weaponPanel.add(textArea);
 		panel.add(weaponPanel);
 		text = "";
+		
+		JPanel turnOrderPanel = new JPanel();
+		turnOrderPanel.setBorder(new TitledBorder (new EtchedBorder(), "Turn Order"));
+		textArea = turnOrderText;
+		textArea.setColumns(10);
+		textArea.setEditable(false);
+		turnOrderPanel.add(textArea);
+		panel.add(turnOrderPanel);
 
 		return panel;
 	}
@@ -392,7 +406,11 @@ public class GUI extends JFrame{
 	public void playOneTurn() {
 		if(!board.isGameSolved()){
 			//recursive, needs to know whose turn, location,
-
+			String turnText = "";
+			for(Player p: board.getTurnOrder()){
+				turnText += (p.getName() + "\n");
+			}
+			turnOrderText.setText(turnText);
 			currentPlayer = board.getTurnOrder().getFirst();
 			int roll = board.rollDie();
 			turnCompleted = false;
@@ -416,6 +434,7 @@ public class GUI extends JFrame{
 				ComputerPlayer cp = (ComputerPlayer) currentPlayer;
 				cp.makeMove(roll);
 				turnCompleted = true;
+				playerHandPanel.repaint();
 			}
 
 			//for(BoardCell c: targets){
