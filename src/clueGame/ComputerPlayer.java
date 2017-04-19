@@ -21,8 +21,11 @@ public class ComputerPlayer extends Player{
 		super(board);
 		isHuman = false;
 
-		Set<Card> allCards = board.getCards();
 
+	}
+
+	public void initializeCards(){
+		Set<Card> allCards = board.getCards();
 		//Loop through all cards
 		for (Card c : allCards) {
 			//If player has it in their hand, it counts as seen
@@ -35,7 +38,7 @@ public class ComputerPlayer extends Player{
 			}
 		}
 	}
-
+	
 	//Show a card to computer player to update their seen/unseen cards
 	public void showCard(Card c) {
 		seenCards.add(c);
@@ -132,7 +135,8 @@ public class ComputerPlayer extends Player{
 	    (2) If only one person not seen, it's selected (can be same test as weapon)
 	    (2) If multiple weapons not seen, one of them is randomly selected
 	    (2) If multiple persons not seen, one of them is randomly selected*/
-
+		
+		
 		//get player location
 		BoardCell location = getLocation();
 
@@ -182,12 +186,15 @@ public class ComputerPlayer extends Player{
 		roomsVisited[0] = lastRoomVisited;
 	}
 
-	public void makeMove(int die){
+	public Solution makeMove(int die){
 		BoardCell newLocation = pickLocation();
+		Solution suggestion = null;
 		this.setLocation(newLocation);
 		if (newLocation.isDoorway()){
-			//makeSuggestion();
+			suggestion = makeSuggestion();
+			Card result = board.handleSuggestion(suggestion, this);
 		}
 		board.repaint();
+		return suggestion;
 	}
 }

@@ -55,7 +55,7 @@ public class GUI extends JFrame{
 	JPanel guessPanel;
 	JPanel resultPanel;
 	SuggestionDialog suggestionDialog;
-	JDialog accusationPanel;
+	AccusationDialog accusationDialog;
 	JButton next;
 	JButton accusation;
 	JButton submit;
@@ -412,7 +412,8 @@ public class GUI extends JFrame{
 						JOptionPane.showMessageDialog(getInstance(), "Your turn is already complete");
 					}
 					else{
-						//create accusation panel
+						accusationDialog = new AccusationDialog();
+						accusationDialog.setVisible(true);
 					}
 				}
 			}
@@ -442,10 +443,10 @@ public class GUI extends JFrame{
 	class SuggestionDialog extends JDialog{
 		public SuggestionDialog(){
 
-			JTextArea room = new JTextArea();
+			final JTextArea room = new JTextArea();
 			room.setEditable(false);
-			JComboBox<String> person = new JComboBox<String>();
-			JComboBox<String> weapon = new JComboBox<String>();
+			final JComboBox<String> person = new JComboBox<String>();
+			final JComboBox<String> weapon = new JComboBox<String>();
 			JLabel roomLabel = new JLabel("Your Room");
 			JLabel personLabel = new JLabel("Person");
 			JLabel weaponLabel = new JLabel("Weapon");
@@ -467,6 +468,7 @@ public class GUI extends JFrame{
 					else if(e.getSource() == cancel){
 						setVisible(false);
 					}
+					board.repaint();
 				}
 			}
 
@@ -481,6 +483,80 @@ public class GUI extends JFrame{
 			setLayout(new GridLayout(0,2));
 
 			room.setText(currentPlayer.getCurrentRoom().getName());
+			for(int i = 0; i <people.size();i++){
+				person.addItem(people.get(i));
+			}
+			for(int i = 0; i<weapons.size();i++){
+				weapon.addItem(weapons.get(i));
+			}
+
+			add(roomLabel);
+			add(room);
+			add(personLabel);
+			add(person);
+			add(weaponLabel);
+			add(weapon);
+			add(submit);
+			add(cancel);
+		}
+	}
+
+	class AccusationDialog extends JDialog{
+		public AccusationDialog(){
+
+			final JComboBox<String> room = new JComboBox<String>();
+			final JComboBox<String> person = new JComboBox<String>();
+			final JComboBox<String> weapon = new JComboBox<String>();
+			JLabel roomLabel = new JLabel("Your Room");
+			JLabel personLabel = new JLabel("Person");
+			JLabel weaponLabel = new JLabel("Weapon");
+
+			class accusationListener implements ActionListener {
+				public void actionPerformed(ActionEvent e){
+					if(e.getSource() == submit){
+						Card accRoom = board.findCard(room.getSelectedItem().toString());
+						Card accPerson = board.findCard(person.getSelectedItem().toString());
+						Card accWeapon = board.findCard(weapon.getSelectedItem().toString());
+						Solution accusation = new Solution(accRoom,accPerson,accWeapon);
+						boolean result = board.checkAccusation(accusation);
+						String guess = currentPlayer.getName() + " guessed " + accRoom.getName() + ", " + accPerson.getName()
+							+ ", " + accWeapon.getName() + " and was ";
+						if (result){
+							guess = guess + "correct!";
+							board.setGameSolved(true);
+						}
+						else{
+							guess = guess + "incorrect.";
+							
+						}
+						turnCompleted = true;
+						setVisible(false);
+						for(BoardCell c: targets){
+							c.setTarget(false);
+						}
+						JOptionPane.showMessageDialog(GUI.getInstance(),guess);
+						
+					}
+					else if(e.getSource() == cancel){
+						setVisible(false);
+					}
+					board.repaint();
+				}
+			}
+
+
+			submit = new JButton("Submit");
+			cancel = new JButton("Cancel");
+			submit.addActionListener(new accusationListener());
+			cancel.addActionListener(new accusationListener());
+
+			setTitle("Make a Guess");
+			setSize(300,200);
+			setLayout(new GridLayout(0,2));
+
+			for(int i = 0; i <rooms.size();i++){
+				room.addItem(rooms.get(i));
+			}
 			for(int i = 0; i <people.size();i++){
 				person.addItem(people.get(i));
 			}
@@ -515,9 +591,11 @@ public class GUI extends JFrame{
 			//update bottom panel for name and dice roll
 			setTurnText(currentPlayer.getName());
 			setDieText(Integer.toString(roll));
+			setGuessText(null);
+			setResultText(null);
 			board.calcTargets(currentPlayer.getLocation(), roll);
 			Set<BoardCell> targets = board.getTargets();
-
+			Solution cpSuggestion;
 			if(currentPlayer.isHuman()){
 				for(BoardCell c : targets){
 					c.setTarget(true);
@@ -546,7 +624,14 @@ public class GUI extends JFrame{
 						board.setPlayerQueue(newTurnOrder);
 					}
 				}
-				cp.makeMove(roll);
+				cpSuggestion = cp.makeMove(roll);
+				if (cpSuggestion != null){
+					Card result = board.handleSuggestion(cpSuggestion,currentPlayer);
+					resultText.setText(result.getName());
+					String guess = currentPlayer.getName() + " guessed " + cpSuggestion.getPerson().getName() + ", " + cpSuggestion.getWeapon().getName()
+						+ ", " + cpSuggestion.getRoom().getName();
+					guessText.setText(guess);
+				}
 				turnCompleted = true;
 			}
 		}

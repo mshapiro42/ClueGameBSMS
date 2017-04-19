@@ -1,1 +1,1 @@
-Configuration of 'Players File has incorrect formatting' failed
+Configuration of 'CR_ClueLayout.csv' failed

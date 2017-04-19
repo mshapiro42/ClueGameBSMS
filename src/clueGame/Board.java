@@ -512,6 +512,12 @@ public final class Board extends JPanel{
 				loadPlayersConfig();
 				loadWeaponsConfig();
 				dealCards();
+				for(Player p : people){
+					if(!p.isHuman()){
+						ComputerPlayer cp = (ComputerPlayer) p;
+						cp.initializeCards();
+					}
+				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
